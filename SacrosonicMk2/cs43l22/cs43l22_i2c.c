@@ -6,7 +6,6 @@ void cs43l22_i2c_initClocksAndPins() {
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB | RCC_AHB1Periph_GPIOD, ENABLE);
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
 
-    // I2C SCL and SDA pins
     GPIO_InitTypeDef pinInitStruct;
     pinInitStruct.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_9;
     pinInitStruct.GPIO_Mode = GPIO_Mode_AF;
@@ -19,7 +18,6 @@ void cs43l22_i2c_initClocksAndPins() {
 }
 
 void cs43l22_i2c_config(){
-    // I2C configuration
     I2C_InitTypeDef i2cInitStruct;
     i2cInitStruct.I2C_ClockSpeed = 100000;
     i2cInitStruct.I2C_Mode = I2C_Mode_I2C;

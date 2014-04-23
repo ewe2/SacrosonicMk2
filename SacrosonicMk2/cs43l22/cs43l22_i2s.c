@@ -46,11 +46,13 @@ void cs43l22_i2s_config(){
     I2S_Cmd(CS43L22_I2S_PORT, ENABLE);
 }
 
+// tries to output a sample and doesn't stop trying until it succeeds, use with care.
 void cs43l22_i2s_outputSample(int16_t sample){
     while(!SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE)); // wait for the bus to be ready
     SPI_I2S_SendData(CS43L22_I2S_PORT,sample); // send the sample
 }
 
+// tries to output a sample once, returning 1 if successful and 0 if failed
 int cs43l22_i2s_attemptOutputSample(int16_t sample){
     if(SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE)){
         SPI_I2S_SendData(CS43L22_I2S_PORT,sample); // send the sample

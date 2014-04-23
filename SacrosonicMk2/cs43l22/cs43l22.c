@@ -1,7 +1,7 @@
 #include "cs43l22.h"
 
+// initializes the GPIO pin (PD4) that is connected to the CS43L22 reset
 void cs43l22_initResetPin(){
-    //reset pin
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
 
     GPIO_InitTypeDef pinInitStruct;
@@ -13,6 +13,7 @@ void cs43l22_initResetPin(){
     GPIO_Init(GPIOD, &pinInitStruct);
 }
 
+// Central init function. First calls a bunch of other init functions and then configures the CS43L22 for 16-bit@48kHz stereo output
 void cs43l22_init(){
     cs43l22_initResetPin();
 
@@ -68,18 +69,22 @@ void cs43l22_init(){
     cs43l22_i2c_writeByte(CS43L22_REG_POWER_CTL1, 0x9e);
 }
 
+// powers on the unit by setting the pin that is attached to the CS43L22 reset
 void cs43l22_powerOn(){
     GPIO_SetBits(GPIOD,GPIO_Pin_4);
 }
 
+// powers off the unit by clearing the pin that is attached to the CS43L22 reset
 void cs43l22_powerOff(){
     GPIO_ResetBits(GPIOD,GPIO_Pin_4);
 }
 
+// Tries to output a sample and will not stop trying until it succeeds. Use with care.
 void cs43l22_outputSample(int16_t sample){
     cs43l22_i2s_outputSample(sample);
 }
 
+// Tries to output a sample once and then returns 1 if successful, 0 if not.
 int cs43l22_attemptOutputSample(int16_t sample){
     return cs43l22_i2s_attemptOutputSample(sample);
 }
