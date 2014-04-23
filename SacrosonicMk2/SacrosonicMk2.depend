@@ -1,0 +1,61 @@
+# depslib dependency file v1.0
+1398274392 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\src\misc.c
+	"misc.h"
+
+1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\inc\misc.h
+	"stm32f4xx.h"
+
+1398275152 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\inc\stm32f4xx.h
+	"core_cm4.h"
+	"system_stm32f4xx.h"
+	<stdint.h>
+	"stm32f4xx_conf.h"
+
+1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cmsis\core_cm4.h
+	<stdint.h>
+	<core_cmInstr.h>
+	<core_cmFunc.h>
+	<core_cm4_simd.h>
+
+1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cmsis\core_cminstr.h
+	<cmsis_iar.h>
+
+1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cmsis\core_cmfunc.h
+	<cmsis_iar.h>
+
+1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cmsis\core_cm4_simd.h
+	<cmsis_iar.h>
+
+1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\inc\system_stm32f4xx.h
+
+1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\inc\stm32f4xx_conf.h
+	"stm32f4xx_gpio.h"
+	"stm32f4xx_rcc.h"
+	"misc.h"
+
+1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\inc\stm32f4xx_gpio.h
+	"stm32f4xx.h"
+
+1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\inc\stm32f4xx_rcc.h
+	"stm32f4xx.h"
+
+1398274392 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\src\stm32f4xx_adc.c
+	"stm32f4xx_adc.h"
+	"stm32f4xx_rcc.h"
+
+1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\inc\stm32f4xx_adc.h
+	"stm32f4xx.h"
+
+1398274392 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\src\stm32f4xx_can.c
+	"stm32f4xx_can.h"
+	"stm32f4xx_rcc.h"
+
+1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\inc\stm32f4xx_can.h
+	"stm32f4xx.h"
+
+1398274392 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\src\stm32f4xx_crc.c
+	"stm32f4xx_crc.h"
+
+1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\inc\stm32f4xx_crc.h
+	"stm32f4xx.h"
+

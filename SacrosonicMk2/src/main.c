@@ -15,6 +15,8 @@
 #include "stm32f4xx_conf.h"
 #include <stdio.h>
 
+#include "../cs43l22/cs43l22.h"
+
 int main(void) {
     printf("\f");
 

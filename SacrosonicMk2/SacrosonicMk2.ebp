@@ -199,6 +199,18 @@
 		<Unit filename="cmsis\core_cm4_simd.h" />
 		<Unit filename="cmsis\core_cmFunc.h" />
 		<Unit filename="cmsis\core_cmInstr.h" />
+		<Unit filename="cs43l22\cs43l22.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cs43l22\cs43l22.h" />
+		<Unit filename="cs43l22\cs43l22_i2c.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cs43l22\cs43l22_i2c.h" />
+		<Unit filename="cs43l22\cs43l22_i2s.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cs43l22\cs43l22_i2s.h" />
 		<Unit filename="inc\stm32f4xx.h" />
 		<Unit filename="inc\stm32f4xx_conf.h" />
 		<Unit filename="inc\system_stm32f4xx.h" />
