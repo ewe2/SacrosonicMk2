@@ -217,7 +217,7 @@
 1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\inc\stm32f4xx_wwdg.h
 	"stm32f4xx.h"
 
-1398333669 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
+1398338197 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
 	"stm32f4xx_conf.h"
 	"../osc/osc.h"
 	"../pots/pots.h"
@@ -256,7 +256,7 @@
 	"stm32f4xx_adc.h"
 	"stm32f4xx_dma.h"
 
-1398333728 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\osc\osc.h
+1398338393 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\osc\osc.h
 	"../cs43l22/cs43l22.h"
 	"../wavetable/wavetable.h"
 	<stdint.h>
@@ -275,4 +275,7 @@
 1398332437 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\timer\timer.h
 	"stm32f4xx_conf.h"
 	"stm32f4xx_tim.h"
+
+1398338454 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\osc\osc.c
+	"osc.h"
 

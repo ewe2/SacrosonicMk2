@@ -16,40 +16,49 @@
 #define OSC_WAVEFORM_3 wt_square
 #define OSC_WAVEFORM_INTERVAL (1.0 / OSC_NUM_OF_WAVEFORMS)
 
-#define OSC_AMPLITUDE_MAX (1 << 15) // about half amplitude, which is actually pretty loud
+#define OSC_SWING (1 << 15) // about half of what the DAC can output, which is actually pretty loud
 
 #define OSC_PITCH_DEFAULT 440.0
 #define OSC_WAVEFORM_DEFAULT 0.0
 #define OSC_DUTY_DEFAULT 0.5;
 #define OSC_PHASE_DEFAULT 0.0
-#define OSC_AMPLITUDE_DEFAULT (OSC_AMPLITUDE_MAX / 2)
+#define OSC_AMPLITUDE_DEFAULT 1.0
 
-// 'public' variables
-float osc_pitch; // pitch in Hz
-float osc_waveform; // waveform ranging from 0.0 to 1.0
-float osc_duty; // duty ranging from 0.0 to 1.0
-float osc_phase; // phase ranging from 0.0 to 1.0
-float osc_amplitude; // amplitude ranging from 0 to 1.0
-// 'private' variables
-float osc_stepSizeBase;
-float osc_stepSizeHigh;
-float osc_stepSizeLow;
-int16_t osc_swing;
+typedef struct {
+    // 'public' variables
+    float pitch; // pitch in Hz
+    float waveform; // waveform ranging from 0.0 to 1.0
+    float duty; // duty ranging from 0.0 to 1.0
+    float phase; // phase ranging from 0.0 to 1.0
+    float amplitude; // amplitude ranging from 0 to 1.0
+    // 'private' variables
+    float stepSizeBase; // base stepsize, before duty-cycle adjustments
+    float stepSizeHigh; // stepsize of the high cycle
+    float stepSizeLow; // stepsize of the low cycle
 
-float osc_index;
-int16_t osc_sample;
+    float index; // index for wavetables
+    float sample; // current sample
+} Osc_struct;
+
+Osc_struct osc_oscillator1;
+Osc_struct osc_oscillator2;
+
 uint8_t osc_channel;
 
-void osc_updateStepSizeBase();
-void osc_updateStepSizeHigh();
-void osc_updateStepSizeLow();
-void osc_updateSwing();
+int16_t osc_sample;
 
-void osc_updateDerivatives();
+
+void osc_updateStepSizeBase(Osc_struct * osc);
+void osc_updateStepSizeHigh(Osc_struct * osc);
+void osc_updateStepSizeLow(Osc_struct * osc);
+
+void osc_updateDerivatives(Osc_struct * osc);
 
 void osc_init();
 
-void osc_generateNextSample(); // generates a new sample, incrementing the index and updating the osc_sample variable
+void osc_initOscillator(Osc_struct * osc);
+
+void osc_generateNextSample(Osc_struct * osc); // generates a new sample, incrementing the index and updating the sample variable
 
 int osc_attemptOutput(); // makes one attempt to output a sample, should be called repeatedly, returns 1 if successful, 0 if not.
 

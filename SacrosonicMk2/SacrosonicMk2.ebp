@@ -17,7 +17,7 @@
 					<Add option="-Wall" />
 					<Add option="-fdata-sections" />
 					<Add option="-ffunction-sections" />
-					<Add option="-O0" />
+					<Add option="-O2" />
 					<Add option="-g3" />
 				</Compiler>
 				<Assembler>

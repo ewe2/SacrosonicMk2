@@ -30,7 +30,7 @@ int main(void) {
     osc_init();
     pots_initAndStart();
 
-
+    Osc_struct * osc = &osc_oscillator1;
     uint8_t updateStep = 0;
 
     while(1) {
@@ -38,43 +38,44 @@ int main(void) {
 
         switch(updateStep){
         case 0:
-            osc_pitch = pots_getMappedAverage(PITCH_POT) * PITCH_RANGE + PITCH_BOTTOM;
+            osc->pitch = pots_getMappedAverage(PITCH_POT) * PITCH_RANGE + PITCH_BOTTOM;
             updateStep++;
             break;
         case 1:
-            osc_updateStepSizeBase();
+            osc_updateStepSizeBase(osc);
             updateStep++;
             break;
         case 2:
-            osc_updateStepSizeHigh();
+            osc_updateStepSizeHigh(osc);
             updateStep++;
             break;
         case 3:
-            osc_updateStepSizeLow();
+            osc_updateStepSizeLow(osc);
             updateStep++;
             break;
         case 4:
-            osc_waveform = pots_getMappedAverage(WAVEFORM_POT);
+            osc->waveform = pots_getMappedAverage(WAVEFORM_POT);
             updateStep++;
             break;
         case 5:
-            osc_duty = pots_getMappedAverage(DUTY_POT);
+            osc->duty = pots_getMappedAverage(DUTY_POT);
             updateStep++;
             break;
         case 6:
-            osc_phase = pots_getMappedAverage(PHASE_POT);
+            osc->phase = pots_getMappedAverage(PHASE_POT);
             updateStep++;
             break;
         case 7:
-            osc_amplitude = pots_getMappedAverage(AMPLITUDE_POT);
-            updateStep++;
-            break;
-        case 8:
-            osc_updateSwing();
+            osc->amplitude = pots_getMappedAverage(AMPLITUDE_POT);
             updateStep++;
             break;
         default:
             updateStep = 0;
+            if(osc == &osc_oscillator1){
+                osc = &osc_oscillator2;
+            } else {
+                osc = &osc_oscillator1;
+            }
             break;
         }
     }
