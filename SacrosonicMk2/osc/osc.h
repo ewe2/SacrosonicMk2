@@ -53,6 +53,5 @@ void osc_generateNextSample(); // generates a new sample, incrementing the index
 
 int osc_attemptOutput(); // makes one attempt to output a sample, should be called repeatedly, returns 1 if successful, 0 if not.
 
-uint32_t totalGenerationTime;
 
 #endif /* OSC_H_INCLUDED */

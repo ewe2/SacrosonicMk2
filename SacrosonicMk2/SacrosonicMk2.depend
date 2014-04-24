@@ -217,10 +217,10 @@
 1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\inc\stm32f4xx_wwdg.h
 	"stm32f4xx.h"
 
-1398280452 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
+1398333669 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
 	"stm32f4xx_conf.h"
-	<stdio.h>
-	"../cs43l22/cs43l22.h"
+	"../osc/osc.h"
+	"../pots/pots.h"
 
 1398005874 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22.h
 	"cs43l22_i2c.h"
@@ -238,4 +238,41 @@
 
 1398275136 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\system_stm32f4xx.c
 	"stm32f4xx.h"
+
+1398281150 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22.c
+	"cs43l22.h"
+
+1398281070 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22_i2c.c
+	"cs43l22_i2c.h"
+
+1398281131 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22_i2s.c
+	"cs43l22_i2s.h"
+
+1398198423 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\pots\pots.c
+	"pots.h"
+
+1398176916 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\pots\pots.h
+	"stm32f4xx_conf.h"
+	"stm32f4xx_adc.h"
+	"stm32f4xx_dma.h"
+
+1398333728 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\osc\osc.h
+	"../cs43l22/cs43l22.h"
+	"../wavetable/wavetable.h"
+	<stdint.h>
+
+1397856889 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\wavetable\wavetable.h
+	<stdint.h>
+
+1398332858 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\wavetable\wavetable.c
+	"wavetable.h"
+	<stdint.h>
+	"math.h"
+
+1398333766 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\timer\timer.c
+	"timer.h"
+
+1398332437 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\timer\timer.h
+	"stm32f4xx_conf.h"
+	"stm32f4xx_tim.h"
 

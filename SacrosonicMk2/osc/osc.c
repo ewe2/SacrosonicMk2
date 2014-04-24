@@ -1,6 +1,5 @@
 
 #include "osc.h"
-#include "../time/time.h"
 
 void osc_updateStepSizeBase(){
     osc_stepSizeBase = osc_pitch / OSC_SAMPLE_RATE;
@@ -48,8 +47,6 @@ void osc_init(){
     osc_channel = 0;
 
     osc_updateDerivatives();
-
-    totalGenerationTime = 0;
 }
 
 void osc_generateNextSample(){
@@ -121,9 +118,7 @@ int osc_attemptOutput(){
         return 1;
     } else if(osc_channel == 1 && cs43l22_attemptOutputSample(osc_sample)) {
         osc_channel = 0;
-        uint32_t startTime = time_getTimerTicks();
         osc_generateNextSample();
-        totalGenerationTime += time_getTimerTicks() - startTime;
         return 1;
     } else {
         return 0;

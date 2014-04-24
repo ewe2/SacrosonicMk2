@@ -7,7 +7,7 @@ uint32_t timer_getTimerTicks(){
 
 // converts the given ticks to seconds
 float timer_convertTicksToSeconds(uint32_t ticks){
-    float output = (float)ticks / (float)TIME_CLOCK_SPEED;
+    float output = (float)ticks / (float)TIMER_CLOCK_SPEED;
     return output;
 }
 
@@ -25,7 +25,7 @@ void timer_init(){
 
 // delays for the given seconds. behavior when given negative input or input above 51 undefined
 void timer_delay(float seconds){
-    uint32_t ticks = seconds * TIME_CLOCK_SPEED;
+    uint32_t ticks = seconds * TIMER_CLOCK_SPEED;
 
     uint32_t startTime = TIM2->CNT;
     uint32_t endTime = TIM2->CNT + ticks;
