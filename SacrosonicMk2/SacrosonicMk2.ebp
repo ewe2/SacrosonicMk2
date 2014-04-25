@@ -220,6 +220,10 @@
 		<Unit filename="inc\stm32f4xx.h" />
 		<Unit filename="inc\stm32f4xx_conf.h" />
 		<Unit filename="inc\system_stm32f4xx.h" />
+		<Unit filename="lfo\lfo.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lfo\lfo.h" />
 		<Unit filename="osc\osc.c">
 			<Option compilerVar="CC" />
 		</Unit>

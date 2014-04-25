@@ -30,7 +30,7 @@ typedef struct {
 } env_Envelope;
 
 void env_init(env_Envelope * envelope);
-float env_getNextOutput(env_Envelope * envelope);
+float env_getNextSample(env_Envelope * envelope);
 void env_trigger(env_Envelope * envelope);
 
 #endif /* ENVELOPE_H_INCLUDED */

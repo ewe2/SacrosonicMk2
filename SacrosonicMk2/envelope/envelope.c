@@ -12,10 +12,10 @@ void env_init(env_Envelope * envelope){
     envelope->release = ENV_RELEASE_DEFAULT;
 }
 
-float env_getNextOutput(env_Envelope * envelope){
+float env_getNextSample(env_Envelope * envelope){
     switch(envelope->state){
     case ENV_STATE_DEAD:
-        return; // return from function here if DEAD, nothing needs doing if DEAD.
+        return 0.0; // return from function here if DEAD, nothing needs doing if DEAD.
     case ENV_STATE_ATTACK:
         envelope->output += ENV_SAMPLE_PERIOD / envelope->attack;
         if(envelope->output >= 1.0) {
@@ -45,6 +45,7 @@ float env_getNextOutput(env_Envelope * envelope){
         break;
     }
     envelope->runTime += ENV_SAMPLE_PERIOD;
+    return envelope->output;
 }
 
 void env_trigger(env_Envelope * envelope){

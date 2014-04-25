@@ -19,6 +19,7 @@
 #include "../osc/osc.h"
 #include "../pots/pots.h"
 #include "../envelope/envelope.h"
+#include "../lfo/lfo.h"
 
 #define PITCH_POT 0
 #define WAVEFORM_POT 1
@@ -33,6 +34,8 @@ int main(void) {
     osc_init();
     pots_initAndStart();
 
+
+    // TODO: put envelopes and LFOs in arrays to make iterating through them easier.
     env_Envelope * osc1Envelope;
     env_Envelope * osc2Envelope;
     osc1Envelope = malloc(sizeof(env_Envelope));
@@ -42,53 +45,99 @@ int main(void) {
 
     osc2Envelope->hold = 0.5;
 
+    lfo_Lfo * osc1LfoPitch;
+    lfo_Lfo * osc2LfoPitch;
+    lfo_Lfo * osc1LfoDuty;
+    lfo_Lfo * osc2LfoPhase;
+    osc1LfoPitch = malloc(sizeof(lfo_Lfo));
+    osc2LfoPitch = malloc(sizeof(lfo_Lfo));
+    osc1LfoDuty = malloc(sizeof(lfo_Lfo));
+    osc2LfoPhase = malloc(sizeof(lfo_Lfo));
+    lfo_init(osc1LfoPitch);
+    lfo_init(osc2LfoPitch);
+    lfo_init(osc1LfoDuty);
+    lfo_init(osc2LfoPhase);
+
+    osc1LfoPitch->pitch = 0.1;
+    osc1LfoPitch->amount = 0.1;
+
+    osc2LfoPitch->pitch = 2;
+    osc2LfoPitch->amount = 0.01;
+
+    osc1LfoDuty->pitch = 0.5;
+    osc1LfoDuty->amount = 0.3;
+
+    osc2LfoPhase->pitch = 1.3;
+    osc2LfoPhase->amount = 0.1;
+
     Osc_struct * osc = &osc_oscillator1;
     uint8_t updateStep = 0;
-    uint32_t sampleCounter = 0; // note since we output one sample for each channel this actually counts at twice the output sample rate
+    uint32_t lfoAndEnvStep = 0; // note since we output one sample for each channel this actually counts at twice the output sample rate
 
     while(1) {
         while(!osc_attemptOutput());
 
-        if(sampleCounter == 15){
+        switch(lfoAndEnvStep++){
+        case 0 * 2: // * 2 so we can alternate between the env/lfos and the adcs
             if(osc1Envelope->state == ENV_STATE_DEAD) env_trigger(osc1Envelope);
-            env_getNextOutput(osc1Envelope);
-        } else if(sampleCounter == 31){
-            sampleCounter = 0;
+            env_getNextSample(osc1Envelope);
+            break;
+        case 1 * 2:
             if(osc2Envelope->state == ENV_STATE_DEAD) env_trigger(osc2Envelope);
-            env_getNextOutput(osc2Envelope);
-        } else {
-            switch(updateStep){
+            env_getNextSample(osc2Envelope);
+            break;
+        case 2 * 2:
+            lfo_getNextSample(osc1LfoPitch);
+            break;
+        case 3 * 2:
+            lfo_getNextSample(osc1LfoPitch);
+            break;
+        case 4 * 2:
+            lfo_getNextSample(osc2LfoPitch);
+            break;
+        case 5 * 2:
+            lfo_getNextSample(osc1LfoDuty);
+            break;
+        case 6 * 2:
+            lfo_getNextSample(osc2LfoPhase);
+            break;
+        case 31:
+            lfoAndEnvStep = 0;
+            break;
+        default:
+            switch(updateStep++){
             case 0:
                 if(osc == &osc_oscillator1){
                     osc->pitch = pots_getMappedAverage(PITCH_POT) * PITCH_RANGE + PITCH_BOTTOM;
+                    osc->pitch *= 1.0 + osc1LfoPitch->output;
                 } else {
                     osc->pitch = (pots_getMappedAverage(PITCH_POT) * PITCH_RANGE + PITCH_BOTTOM) * 2;
+                    osc->pitch *= 1.0 + osc2LfoPitch->output;
                 }
-                updateStep++;
                 break;
             case 1:
                 osc_updateStepSizeBase(osc);
-                updateStep++;
                 break;
             case 2:
                 osc_updateStepSizeHigh(osc);
-                updateStep++;
                 break;
             case 3:
                 osc_updateStepSizeLow(osc);
-                updateStep++;
                 break;
             case 4:
                 osc->waveform = pots_getMappedAverage(WAVEFORM_POT);
-                updateStep++;
                 break;
             case 5:
                 osc->duty = pots_getMappedAverage(DUTY_POT);
-                updateStep++;
+                if(osc == &osc_oscillator1){
+                    osc->duty *= 1.0 + osc1LfoDuty->output;
+                }
                 break;
             case 6:
                 osc->phase = pots_getMappedAverage(PHASE_POT);
-                updateStep++;
+                if(osc == &osc_oscillator2){
+                    osc->phase *= 1.0 + osc2LfoPhase->output;
+                }
                 break;
             case 7:
                 osc->amplitude = pots_getMappedAverage(AMPLITUDE_POT);
@@ -97,7 +146,6 @@ int main(void) {
                 } else {
                     osc->amplitude *= osc2Envelope->output;
                 }
-                updateStep++;
                 break;
             default:
                 updateStep = 0;
@@ -109,7 +157,5 @@ int main(void) {
                 break;
             }
         }
-
-        sampleCounter++;
     }
 }
