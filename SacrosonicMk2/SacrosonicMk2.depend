@@ -217,10 +217,12 @@
 1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\inc\stm32f4xx_wwdg.h
 	"stm32f4xx.h"
 
-1398338197 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
+1398420626 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
 	"stm32f4xx_conf.h"
+	<stdio.h>
 	"../osc/osc.h"
 	"../pots/pots.h"
+	"../envelope/envelope.h"
 
 1398005874 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22.h
 	"cs43l22_i2c.h"
@@ -276,6 +278,11 @@
 	"stm32f4xx_conf.h"
 	"stm32f4xx_tim.h"
 
-1398338454 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\osc\osc.c
+1398420930 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\osc\osc.c
 	"osc.h"
+
+1398419598 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\envelope\envelope.c
+	"envelope.h"
+
+1398420991 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\envelope\envelope.h
 
