@@ -3,7 +3,9 @@
 
 #include <stdint.h>
 
-#define WT_SIZE 4000 // size of the table in actual samples
+#define WT_SIZE 4096 // size of the table in actual samples
+#define WT_EFFECTIVE_SIZE (WT_SIZE * 4)
+#define WT_INDEX_MAX (WT_EFFECTIVE_SIZE - 1)
 #define WT_PHASE_RANGE 0.25 // amount of the waveform the table actually contains, current options: 0.25. 0.5 and 1 probably on the way (maybe)
 
 #define PI 3.14159265
@@ -18,9 +20,6 @@ void wt_initTri();
 void wt_initSquare();
 
 float wt_getSampleFromTable(float * table, float index, float offset);
-float wt_getSineSample(float index, float offset);
-float wt_getTriSample(float index, float offset);
-float wt_getSquareSample(float index, float offset);
 
 float wt_mixSamples(float sample1, float sample2, float mix);
 

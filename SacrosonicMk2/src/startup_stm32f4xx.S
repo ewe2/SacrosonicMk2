@@ -234,7 +234,21 @@ Reset_Handler:
     .endm
 
     def_irq_handler    NMI_Handler
-    def_irq_handler    HardFault_Handler
+
+// hard fault handler crap:
+.align 1
+.thumb_func
+.weak    HardFault_Handler
+.type    HardFault_Handler, %function
+.extern hard_fault_handler_c
+HardFault_Handler:
+  TST LR, #4
+  ITE EQ
+  MRSEQ R0, MSP
+  MRSNE R0, PSP
+  B hard_fault_handler_c
+
+
     def_irq_handler    MemManage_Handler
     def_irq_handler    BusFault_Handler
     def_irq_handler    UsageFault_Handler

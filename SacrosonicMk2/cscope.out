@@ -1,4 +1,4 @@
-cscope 15 $HOME\Dropbox\misc\STM32F4 Discovery\git\SacrosonicMk2\SacrosonicMk2"               0001017548
+cscope 15 $HOME\Dropbox\misc\STM32F4 Discovery\git\SacrosonicMk2\SacrosonicMk2"               0001016955
 	@C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\SPL\inc\ST06C6~1.H
 
 24 #i‚de‡
@@ -85169,57 +85169,65 @@ WAVETABLE_H_INCLUDED
 
 6 
 	#WT_SIZE
- 4000
+ 4096
 
 7 
-	#WT_PHASE_RANGE
- 0.25
-
-8 
+	#WT_INDEX_MAX
+ (
+WT_SIZE
+ * 4 - 1)
 
 	)
 
-9 
+8 
+	#WT_PHASE_RANGE
+ 0.25
+
+9 
+
+	)
+
+10 
 	#PI
  3.14159265
 
 	)
 
-11 
+12 
 	gwt_söe
 [
 WT_SIZE
 ];
 
-12 
+13 
 	gwt_åi
 [
 WT_SIZE
 ];
 
-13 
+14 
 	gwt_squ¨e
 [
 WT_SIZE
 ];
 
-15 
+16 
 wt_öô
 ();
 
-16 
+17 
 wt_öôSöe
 ();
 
-17 
+18 
 wt_öôTri
 ();
 
-18 
+19 
 wt_öôSqu¨e
 ();
 
-20 
+21 
 wt_gëSam∂eFromTabÀ
 (* 
 èbÀ
@@ -85229,31 +85237,7 @@ wt_gëSam∂eFromTabÀ
 off£t
 );
 
-21 
-wt_gëSöeSam∂e
-(
-ödex
-, 
-off£t
-);
-
-22 
-wt_gëTriSam∂e
-(
-ödex
-, 
-off£t
-);
-
 23 
-wt_gëSqu¨eSam∂e
-(
-ödex
-, 
-off£t
-);
-
-25 
 wt_mixSam∂es
 (
 ßm∂e1
@@ -110895,6 +110879,352 @@ ENV_SAMPLE_RATE
 ív_Envñ›e
  * 
 ívñ›e
+);
+
+	@C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\fastOsc\fastOsc.c
+
+1 
+	~"Á°Osc.h
+"
+
+3 
+	$fOsc_upd©eSãpSize
+(
+fOsc_°ru˘
+ * 
+oscûœt‹
+){
+
+4 
+oscûœt‹
+->
+°ïSize
+.
+c
+ = oscûœt‹->
+pôch
+.¯/ oscûœt‹->
+ßm∂eR©e
+.c;
+
+5 
+	}
+}
+
+7 
+	$fOsc_öô
+(
+fOsc_°ru˘
+ * 
+oscûœt‹
+){
+
+8 if(
+oscûœt‹
+->
+ßm∂eR©e
+.
+p
+.
+i
+ < 8000){
+
+9 
+oscûœt‹
+->
+ßm∂eR©e
+.
+p
+.
+i
+ = 48000;
+
+12 if(
+oscûœt‹
+->
+pôch
+.
+p
+.
+i
+ > 20000){
+
+13 
+oscûœt‹
+->
+pôch
+.
+p
+.
+i
+ = 440;
+
+14 
+oscûœt‹
+->
+pôch
+.
+p
+.
+f
+ = 0;
+
+17 if(
+oscûœt‹
+->
+wavef‹m
+ !
+wt_söe
+ || oscûœt‹->wavef‹m !
+wt_åi
+ || oscûœt‹->wavef‹m !
+wt_squ¨e
+){
+
+18 
+oscûœt‹
+->
+wavef‹m
+ = 
+wt_söe
+;
+
+23 
+	`fOsc_upd©eSãpSize
+(
+oscûœt‹
+);
+
+25 
+oscûœt‹
+->
+ödex
+.
+c
+ = 0;
+
+26 
+	}
+}
+
+28 
+	$fOsc_gëSam∂eFromTabÀ
+(* 
+èbÀ
+, 
+uöt16_t
+ 
+ödex
+){
+
+29 
+ödex
+ &= ~(3 << 14);
+
+31 
+√g©ive
+ = 0;
+
+33 if(
+ödex
+ > 
+WT_INDEX_MAX
+ / 2){
+
+34 
+ödex
+ -
+WT_INDEX_MAX
+ / 4;
+
+35 
+√g©ive
+ = 1;
+
+37 if(
+ödex
+ > 
+WT_INDEX_MAX
+ / 4){
+
+38 
+ödex
+ = 
+WT_INDEX_MAX
+ / 2 - index;
+
+40 if(
+√g©ive
+Ë -1 * 
+èbÀ
+[
+ödex
+];
+
+41  
+èbÀ
+[
+ödex
+];
+
+42 
+	}
+}
+
+44 
+öt16_t
+ 
+	$fOsc_gëNextSam∂e
+(
+fOsc_°ru˘
+ * 
+oscûœt‹
+){
+
+45 
+oscûœt‹
+->
+ödex
+.
+c
+ +oscûœt‹->
+°ïSize
+.c;
+
+46  
+	`fOsc_gëSam∂eFromTabÀ
+(
+oscûœt‹
+->
+wavef‹m
+,oscûœt‹->
+ödex
+.
+p
+.
+i
+Ë* (oscûœt‹->
+am∂ôude
+.p.i / 2);
+
+47 
+	}
+}
+
+	@C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\fastOsc\fastOsc.h
+
+1 #i‚de‡
+FASTOSC_H_INCLUDED
+
+
+2 
+	#FASTOSC_H_INCLUDED
+
+
+	)
+
+4 
+	~"../wavëabÀ/wavëabÀ.h
+"
+
+9 
+uöt16_t
+ 
+	mf
+;
+
+10 
+uöt16_t
+ 
+	mi
+;
+
+11 } 
+	mp
+;
+
+12 
+uöt32_t
+ 
+	mc
+;
+
+13 } 
+	tFixedPoöt
+;
+
+16 
+FixedPoöt
+ 
+	mßm∂eR©e
+;
+
+17 
+FixedPoöt
+ 
+	mpôch
+;
+
+18 * 
+	mwavef‹m
+;
+
+19 
+FixedPoöt
+ 
+	mam∂ôude
+;
+
+22 
+FixedPoöt
+ 
+	m°ïSize
+;
+
+23 
+FixedPoöt
+ 
+	mödex
+;
+
+24 } 
+	tfOsc_°ru˘
+;
+
+26 
+fOsc_upd©eSãpSize
+(
+fOsc_°ru˘
+ * 
+oscûœt‹
+);
+
+28 
+fOsc_öô
+(
+fOsc_°ru˘
+ * 
+oscûœt‹
+);
+
+30 
+fOsc_gëSam∂eFromTabÀ
+(* 
+èbÀ
+, 
+uöt16_t
+ 
+ödex
+);
+
+32 
+öt16_t
+ 
+fOsc_gëNextSam∂e
+(
+fOsc_°ru˘
+ * 
+oscûœt‹
 );
 
 	@C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\inc\STM32F~1.H
@@ -159187,11 +159517,11 @@ pôch
 LFO_SAMPLE_RATE
 ;
 
-19 
+19 if(
 lfo
 ->
 ödex
- -= ()lfo->index;
+ > 1.0)Üfo->index -= 1.0;
 
 21  
 lfo
@@ -163367,547 +163697,127 @@ tm¥eg
 	~"../lfo/lfo.h
 "
 
-24 
+23 
+	~"../Á°Osc/Á°Osc.h
+"
+
+25 
 	#PITCH_POT
  0
 
 	)
 
-25 
+26 
 	#WAVEFORM_POT
  1
 
 	)
 
-26 
+27 
 	#DUTY_POT
  2
 
 	)
 
-27 
+28 
 	#PHASE_POT
  3
 
 	)
 
-28 
+29 
 	#AMPLITUDE_POT
  4
 
 	)
 
-30 
+31 
 	#PITCH_BOTTOM
  40
 
 	)
 
-31 
+32 
 	#PITCH_RANGE
  4000
 
 	)
 
-33 
+34 
 	$maö
 () {
 
-34 
+35 
 	`osc_öô
 ();
 
-35 
+36 
 	`pŸs_öôAndSèπ
 ();
 
-39 
-ív_Envñ›e
- * 
-osc1Envñ›e
+38 
+fOsc_°ru˘
+ 
+fOsc1
 ;
+
+39 
+fOsc1
+.
+am∂ôude
+.
+p
+.
+i
+ = (1 << 14);
 
 40 
-ív_Envñ›e
- * 
-osc2Envñ›e
-;
+fOsc1
+.
+am∂ôude
+.
+p
+.
+f
+ = 0;
 
 41 
-osc1Envñ›e
- = 
-	`mÆloc
-((
-ív_Envñ›e
-));
-
-42 
-osc2Envñ›e
- = 
-	`mÆloc
-((
-ív_Envñ›e
-));
+	`fOsc_öô
+(&
+fOsc1
+);
 
 43 
-	`ív_öô
-(
-osc1Envñ›e
-);
-
-44 
-	`ív_öô
-(
-osc2Envñ›e
-);
-
-46 
-osc2Envñ›e
-->
-hﬁd
- = 0.5;
-
-48 
-lfo_Lfo
- * 
-osc1LfoPôch
-;
-
-49 
-lfo_Lfo
- * 
-osc2LfoPôch
-;
-
-50 
-lfo_Lfo
- * 
-osc1LfoDuty
-;
-
-51 
-lfo_Lfo
- * 
-osc2LfoPha£
-;
-
-52 
-osc1LfoPôch
- = 
-	`mÆloc
-((
-lfo_Lfo
-));
-
-53 
-osc2LfoPôch
- = 
-	`mÆloc
-((
-lfo_Lfo
-));
-
-54 
-osc1LfoDuty
- = 
-	`mÆloc
-((
-lfo_Lfo
-));
-
-55 
-osc2LfoPha£
- = 
-	`mÆloc
-((
-lfo_Lfo
-));
-
-56 
-	`lfo_öô
-(
-osc1LfoPôch
-);
-
-57 
-	`lfo_öô
-(
-osc2LfoPôch
-);
-
-58 
-	`lfo_öô
-(
-osc1LfoDuty
-);
-
-59 
-	`lfo_öô
-(
-osc2LfoPha£
-);
-
-61 
-osc1LfoPôch
-->
-pôch
- = 0.1;
-
-62 
-osc1LfoPôch
-->
-amou¡
- = 0.1;
-
-64 
-osc2LfoPôch
-->
-pôch
- = 2;
-
-65 
-osc2LfoPôch
-->
-amou¡
- = 0.01;
-
-67 
-osc1LfoDuty
-->
-pôch
- = 0.5;
-
-68 
-osc1LfoDuty
-->
-amou¡
- = 0.3;
-
-70 
-osc2LfoPha£
-->
-pôch
- = 1.3;
-
-71 
-osc2LfoPha£
-->
-amou¡
- = 0.1;
-
-73 
-Osc_°ru˘
- * 
-osc
- = &
-osc_oscûœt‹1
-;
-
-74 
-uöt8_t
+öt16_t
  
-upd©eSãp
- = 0;
+ßm∂e
+;
 
-75 
-uöt32_t
- 
-lfoAndEnvSãp
- = 0;
-
-77 
-uöt32_t
- 
-ouçutAâem±s
- = 0;
-
-80 
-ouçutAâem±s
- = 0;
-
-81 !
-	`osc_©ãm±Ouçut
-()){
-
-82 
-ouçutAâem±s
-++;
-
-84 if(
-ouçutAâem±s
- == 0){
-
-85 
-	`¥ötf
-("\fderp\n");
-
-88 
-lfoAndEnvSãp
-++){
-
-90 if(
-osc1Envñ›e
-->
-°©e
- =
-ENV_STATE_DEAD
-Ë
-	`ív_åiggî
-(osc1Envelope);
-
-91 
-	`ív_gëNextSam∂e
-(
-osc1Envñ›e
-);
-
-94 if(
-osc2Envñ›e
-->
-°©e
- =
-ENV_STATE_DEAD
-Ë
-	`ív_åiggî
-(osc2Envelope);
-
-95 
-	`ív_gëNextSam∂e
-(
-osc2Envñ›e
-);
-
-98 
-	`lfo_gëNextSam∂e
-(
-osc1LfoPôch
-);
-
-101 
-	`lfo_gëNextSam∂e
-(
-osc1LfoPôch
-);
-
-104 
-	`lfo_gëNextSam∂e
-(
-osc2LfoPôch
-);
-
-107 
-	`lfo_gëNextSam∂e
-(
-osc1LfoDuty
-);
-
-110 
-	`lfo_gëNextSam∂e
-(
-osc2LfoPha£
-);
-
-113 
-lfoAndEnvSãp
- = 0;
-
-116 
-upd©eSãp
-++){
-
-118 if(
-osc
- =&
-osc_oscûœt‹1
-){
-
-119 
-osc
-->
-pôch
+45 
+ßm∂e
  = 
-	`pŸs_gëM≠≥dAvîage
-(
-PITCH_POT
-Ë* 
-PITCH_RANGE
- + 
-PITCH_BOTTOM
-;
-
-120 
-osc
-->
-pôch
- *1.0 + 
-osc1LfoPôch
-->
-ouçut
-;
-
-122 
-osc
-->
-pôch
- = (
-	`pŸs_gëM≠≥dAvîage
-(
-PITCH_POT
-Ë* 
-PITCH_RANGE
- + 
-PITCH_BOTTOM
-) * 2;
-
-123 
-osc
-->
-pôch
- *1.0 + 
-osc2LfoPôch
-->
-ouçut
-;
-
-127 
-	`osc_upd©eSãpSizeBa£
-(
-osc
+	`fOsc_gëNextSam∂e
+(&
+fOsc1
 );
 
-130 
-	`osc_upd©eSãpSizeHigh
+46 !
+	`SPI_I2S_GëFœgSètus
 (
-osc
+CS43L22_I2S_PORT
+, 
+SPI_I2S_FLAG_TXE
+));
+
+47 
+	`SPI_I2S_SídD©a
+(
+CS43L22_I2S_PORT
+,
+ßm∂e
 );
 
-133 
-	`osc_upd©eSãpSizeLow
-(
-osc
-);
-
-136 
-osc
-->
-wavef‹m
- = 
-	`pŸs_gëM≠≥dAvîage
-(
-WAVEFORM_POT
-);
-
-139 
-osc
-->
-duty
- = 
-	`pŸs_gëM≠≥dAvîage
-(
-DUTY_POT
-);
-
-140 if(
-osc
- =&
-osc_oscûœt‹1
-){
-
-141 
-osc
-->
-duty
- *1.0 + 
-osc1LfoDuty
-->
-ouçut
-;
-
-145 
-osc
-->
-pha£
- = 
-	`pŸs_gëM≠≥dAvîage
-(
-PHASE_POT
-);
-
-146 if(
-osc
- =&
-osc_oscûœt‹2
-){
-
-147 
-osc
-->
-pha£
- *1.0 + 
-osc2LfoPha£
-->
-ouçut
-;
-
-151 
-osc
-->
-am∂ôude
- = 
-	`pŸs_gëM≠≥dAvîage
-(
-AMPLITUDE_POT
-);
-
-152 if(
-osc
- =&
-osc_oscûœt‹1
-){
-
-153 
-osc
-->
-am∂ôude
- *
-osc1Envñ›e
-->
-ouçut
-;
-
-155 
-osc
-->
-am∂ôude
- *
-osc2Envñ›e
-->
-ouçut
-;
-
-159 
-upd©eSãp
- = 0;
-
-160 if(
-osc
- =&
-osc_oscûœt‹1
-){
-
-161 
-osc
- = &
-osc_oscûœt‹2
-;
-
-163 
-osc
- = &
-osc_oscûœt‹1
-;
-
-169 
+174 
 	}
 }
 
@@ -164143,8 +164053,8 @@ timî_dñay
 1
 .
 0
-90
-6892
+92
+7046
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\SPL\inc\ST06C6~1.H
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\SPL\inc\ST1B2B~1.H
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\SPL\inc\ST21D2~1.H
@@ -164220,6 +164130,8 @@ C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\cs43l22\cs43l22.c
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\cs43l22\cs43l22.h
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\envelope\envelope.c
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\envelope\envelope.h
+C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\fastOsc\fastOsc.c
+C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\fastOsc\fastOsc.h
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\inc\STM32F~1.H
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\inc\STM32F~2.H
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\inc\SYSTEM~1.H
