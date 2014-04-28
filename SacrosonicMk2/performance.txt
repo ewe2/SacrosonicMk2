@@ -1,0 +1,43 @@
+-O0 1458178
+-O3 1001032
+=====
+
+
+if(negative) return table[index] * -1; --> if(negative) return 0 - table[index];
+-O0 2852848
+-O3 1001034
+=====
+
+16650104
+3100026
+
+1075046
+75014
+
+================
+Added interpolation between two waveforms
+================
+tests: 25000
+osc settings:     
+    fOsc1.sampleRate.p.i = 48000;
+    fOsc1.sampleRate.p.f = 0;
+    fOsc1.pitch.p.i = 440;
+    fOsc1.pitch.p.f = 0;
+    fOsc1.amplitude.p.i = (1 << 14);
+    fOsc1.amplitude.p.f = 0;
+    fOsc1.waveTable1 = wt_tri;
+    fOsc1.waveTable2 = wt_square;
+    fOsc1.resolution = 128;
+    fOsc1.mix.p.i = 100;
+    fOsc1.mix.p.f = 0;
+
+Time measured before and after loop (not inside)
+raw:
+-O0: 3407654
+-O3: 1307510
+avg instruction cycles:
+-O0 272,61232
+-O3 104,6008
+avg µs:
+-O0 1,6226923809523809523809523809524
+-O3 0,62262380952380952380952380952381

@@ -1,5 +1,9 @@
 #include "fastOsc.h"
 
+void fOsc_updateSwing(fOsc_struct * oscillator){
+    oscillator->swing = oscillator->amplitude.p.i / 2;
+}
+
 void fOsc_updateStepSize(fOsc_struct * oscillator){
     oscillator->stepSize.c = (oscillator->pitch.c / oscillator->sampleRate.p.i) * WT_INDEX_MAX;
 }
@@ -14,36 +18,38 @@ void fOsc_init(fOsc_struct * oscillator){
         oscillator->pitch.p.f = 0;
     }
 
-    if(oscillator->waveform != wt_sine && oscillator->waveform != wt_tri && oscillator->waveform != wt_square){
-        oscillator->waveform = wt_sine;
+    if(oscillator->waveTable1 != wt_sine && oscillator->waveTable1 != wt_tri && oscillator->waveTable1 != wt_square){
+        oscillator->waveTable1 = wt_sine;
+    }
+    if(oscillator->waveTable2 != wt_sine && oscillator->waveTable2 != wt_tri && oscillator->waveTable2 != wt_square){
+        oscillator->waveTable2 = wt_square;
+    }
+
+    if(oscillator->mix.p.i > oscillator->resolution){
+        oscillator->mix.p.i = 64;
+        oscillator->mix.p.f = 0;
+        oscillator->resolution = 128;
     }
 
     // not initializing amplitude because it can't break anything
+    fOsc_updateSwing(oscillator);
 
     fOsc_updateStepSize(oscillator);
 
     oscillator->index.c = 0;
 }
 
-float fOsc_getSampleFromTable(float * table, uint16_t index){
-    index &= ~(3 << 14); // mask off last two bits, the maximum index is 16363 (14 full bits)
-
-    int negative = 0;
-
-    if(index >= WT_EFFECTIVE_SIZE / 2){ // between 0.5 and 1.0
-        index -= WT_EFFECTIVE_SIZE / 2;
-        negative = 1;
-    }
-    if(index >= WT_EFFECTIVE_SIZE / 4){ // between 0.25 and 0.5
-        index = WT_EFFECTIVE_SIZE / 2 - index - 1;
-    }
-    if(negative) return table[index] * -1;
-    return table[index];
-}
-
 int16_t fOsc_getNextSample(fOsc_struct * oscillator){
     oscillator->index.c += oscillator->stepSize.c;
-    float sampleFloat = fOsc_getSampleFromTable(oscillator->waveform,oscillator->index.p.i);
-    int16_t sample = (oscillator->amplitude.p.i / 2) * sampleFloat;
-    return sample;
+    int16_t adjustedIndex = wt_int_getTableIndex(oscillator->index.p.i);
+    int negative = 0;
+    if(adjustedIndex < 0) {
+        adjustedIndex *= -1;
+        negative = 1;
+    }
+    int16_t sample1 = (oscillator->swing) * oscillator->waveTable1[adjustedIndex];
+    int16_t sample2 = (oscillator->swing) * oscillator->waveTable2[adjustedIndex];
+    int16_t output = wt_int_mixSamples(sample1,sample2,oscillator->mix.p.i,oscillator->resolution);
+    if(negative) output *= -1;
+    return output;
 }

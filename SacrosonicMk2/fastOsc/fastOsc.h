@@ -15,19 +15,21 @@ typedef union {
 typedef struct{
     FixedPoint sampleRate;
     FixedPoint pitch;
-    float * waveform;
+    float * waveTable1;
+    float * waveTable2;
+    FixedPoint mix;
+    uint16_t resolution;
     FixedPoint amplitude;
 
-
+    int16_t swing;
     FixedPoint stepSize;
     FixedPoint index;
 } fOsc_struct;
 
+void fOsc_updateSwing(fOsc_struct * oscillator);
 void fOsc_updateStepSize(fOsc_struct * oscillator);
 
 void fOsc_init(fOsc_struct * oscillator);
-
-float fOsc_getSampleFromTable(float * table, uint16_t index);
 
 int16_t fOsc_getNextSample(fOsc_struct * oscillator);
 

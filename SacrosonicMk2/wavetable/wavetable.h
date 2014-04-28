@@ -20,7 +20,9 @@ void wt_initTri();
 void wt_initSquare();
 
 float wt_getSampleFromTable(float * table, float index, float offset);
+int16_t wt_int_getTableIndex(uint16_t index);
 
 float wt_mixSamples(float sample1, float sample2, float mix);
+int16_t wt_int_mixSamples(int16_t sample1, int16_t sample2, uint16_t mix, uint16_t resolution);
 
 #endif /* WAVETABLE_H_INCLUDED */

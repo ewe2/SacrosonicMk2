@@ -58,7 +58,27 @@ float wt_getSampleFromTable(float * table, float index, float offset) {
     }
 }
 
+int16_t wt_int_getTableIndex(uint16_t index){ // NOTE: RETURNS NEGATIVE INDEX IF IN NEGATIVE CYCLE OF WAVE
+    index &= ~(3 << 14); // mask off last two bits, the maximum index is 16363 (14 full bits)
+
+    int negative = 0;
+
+    if(index >= WT_EFFECTIVE_SIZE / 2){ // between 0.5 and 1.0
+        index -= WT_EFFECTIVE_SIZE / 2;
+        negative = 1;
+    }
+    if(index >= WT_EFFECTIVE_SIZE / 4){ // between 0.25 and 0.5
+        index = WT_EFFECTIVE_SIZE / 2 - index - 1;
+    }
+    if(negative) index *= -1;
+    return index;
+}
+
 float wt_mixSamples(float sample1, float sample2, float mix){
     if(mix < 0.0 || mix > 1.0) return 0;
     return sample1 * (1.0 - mix) + sample2 * mix;
+}
+
+int16_t wt_int_mixSamples(int16_t sample1, int16_t sample2, uint16_t mix, uint16_t resolution){
+    return (sample1 * mix + sample2 * (resolution - mix)) / resolution;
 }
