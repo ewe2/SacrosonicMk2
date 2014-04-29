@@ -67,8 +67,9 @@ void testFOscOneShot() {
 
 }
 
-#define NUMBER_OF_OSCILLATORS 10
 void testFOscContinuous() {
+    const uint8_t NUMBER_OF_OSCILLATORS = 10;
+
     fOsc_struct oscillators[NUMBER_OF_OSCILLATORS];
     int i = 0;
     for(; i < NUMBER_OF_OSCILLATORS; i++) {
@@ -81,6 +82,7 @@ void testFOscContinuous() {
         oscillators[i].waveTable1 = wt_sine;
         oscillators[i].waveTable2 = wt_square;
         oscillators[i].mix = 128;
+        oscillators[i].dutyEnabled = 0;
         oscillators[i].duty = 0;
         oscillators[i].phase = 0;
         fOsc_init(&oscillators[i]);
@@ -92,13 +94,96 @@ void testFOscContinuous() {
     while(1) {
         sample = sampleSum / NUMBER_OF_OSCILLATORS;
         sampleSum = 0;
-        for(channel = 0; channel < 2; channel++){
+        for(channel = 0; channel < 2; channel++) {
             while(!SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE));
             SPI_I2S_SendData(CS43L22_I2S_PORT,sample);
 
-            sampleSum = 0;
             for(i = (NUMBER_OF_OSCILLATORS / 2) * channel; i < (NUMBER_OF_OSCILLATORS / 2) * (channel + 1); i++) {
                 sampleSum += fOsc_getNextSample(&oscillators[i]);
+            }
+        }
+    }
+}
+
+void testFOscContinuousWithPots() {
+    const uint8_t NUMBER_OF_OSCILLATORS = 1;
+
+    fOsc_struct oscillators[NUMBER_OF_OSCILLATORS];
+    int i = 0;
+    for(; i < NUMBER_OF_OSCILLATORS; i++) {
+        oscillators[i].sampleRate.p.i = 48000;
+        oscillators[i].sampleRate.p.f = 0;
+        oscillators[i].pitch.p.i = 440 + i;
+        oscillators[i].pitch.p.f = 0;
+        oscillators[i].amplitude.p.i = (1 << 14);
+        oscillators[i].amplitude.p.f = 0;
+        oscillators[i].waveTable1 = wt_sine;
+        oscillators[i].waveTable2 = wt_square;
+        oscillators[i].mix = 128;
+        oscillators[i].dutyEnabled = 1;
+        oscillators[i].duty = 0;
+        oscillators[i].phase = 0;
+        fOsc_init(&oscillators[i]);
+    }
+
+    int16_t sample = 0;
+    int32_t sampleSum = 0;
+    uint8_t channel = 1;
+    i = 0;
+    uint8_t updateStep = 0;
+    uint8_t j = 0;
+    while(1) {
+        if(SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE)) {
+            SPI_I2S_SendData(CS43L22_I2S_PORT,sample);
+            if(channel == 1) {
+                channel = 2;
+            } else {
+                sample = sampleSum / NUMBER_OF_OSCILLATORS;
+                sampleSum = 0;
+                channel = 1;
+
+                if(i != NUMBER_OF_OSCILLATORS) printf("UNDERRUN: ONLY %d SAMPLES GENERATED\n",i);
+                i = 0;
+            }
+        }
+
+        if(i < channel * NUMBER_OF_OSCILLATORS / 2) {
+            sampleSum += fOsc_getNextSample(&oscillators[i]);
+            i++;
+        } else {
+
+            switch(updateStep++) {
+            case 0:
+                oscillators[j].pitch.p.i = pots_getMappedAverage(PITCH_POT) * PITCH_RANGE + PITCH_BOTTOM;
+                break;
+            case 1:
+                fOsc_updateStepSizeBase(&oscillators[j]);
+                break;
+            case 2:
+                fOsc_updateStepSizeHigh(&oscillators[j]);
+                break;
+            case 3:
+                fOsc_updateStepSizeLow(&oscillators[j]);
+                break;
+            /*
+            case 4:
+                //waveform
+                break;
+            case 5:
+                //duty
+                break;
+            case 6:
+                //phase
+                break;
+            case 7:
+                //amplitude
+                break;
+            */
+            default:
+                updateStep = 0;
+                j++;
+                if(j == NUMBER_OF_OSCILLATORS) j = 0;
+                break;
             }
         }
     }
@@ -111,7 +196,8 @@ int main(void) {
     timer_init();
 
     testFOscOneShot();
-    testFOscContinuous();
+    testFOscContinuousWithPots();
+    //testFOscContinuous();
 
     while(1);
 }

@@ -22,6 +22,8 @@ typedef struct{
     float * waveTable2;
 
     uint8_t mix;
+
+    uint8_t dutyEnabled;
     uint8_t duty;
 
     uint16_t phase;
@@ -36,7 +38,7 @@ typedef struct{
 } fOsc_struct;
 
 void fOsc_updateSwing(fOsc_struct * oscillator);
-void fOsc_updateStepSize(fOsc_struct * oscillator);
+void fOsc_updateStepSizeBase(fOsc_struct * oscillator);
 void fOsc_updateStepSizeHigh(fOsc_struct * oscillator);
 void fOsc_updateStepSizeLow(fOsc_struct * oscillator);
 

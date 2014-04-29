@@ -4,21 +4,21 @@ void fOsc_updateSwing(fOsc_struct * oscillator) {
     oscillator->swing = oscillator->amplitude.p.i / 2;
 }
 
-void fOsc_updateStepSize(fOsc_struct * oscillator) {
-    oscillator->stepSizeBase.c = (oscillator->pitch.c / oscillator->sampleRate.p.i) * WT_INDEX_MAX;
+void fOsc_updateStepSizeBase(fOsc_struct * oscillator) {
+    oscillator->stepSizeBase.c = ((float)oscillator->pitch.c / oscillator->sampleRate.p.i) * WT_EFFECTIVE_SIZE;
 }
 
 void fOsc_updateStepSizeHigh(fOsc_struct * oscillator) {
-    oscillator->stepSizeHigh.c = (oscillator->stepSizeBase.c * FOSC_DUTY_RESOLUTION) / (FOSC_DUTY_RESOLUTION - oscillator->duty);
+    oscillator->stepSizeHigh.c = (oscillator->stepSizeBase.c / (FOSC_DUTY_RESOLUTION - oscillator->duty)) * FOSC_DUTY_RESOLUTION;
 }
 
 void fOsc_updateStepSizeLow(fOsc_struct * oscillator) {
-    oscillator->stepSizeLow.c = (oscillator->stepSizeBase.c * FOSC_DUTY_RESOLUTION) / (FOSC_DUTY_RESOLUTION + oscillator->duty);
+    oscillator->stepSizeLow.c = (oscillator->stepSizeBase.c / (FOSC_DUTY_RESOLUTION + oscillator->duty))  * FOSC_DUTY_RESOLUTION;
 }
 
 void fOsc_updateDerivatives(fOsc_struct * oscillator) {
     fOsc_updateSwing(oscillator);
-    fOsc_updateStepSize(oscillator);
+    fOsc_updateStepSizeBase(oscillator);
     fOsc_updateStepSizeHigh(oscillator);
     fOsc_updateStepSizeLow(oscillator);
 }
@@ -44,6 +44,10 @@ void fOsc_init(fOsc_struct * oscillator) {
 
     // not initializing amplitude because it can't break anything
 
+    if(oscillator->dutyEnabled > 1){ // should be 1 for on and 0 for off, if it is more than 1, value has not yet been initialized
+        oscillator->dutyEnabled = 0;
+    }
+
     // not initializing duty because it can't break anything
 
     // not initializing phase because it can't break anything
@@ -54,40 +58,44 @@ void fOsc_init(fOsc_struct * oscillator) {
 }
 
 int16_t fOsc_getNextSample(fOsc_struct * oscillator) {
-    FixedPoint newIndex;
-    newIndex.c = 0;
+    if(oscillator->dutyEnabled){
+        FixedPoint newIndex;
+        newIndex.c = 0;
 
-    if(oscillator->index.p.i <= WT_NODE_INDEX){ // starting in the high cycle
-        newIndex.c = oscillator->index.c + oscillator->stepSizeHigh.c;
+        if(oscillator->index.p.i < WT_NODE_INDEX){ // starting in the high cycle
+            newIndex.c = oscillator->index.c + oscillator->stepSizeHigh.c;
 
-        if(newIndex.p.i > WT_NODE_INDEX){ // passing into the low cycle
-            uint32_t subStepHigh = (WT_NODE_INDEX << 16) - oscillator->index.c;
-            uint32_t subStepLow = ((oscillator->stepSizeHigh.c - subStepHigh) / oscillator->stepSizeHigh.c) * oscillator->stepSizeLow.c;
-            newIndex.c = oscillator->index.c + subStepHigh + subStepLow;
-
-            if(newIndex.p.i > WT_INDEX_MAX){ // passing into next high cycle
-                subStepLow = (WT_EFFECTIVE_SIZE / 2) << 16;
-                subStepHigh = ((oscillator->stepSizeLow.c - subStepLow) / oscillator->stepSizeLow.c) * oscillator->stepSizeHigh.c;
+            if(newIndex.p.i > WT_NODE_INDEX){ // passing into the low cycle
+                uint32_t subStepHigh = (WT_NODE_INDEX - oscillator->index.p.i) << 16;
+                uint32_t subStepLow = ((oscillator->stepSizeHigh.c - subStepHigh) * oscillator->stepSizeLow.p.i) / oscillator->stepSizeHigh.p.i;
                 newIndex.c = oscillator->index.c + subStepHigh + subStepLow;
+
+                if(newIndex.p.i > WT_INDEX_MAX){ // passing into next high cycle
+                    subStepLow = (WT_EFFECTIVE_SIZE << 16) / 2;
+                    subStepHigh = ((oscillator->stepSizeLow.c - subStepLow) * oscillator->stepSizeHigh.p.i) / oscillator->stepSizeLow.p.i;
+                    newIndex.c = oscillator->index.c + subStepHigh + subStepLow;
+                }
+            }
+        } else { // starting in the low cycle
+            newIndex.c = oscillator->index.c + oscillator->stepSizeLow.c;
+
+            if(newIndex.p.i > WT_INDEX_MAX){ // passing into the high cycle
+                uint32_t subStepLow = (WT_INDEX_MAX - oscillator->index.p.i) << 16;
+                uint32_t subStepHigh = ((oscillator->stepSizeLow.c - subStepLow) * oscillator->stepSizeHigh.p.i) / oscillator->stepSizeLow.p.i;
+                newIndex.c = oscillator->index.c + subStepHigh + subStepLow;
+
+                if(newIndex.p.i > WT_INDEX_MAX + WT_NODE_INDEX){ // passing into next low cycle
+                    subStepHigh = (WT_EFFECTIVE_SIZE << 16) / 2;
+                    subStepLow = ((oscillator->stepSizeHigh.c - subStepHigh) * oscillator->stepSizeLow.p.i) / oscillator->stepSizeHigh.p.i;
+                    newIndex.c = oscillator->index.c + subStepHigh + subStepLow;
+                }
             }
         }
-    } else { // starting in the low cycle
-        newIndex.c = oscillator->index.c + oscillator->stepSizeLow.c;
 
-        if(newIndex.p.i > WT_INDEX_MAX){ // passing into the high cycle
-            uint32_t subStepLow = (WT_INDEX_MAX << 16) - oscillator->index.c;
-            uint32_t subStepHigh = ((oscillator->stepSizeLow.c - subStepLow) / oscillator->stepSizeLow.c) * oscillator->stepSizeHigh.c;
-            newIndex.c = oscillator->index.c + subStepHigh + subStepLow;
-
-            if(newIndex.p.i > WT_INDEX_MAX + WT_NODE_INDEX){ // passing into next low cycle
-                subStepHigh = (WT_EFFECTIVE_SIZE / 2) << 16;
-                subStepLow = ((oscillator->stepSizeHigh.c - subStepHigh) / oscillator->stepSizeHigh.c) * oscillator->stepSizeLow.c;
-                newIndex.c = oscillator->index.c + subStepHigh + subStepLow;
-            }
-        }
+        oscillator->index.c = newIndex.c & WT_INDEX_MASK_32;
+    } else {
+        oscillator->index.c += oscillator->stepSizeBase.c;
     }
-
-    oscillator->index.c = newIndex.c & WT_INDEX_MASK_32;
 
     int16_t adjustedIndex = wt_int_getTableIndex(oscillator->index.p.i + oscillator->phase);
     int negative = 0;
