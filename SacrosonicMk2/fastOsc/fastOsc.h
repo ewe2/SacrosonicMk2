@@ -4,6 +4,7 @@
 #include "../wavetable/wavetable.h"
 
 #define FOSC_DUTY_RESOLUTION 256
+#define FOSC_MIX_RESOLUTION 256
 
 typedef union {
     struct {
@@ -20,9 +21,7 @@ typedef struct{
     float * waveTable1;
     float * waveTable2;
 
-    FixedPoint mix;
-    uint16_t mixResolution;
-
+    uint8_t mix;
     uint8_t duty;
 
     uint16_t phase;

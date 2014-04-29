@@ -40,11 +40,7 @@ void fOsc_init(fOsc_struct * oscillator) {
         oscillator->waveTable2 = wt_square;
     }
 
-    if(oscillator->mix.p.i > oscillator->mixResolution) {
-        oscillator->mix.p.i = 64;
-        oscillator->mix.p.f = 0;
-        oscillator->mixResolution = 128;
-    }
+    // not initializing mix because it can't break anything
 
     // not initializing amplitude because it can't break anything
 
@@ -101,7 +97,7 @@ int16_t fOsc_getNextSample(fOsc_struct * oscillator) {
     }
     int16_t sample1 = (oscillator->swing) * oscillator->waveTable1[adjustedIndex];
     int16_t sample2 = (oscillator->swing) * oscillator->waveTable2[adjustedIndex];
-    int16_t output = wt_int_mixSamples(sample1,sample2,oscillator->mix.p.i,oscillator->mixResolution);
+    int16_t output = wt_int_mixSamples(sample1,sample2,oscillator->mix,FOSC_MIX_RESOLUTION);
     if(negative) output *= -1;
     return output;
 }
