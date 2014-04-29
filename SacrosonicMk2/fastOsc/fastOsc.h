@@ -21,9 +21,11 @@ typedef struct{
     float * waveTable2;
 
     FixedPoint mix;
-    uint16_t resolution;
+    uint16_t mixResolution;
 
     uint8_t duty;
+
+    uint16_t phase;
 
     FixedPoint amplitude;
     int16_t swing;

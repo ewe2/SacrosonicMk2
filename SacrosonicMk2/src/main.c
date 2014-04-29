@@ -43,7 +43,7 @@ void testFOscOneShot() {
     fOsc1.amplitude.p.f = 0;
     fOsc1.waveTable1 = wt_tri;
     fOsc1.waveTable2 = wt_square;
-    fOsc1.resolution = 128;
+    fOsc1.mixResolution = 128;
     fOsc1.mix.p.i = 100;
     fOsc1.mix.p.f = 0;
     fOsc1.duty = 207;
@@ -69,23 +69,24 @@ void testFOscOneShot() {
 
 }
 
-#define NUMBER_OF_OSCILLATORS 1
+#define NUMBER_OF_OSCILLATORS 10
 void testFOscContinuous() {
     fOsc_struct oscillators[NUMBER_OF_OSCILLATORS];
     int i = 0;
     for(; i < NUMBER_OF_OSCILLATORS; i++) {
         oscillators[i].sampleRate.p.i = 48000;
         oscillators[i].sampleRate.p.f = 0;
-        oscillators[i].pitch.p.i = 440;
+        oscillators[i].pitch.p.i = 440 + i;
         oscillators[i].pitch.p.f = 0;
         oscillators[i].amplitude.p.i = (1 << 14);
         oscillators[i].amplitude.p.f = 0;
-        oscillators[i].waveTable1 = wt_tri;
+        oscillators[i].waveTable1 = wt_sine;
         oscillators[i].waveTable2 = wt_square;
-        oscillators[i].mix.p.i = 64;
+        oscillators[i].mix.p.i = 128;// - i * 10;
         oscillators[i].mix.p.f = 0;
-        oscillators[i].resolution = 128;
+        oscillators[i].mixResolution = 128;
         oscillators[i].duty = 0;
+        oscillators[i].phase = 0;
         fOsc_init(&oscillators[i]);
     }
 
@@ -99,7 +100,7 @@ void testFOscContinuous() {
         sampleSum = 0;
         for(i = 0; i < NUMBER_OF_OSCILLATORS / 2; i++) {
             sampleSum += fOsc_getNextSample(&oscillators[i]);
-
+            oscillators[i].phase++;
             /*if(counter == 1){
                 oscillators[i].duty += i;
                 fOsc_updateStepSizeHigh(&oscillators[i]);
@@ -112,7 +113,7 @@ void testFOscContinuous() {
 
         for(i = NUMBER_OF_OSCILLATORS / 2; i < NUMBER_OF_OSCILLATORS; i++) {
             sampleSum += fOsc_getNextSample(&oscillators[i]);
-
+            //oscillators[i].phase++;
             /*if(counter == 2){
                 oscillators[i].duty += i;
                 fOsc_updateStepSizeHigh(&oscillators[i]);

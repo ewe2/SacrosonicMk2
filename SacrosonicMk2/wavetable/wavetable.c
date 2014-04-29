@@ -59,6 +59,7 @@ float wt_getSampleFromTable(float * table, float index, float offset) {
 }
 
 int16_t wt_int_getTableIndex(uint16_t index){ // NOTE: RETURNS NEGATIVE INDEX IF IN NEGATIVE CYCLE OF WAVE
+    index &= WT_INDEX_MASK_16;
     int negative = 0;
 
     if(index >= WT_EFFECTIVE_SIZE / 2){ // between 0.5 and 1.0

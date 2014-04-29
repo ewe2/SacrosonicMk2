@@ -7,7 +7,8 @@
 #define WT_EFFECTIVE_SIZE (WT_SIZE * 4)
 #define WT_INDEX_MAX (WT_EFFECTIVE_SIZE - 1)
 #define WT_NODE_INDEX (WT_EFFECTIVE_SIZE / 2 - 1)
-#define WT_INDEX_MASK (~(3 << 30))
+#define WT_INDEX_MASK_32 (~(3 << 30))
+#define WT_INDEX_MASK_16 (~(3 << 14))
 #define WT_PHASE_RANGE 0.25 // amount of the waveform the table actually contains, current options: 0.25. 0.5 and 1 probably on the way (maybe)
 
 #define PI 3.14159265

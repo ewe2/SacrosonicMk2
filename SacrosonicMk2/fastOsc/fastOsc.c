@@ -40,15 +40,17 @@ void fOsc_init(fOsc_struct * oscillator) {
         oscillator->waveTable2 = wt_square;
     }
 
-    if(oscillator->mix.p.i > oscillator->resolution) {
+    if(oscillator->mix.p.i > oscillator->mixResolution) {
         oscillator->mix.p.i = 64;
         oscillator->mix.p.f = 0;
-        oscillator->resolution = 128;
+        oscillator->mixResolution = 128;
     }
 
     // not initializing amplitude because it can't break anything
 
     // not initializing duty because it can't break anything
+
+    // not initializing phase because it can't break anything
 
     oscillator->index.c = 0;
 
@@ -89,9 +91,9 @@ int16_t fOsc_getNextSample(fOsc_struct * oscillator) {
         }
     }
 
-    oscillator->index.c = newIndex.c & WT_INDEX_MASK; // mask off last two bits, the maximum index is 16363 (14 full bits)
+    oscillator->index.c = newIndex.c & WT_INDEX_MASK_32;
 
-    int16_t adjustedIndex = wt_int_getTableIndex(oscillator->index.p.i);
+    int16_t adjustedIndex = wt_int_getTableIndex(oscillator->index.p.i + oscillator->phase);
     int negative = 0;
     if(adjustedIndex < 0) {
         adjustedIndex *= -1;
@@ -99,7 +101,7 @@ int16_t fOsc_getNextSample(fOsc_struct * oscillator) {
     }
     int16_t sample1 = (oscillator->swing) * oscillator->waveTable1[adjustedIndex];
     int16_t sample2 = (oscillator->swing) * oscillator->waveTable2[adjustedIndex];
-    int16_t output = wt_int_mixSamples(sample1,sample2,oscillator->mix.p.i,oscillator->resolution);
+    int16_t output = wt_int_mixSamples(sample1,sample2,oscillator->mix.p.i,oscillator->mixResolution);
     if(negative) output *= -1;
     return output;
 }
