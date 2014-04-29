@@ -3,6 +3,7 @@
 
 #include "../wavetable/wavetable.h"
 
+#define FOSC_DUTY_RESOLUTION 256
 
 typedef union {
     struct {
@@ -15,19 +16,30 @@ typedef union {
 typedef struct{
     FixedPoint sampleRate;
     FixedPoint pitch;
+
     float * waveTable1;
     float * waveTable2;
+
     FixedPoint mix;
     uint16_t resolution;
-    FixedPoint amplitude;
 
+    uint8_t duty;
+
+    FixedPoint amplitude;
     int16_t swing;
-    FixedPoint stepSize;
+
+    FixedPoint stepSizeBase;
+    FixedPoint stepSizeHigh;
+    FixedPoint stepSizeLow;
     FixedPoint index;
 } fOsc_struct;
 
 void fOsc_updateSwing(fOsc_struct * oscillator);
 void fOsc_updateStepSize(fOsc_struct * oscillator);
+void fOsc_updateStepSizeHigh(fOsc_struct * oscillator);
+void fOsc_updateStepSizeLow(fOsc_struct * oscillator);
+
+void fOsc_updateDerivatives(fOsc_struct * oscillator);
 
 void fOsc_init(fOsc_struct * oscillator);
 

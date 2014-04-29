@@ -41,3 +41,34 @@ avg instruction cycles:
 avg µs:
 -O0 1,6226923809523809523809523809524
 -O3 0,62262380952380952380952380952381
+
+==============
+Added duty cycle modulation capabilities
+=============
+tests: 25000
+osc settings:
+    fOsc_struct fOsc1;
+    fOsc1.sampleRate.p.i = 48000;
+    fOsc1.sampleRate.p.f = 0;
+    fOsc1.pitch.p.i = 440;
+    fOsc1.pitch.p.f = 0;
+    fOsc1.amplitude.p.i = (1 << 14);
+    fOsc1.amplitude.p.f = 0;
+    fOsc1.waveTable1 = wt_tri;
+    fOsc1.waveTable2 = wt_square;
+    fOsc1.resolution = 128;
+    fOsc1.mix.p.i = 100;
+    fOsc1.mix.p.f = 0;
+    fOsc1.duty = 207;
+    fOsc_init(&fOsc1);
+
+Time measured before and after loop (not inside)
+raw:
+-O0 3750254
+-O3 1436746
+avg instruction cycles:
+-O0 300,02032
+-O3 114,93968
+avg µs:
+-O0 1,7858352380952380952380952380952
+-O3 0,68416476190476190476190476190476

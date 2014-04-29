@@ -32,7 +32,6 @@
 #define PITCH_BOTTOM 40
 #define PITCH_RANGE 4000
 
-
 #define NUMBER_OF_TESTS 25000
 void testFOscOneShot() {
     fOsc_struct fOsc1;
@@ -47,6 +46,7 @@ void testFOscOneShot() {
     fOsc1.resolution = 128;
     fOsc1.mix.p.i = 100;
     fOsc1.mix.p.f = 0;
+    fOsc1.duty = 207;
     fOsc_init(&fOsc1);
 
     uint16_t samples[NUMBER_OF_TESTS];
@@ -69,27 +69,29 @@ void testFOscOneShot() {
 
 }
 
-#define NUMBER_OF_OSCILLATORS 30
+#define NUMBER_OF_OSCILLATORS 1
 void testFOscContinuous() {
     fOsc_struct oscillators[NUMBER_OF_OSCILLATORS];
     int i = 0;
     for(; i < NUMBER_OF_OSCILLATORS; i++) {
         oscillators[i].sampleRate.p.i = 48000;
         oscillators[i].sampleRate.p.f = 0;
-        oscillators[i].pitch.p.i = 440 + i;
+        oscillators[i].pitch.p.i = 440;
         oscillators[i].pitch.p.f = 0;
         oscillators[i].amplitude.p.i = (1 << 14);
         oscillators[i].amplitude.p.f = 0;
         oscillators[i].waveTable1 = wt_tri;
         oscillators[i].waveTable2 = wt_square;
-        oscillators[i].resolution = 128;
-        oscillators[i].mix.p.i = 100;
+        oscillators[i].mix.p.i = 64;
         oscillators[i].mix.p.f = 0;
+        oscillators[i].resolution = 128;
+        oscillators[i].duty = 0;
         fOsc_init(&oscillators[i]);
     }
 
     int16_t sample = 0;
     int32_t sampleSum = 0;
+    uint8_t counter = 0;
     while(1) {
         while(!SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE));
         SPI_I2S_SendData(CS43L22_I2S_PORT,sample);
@@ -97,6 +99,12 @@ void testFOscContinuous() {
         sampleSum = 0;
         for(i = 0; i < NUMBER_OF_OSCILLATORS / 2; i++) {
             sampleSum += fOsc_getNextSample(&oscillators[i]);
+
+            /*if(counter == 1){
+                oscillators[i].duty += i;
+                fOsc_updateStepSizeHigh(&oscillators[i]);
+                fOsc_updateStepSizeLow(&oscillators[i]);
+            }*/
         }
 
         while(!SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE));
@@ -104,8 +112,15 @@ void testFOscContinuous() {
 
         for(i = NUMBER_OF_OSCILLATORS / 2; i < NUMBER_OF_OSCILLATORS; i++) {
             sampleSum += fOsc_getNextSample(&oscillators[i]);
+
+            /*if(counter == 2){
+                oscillators[i].duty += i;
+                fOsc_updateStepSizeHigh(&oscillators[i]);
+                fOsc_updateStepSizeLow(&oscillators[i]);
+            }*/
         }
         sample = sampleSum / NUMBER_OF_OSCILLATORS;
+        counter++;
     }
 }
 
@@ -116,7 +131,6 @@ int main(void) {
     timer_init();
 
     testFOscOneShot();
-
     testFOscContinuous();
 
     while(1);
@@ -157,14 +171,14 @@ int main(void) {
 
     osc2LfoPhase->pitch = 1.3;
     osc2LfoPhase->amount = 0.1;
-
+    */
     Osc_struct * osc = &osc_oscillator1;
     uint8_t updateStep = 0;
-    uint32_t lfoAndEnvStep = 0; // note since we output one sample for each channel this actually counts at twice the output sample rate
+    //uint32_t lfoAndEnvStep = 0; // note since we output one sample for each channel this actually counts at twice the output sample rate
 
     while(1) {
         while(!osc_attemptOutput());
-
+        /*
         switch(lfoAndEnvStep++){
         case 0 * 2: // * 2 so we can alternate between the env/lfos and the adcs
             if(osc1Envelope->state == ENV_STATE_DEAD) env_trigger(osc1Envelope);
@@ -193,14 +207,15 @@ int main(void) {
             lfoAndEnvStep = 0;
             break;
         default:
-            switch(updateStep++){
+            */
+        switch(updateStep++){
             case 0:
                 if(osc == &osc_oscillator1){
                     osc->pitch = pots_getMappedAverage(PITCH_POT) * PITCH_RANGE + PITCH_BOTTOM;
-                    osc->pitch *= 1.0 + osc1LfoPitch->output;
+                    //osc->pitch *= 1.0 + osc1LfoPitch->output;
                 } else {
                     osc->pitch = (pots_getMappedAverage(PITCH_POT) * PITCH_RANGE + PITCH_BOTTOM) * 2;
-                    osc->pitch *= 1.0 + osc2LfoPitch->output;
+                    //osc->pitch *= 1.0 + osc2LfoPitch->output;
                 }
                 break;
             case 1:
@@ -217,23 +232,23 @@ int main(void) {
                 break;
             case 5:
                 osc->duty = pots_getMappedAverage(DUTY_POT);
-                if(osc == &osc_oscillator1){
+                /*if(osc == &osc_oscillator1){
                     osc->duty *= 1.0 + osc1LfoDuty->output;
-                }
+                }*/
                 break;
             case 6:
                 osc->phase = pots_getMappedAverage(PHASE_POT);
-                if(osc == &osc_oscillator2){
+                /*if(osc == &osc_oscillator2){
                     osc->phase *= 1.0 + osc2LfoPhase->output;
-                }
+                }*/
                 break;
             case 7:
                 osc->amplitude = pots_getMappedAverage(AMPLITUDE_POT);
-                if(osc == &osc_oscillator1){
+                /*if(osc == &osc_oscillator1){
                     osc->amplitude *= osc1Envelope->output;
                 } else {
                     osc->amplitude *= osc2Envelope->output;
-                }
+                }*/
                 break;
             default:
                 updateStep = 0;
@@ -245,5 +260,5 @@ int main(void) {
                 break;
             }
         }
-    }*/
+    //}
 }

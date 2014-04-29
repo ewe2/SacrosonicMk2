@@ -77,7 +77,7 @@ void osc_generateNextSample(Osc_struct * osc){
             float subStepLow = (1.0 - (subStepHigh / osc->stepSizeHigh)) * osc->stepSizeLow;
             newIndex = osc->index + subStepHigh + subStepLow;
 
-            if(newIndex >= 1.0){ // the step goes beyond this cycle and into the next, the step will have to be part stepSizeHigh and part stepSizeLow
+            if(newIndex > 1.0){ // the step goes beyond this cycle and into the next, the step will have to be part stepSizeHigh and part stepSizeLow
                 subStepLow = 0.5;
                 subStepHigh = (1.0 - (subStepLow / osc->stepSizeLow)) * osc->stepSizeHigh;
                 newIndex = osc->index + subStepHigh + subStepLow;
