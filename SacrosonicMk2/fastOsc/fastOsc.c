@@ -67,12 +67,12 @@ int16_t fOsc_getNextSample(fOsc_struct * oscillator) {
 
             if(newIndex.p.i > WT_NODE_INDEX){ // passing into the low cycle
                 uint32_t subStepHigh = (WT_NODE_INDEX - oscillator->index.p.i) << 16;
-                uint32_t subStepLow = ((oscillator->stepSizeHigh.c - subStepHigh) * oscillator->stepSizeLow.p.i) / oscillator->stepSizeHigh.p.i;
+                uint32_t subStepLow = ((oscillator->stepSizeHigh.c - subStepHigh) * (float)oscillator->stepSizeLow.c) / oscillator->stepSizeHigh.c;
                 newIndex.c = oscillator->index.c + subStepHigh + subStepLow;
 
                 if(newIndex.p.i > WT_INDEX_MAX){ // passing into next high cycle
                     subStepLow = (WT_EFFECTIVE_SIZE << 16) / 2;
-                    subStepHigh = ((oscillator->stepSizeLow.c - subStepLow) * oscillator->stepSizeHigh.p.i) / oscillator->stepSizeLow.p.i;
+                    subStepHigh = ((oscillator->stepSizeLow.c - subStepLow) * (float)oscillator->stepSizeHigh.c) / oscillator->stepSizeLow.c;
                     newIndex.c = oscillator->index.c + subStepHigh + subStepLow;
                 }
             }
@@ -81,12 +81,12 @@ int16_t fOsc_getNextSample(fOsc_struct * oscillator) {
 
             if(newIndex.p.i > WT_INDEX_MAX){ // passing into the high cycle
                 uint32_t subStepLow = (WT_INDEX_MAX - oscillator->index.p.i) << 16;
-                uint32_t subStepHigh = ((oscillator->stepSizeLow.c - subStepLow) * oscillator->stepSizeHigh.p.i) / oscillator->stepSizeLow.p.i;
+                uint32_t subStepHigh = ((oscillator->stepSizeLow.c - subStepLow) * (float)oscillator->stepSizeHigh.c) / oscillator->stepSizeLow.c;
                 newIndex.c = oscillator->index.c + subStepHigh + subStepLow;
 
                 if(newIndex.p.i > WT_INDEX_MAX + WT_NODE_INDEX){ // passing into next low cycle
                     subStepHigh = (WT_EFFECTIVE_SIZE << 16) / 2;
-                    subStepLow = ((oscillator->stepSizeHigh.c - subStepHigh) * oscillator->stepSizeLow.p.i) / oscillator->stepSizeHigh.p.i;
+                    subStepLow = ((oscillator->stepSizeHigh.c - subStepHigh) * (float)oscillator->stepSizeLow.c) / oscillator->stepSizeHigh.c;
                     newIndex.c = oscillator->index.c + subStepHigh + subStepLow;
                 }
             }

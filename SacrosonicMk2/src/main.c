@@ -44,6 +44,7 @@ void testFOscOneShot() {
     fOsc1.waveTable1 = wt_tri;
     fOsc1.waveTable2 = wt_square;
     fOsc1.mix = 100;
+    fOsc1.dutyEnabled = 1;
     fOsc1.duty = 207;
     fOsc_init(&fOsc1);
 
@@ -106,14 +107,14 @@ void testFOscContinuous() {
 }
 
 void testFOscContinuousWithPots() {
-    const uint8_t NUMBER_OF_OSCILLATORS = 1;
+    const uint8_t NUMBER_OF_OSCILLATORS = 12;
 
     fOsc_struct oscillators[NUMBER_OF_OSCILLATORS];
     int i = 0;
     for(; i < NUMBER_OF_OSCILLATORS; i++) {
         oscillators[i].sampleRate.p.i = 48000;
         oscillators[i].sampleRate.p.f = 0;
-        oscillators[i].pitch.p.i = 440 + i;
+        oscillators[i].pitch.p.i = 440;
         oscillators[i].pitch.p.f = 0;
         oscillators[i].amplitude.p.i = (1 << 14);
         oscillators[i].amplitude.p.f = 0;
@@ -157,28 +158,29 @@ void testFOscContinuousWithPots() {
                 oscillators[j].pitch.p.i = pots_getMappedAverage(PITCH_POT) * PITCH_RANGE + PITCH_BOTTOM;
                 break;
             case 1:
-                fOsc_updateStepSizeBase(&oscillators[j]);
+                oscillators[j].duty = pots_getMappedAverage(DUTY_POT) * (FOSC_DUTY_RESOLUTION - 16);
                 break;
             case 2:
-                fOsc_updateStepSizeHigh(&oscillators[j]);
+                fOsc_updateStepSizeBase(&oscillators[j]);
                 break;
             case 3:
+                fOsc_updateStepSizeHigh(&oscillators[j]);
+                break;
+            case 4:
                 fOsc_updateStepSizeLow(&oscillators[j]);
                 break;
-            /*
-            case 4:
-                //waveform
-                break;
             case 5:
-                //duty
+                oscillators[j].mix = pots_getMappedAverage(WAVEFORM_POT) * FOSC_MIX_RESOLUTION - 1;
                 break;
             case 6:
-                //phase
+                oscillators[j].phase = pots_getMappedAverage(PHASE_POT) * WT_EFFECTIVE_SIZE - 1;
                 break;
             case 7:
-                //amplitude
+                oscillators[j].amplitude.c = pots_getMappedAverage(AMPLITUDE_POT) * UINT32_MAX;
                 break;
-            */
+            case 8:
+                fOsc_updateSwing(&oscillators[j]);
+                break;
             default:
                 updateStep = 0;
                 j++;
