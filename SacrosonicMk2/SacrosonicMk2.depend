@@ -217,7 +217,7 @@
 1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\inc\stm32f4xx_wwdg.h
 	"stm32f4xx.h"
 
-1398873462 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
+1399029909 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
 	"stm32f4xx_conf.h"
 	<stdio.h>
 	"../osc/osc.h"
@@ -226,6 +226,8 @@
 	"../lfo/lfo.h"
 	"../fastOsc/fastOsc.h"
 	"../timer/timer.h"
+	"../leds/leds.h"
+	"../buttons/buttons.h"
 
 1398005874 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22.h
 	"cs43l22_i2c.h"
@@ -304,4 +306,17 @@
 	"stm32f4xx_conf.h"
 	<stdint.h>
 	<stdio.h>
+
+1398976706 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\buttons\buttons.c
+	"buttons.h"
+
+1398973119 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\buttons\buttons.h
+	"stm32f4xx_conf.h"
+	"../timer/timer.h"
+
+1399028564 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\leds\leds.c
+	"leds.h"
+
+1399028617 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\leds\leds.h
+	"stm32f4xx_conf.h"
 

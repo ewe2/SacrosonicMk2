@@ -22,6 +22,8 @@
 #include "../lfo/lfo.h"
 #include "../fastOsc/fastOsc.h"
 #include "../timer/timer.h"
+#include "../leds/leds.h"
+#include "../buttons/buttons.h"
 
 #define PITCH_POT 0
 #define WAVEFORM_POT 1
@@ -69,7 +71,7 @@ void testFOscOneShot(uint16_t numberOfTests, uint8_t dutyEnabled) {
 
 }
 
-void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_t potsEnabled) {
+void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_t potsEnabled, Btn_struct * button) {
 
     fOsc_struct oscillators[numberOfOscillators];
     int i = 0;
@@ -94,7 +96,7 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
     uint8_t channel = 1;
     i = 0;
     uint8_t updateStep = 0;
-    uint8_t j = 0;
+    uint8_t selectedOscillator = 0;
     while(1) {
         if(SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE)) {
             SPI_I2S_SendData(CS43L22_I2S_PORT,sample);
@@ -117,37 +119,64 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
 
             switch(updateStep++) {
             case 0:
-                oscillators[j].pitch.p.i = pots_getMappedAverage(PITCH_POT) * PITCH_RANGE + PITCH_BOTTOM;
+                oscillators[selectedOscillator].pitch.p.i = pots_getMappedAverage(PITCH_POT) * PITCH_RANGE + PITCH_BOTTOM;
                 break;
             case 1:
-                oscillators[j].duty = pots_getMappedAverage(DUTY_POT) * (FOSC_DUTY_RESOLUTION - 16);
+                oscillators[selectedOscillator].duty = pots_getMappedAverage(DUTY_POT) * (FOSC_DUTY_RESOLUTION - 16);
                 break;
             case 2:
-                fOsc_updateStepSizeBase(&oscillators[j]);
+                fOsc_updateStepSizeBase(&oscillators[selectedOscillator]);
                 break;
             case 3:
-                fOsc_updateStepSizeHigh(&oscillators[j]);
+                fOsc_updateStepSizeHigh(&oscillators[selectedOscillator]);
                 break;
             case 4:
-                fOsc_updateStepSizeLow(&oscillators[j]);
+                fOsc_updateStepSizeLow(&oscillators[selectedOscillator]);
                 break;
             case 5:
-                oscillators[j].mix = pots_getMappedAverage(WAVEFORM_POT) * FOSC_MIX_RESOLUTION - 1;
+                oscillators[selectedOscillator].mix = pots_getMappedAverage(WAVEFORM_POT) * FOSC_MIX_RESOLUTION - 1;
                 break;
             case 6:
-                oscillators[j].phase = pots_getMappedAverage(PHASE_POT) * WT_EFFECTIVE_SIZE - 1;
+                oscillators[selectedOscillator].phase = pots_getMappedAverage(PHASE_POT) * WT_EFFECTIVE_SIZE - 1;
                 break;
             case 7:
-                oscillators[j].amplitude.c = pots_getMappedAverage(AMPLITUDE_POT) * UINT32_MAX;
+                oscillators[selectedOscillator].amplitude.c = pots_getMappedAverage(AMPLITUDE_POT) * UINT32_MAX;
                 break;
             case 8:
-                fOsc_updateSwing(&oscillators[j]);
+                fOsc_updateSwing(&oscillators[selectedOscillator]);
                 break;
             default:
+                if(btn_readOneShot(button)){
+                    selectedOscillator++;
+                    if(selectedOscillator >= numberOfOscillators) selectedOscillator = 0;
+                }
                 updateStep = 0;
-                j++;
-                if(j == numberOfOscillators) j = 0;
                 break;
+            }
+        }
+    }
+}
+
+void testButtonsAndLeds(Btn_struct * button){
+    int ledState = 1;
+    while(1){
+        if(btn_readOneShot(button)){
+            switch(ledState++){
+            case 1:
+                led_setAll(1,0,0,0);
+                break;
+            case 2:
+                led_setAll(0,1,0,0);
+                break;
+            case 3:
+                led_setAll(0,0,1,0);
+                break;
+            case 4:
+                led_setAll(0,0,0,1);
+                break;
+            default:
+                led_setAll(0,0,0,0);
+                return;
             }
         }
     }
@@ -158,10 +187,19 @@ int main(void) {
     osc_init();
     pots_initAndStart();
     timer_init();
+    led_init();
+
+    Btn_struct button1;
+    button1.debounceTime = TIMER_CLOCK_SPEED / 100;
+    button1.portLetter = 'E';
+    button1.pin = 7;
+    btn_init(&button1);
+
+    //testButtonsAndLeds(&button1);
 
     testFOscOneShot(25000,1);
 
-    testFOscContinuous(1,1,1);
+    testFOscContinuous(5,1,1,&button1);
 
     while(1);
 }

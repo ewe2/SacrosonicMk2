@@ -196,6 +196,10 @@
 		<Unit filename="SPL\src\stm32f4xx_wwdg.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="buttons\buttons.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="buttons\buttons.h" />
 		<Unit filename="cmsis\arm_common_tables.h" />
 		<Unit filename="cmsis\arm_math.h" />
 		<Unit filename="cmsis\core_cm4.h" />
@@ -228,6 +232,10 @@
 		<Unit filename="inc\stm32f4xx.h" />
 		<Unit filename="inc\stm32f4xx_conf.h" />
 		<Unit filename="inc\system_stm32f4xx.h" />
+		<Unit filename="leds\leds.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="leds\leds.h" />
 		<Unit filename="lfo\lfo.c">
 			<Option compilerVar="CC" />
 		</Unit>
