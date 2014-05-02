@@ -32,86 +32,48 @@
 #define PITCH_BOTTOM 40
 #define PITCH_RANGE 4000
 
-#define NUMBER_OF_TESTS 25000
-void testFOscOneShot() {
-    fOsc_struct fOsc1;
-    fOsc1.sampleRate.p.i = 48000;
-    fOsc1.sampleRate.p.f = 0;
-    fOsc1.pitch.p.i = 440;
-    fOsc1.pitch.p.f = 0;
-    fOsc1.amplitude.p.i = (1 << 14);
-    fOsc1.amplitude.p.f = 0;
-    fOsc1.waveTable1 = wt_tri;
-    fOsc1.waveTable2 = wt_square;
-    fOsc1.mix = 100;
-    fOsc1.dutyEnabled = 1;
-    fOsc1.duty = 207;
-    fOsc_init(&fOsc1);
+void testFOscOneShot(uint16_t numberOfTests, uint8_t dutyEnabled) {
+    fOsc_struct oscillator;
+    oscillator.sampleRate.p.i = 48000;
+    oscillator.sampleRate.p.f = 0;
+    oscillator.pitch.p.i = 440;
+    oscillator.pitch.p.f = 0;
+    oscillator.amplitude.p.i = (1 << 14);
+    oscillator.amplitude.p.f = 0;
+    oscillator.waveTable1 = wt_tri;
+    oscillator.waveTable2 = wt_square;
+    oscillator.mix = 100;
+    oscillator.dutyEnabled = dutyEnabled;
+    oscillator.duty = 207;
+    fOsc_init(&oscillator);
 
-    uint16_t samples[NUMBER_OF_TESTS];
+    uint16_t samples[numberOfTests];
     uint32_t startTime;
     uint32_t totalTime;
     uint32_t i = 0;
 
     totalTime = 0;
     startTime = timer_getTimerTicks();
-    for(i = 0; i < NUMBER_OF_TESTS; i++) {
-        samples[i] = fOsc_getNextSample(&fOsc1);
+    for(i = 0; i < numberOfTests; i++) {
+        samples[i] = fOsc_getNextSample(&oscillator);
     }
     totalTime = timer_getTimerTicks() - startTime;
-    printf("time for %d fOsc samples: %d\n",NUMBER_OF_TESTS,totalTime);
+    if(dutyEnabled) printf("duty enabled, set to: %d\n",oscillator.duty);
+    printf("time for %d fOsc samples: %d\n",numberOfTests,totalTime);
 
-    for(i = 0; i < NUMBER_OF_TESTS; i++) {
+
+    for(i = 0; i < numberOfTests; i++) {
         while(!SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE));
         SPI_I2S_SendData(CS43L22_I2S_PORT,samples[i]);
     }
 
 }
 
-void testFOscContinuous() {
-    const uint8_t NUMBER_OF_OSCILLATORS = 10;
+void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_t potsEnabled) {
 
-    fOsc_struct oscillators[NUMBER_OF_OSCILLATORS];
+    fOsc_struct oscillators[numberOfOscillators];
     int i = 0;
-    for(; i < NUMBER_OF_OSCILLATORS; i++) {
-        oscillators[i].sampleRate.p.i = 48000;
-        oscillators[i].sampleRate.p.f = 0;
-        oscillators[i].pitch.p.i = 440 + i;
-        oscillators[i].pitch.p.f = 0;
-        oscillators[i].amplitude.p.i = (1 << 14);
-        oscillators[i].amplitude.p.f = 0;
-        oscillators[i].waveTable1 = wt_sine;
-        oscillators[i].waveTable2 = wt_square;
-        oscillators[i].mix = 128;
-        oscillators[i].dutyEnabled = 0;
-        oscillators[i].duty = 0;
-        oscillators[i].phase = 0;
-        fOsc_init(&oscillators[i]);
-    }
-
-    int16_t sample = 0;
-    int32_t sampleSum = 0;
-    uint8_t channel = 0;
-    while(1) {
-        sample = sampleSum / NUMBER_OF_OSCILLATORS;
-        sampleSum = 0;
-        for(channel = 0; channel < 2; channel++) {
-            while(!SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE));
-            SPI_I2S_SendData(CS43L22_I2S_PORT,sample);
-
-            for(i = (NUMBER_OF_OSCILLATORS / 2) * channel; i < (NUMBER_OF_OSCILLATORS / 2) * (channel + 1); i++) {
-                sampleSum += fOsc_getNextSample(&oscillators[i]);
-            }
-        }
-    }
-}
-
-void testFOscContinuousWithPots() {
-    const uint8_t NUMBER_OF_OSCILLATORS = 12;
-
-    fOsc_struct oscillators[NUMBER_OF_OSCILLATORS];
-    int i = 0;
-    for(; i < NUMBER_OF_OSCILLATORS; i++) {
+    for(; i < numberOfOscillators; i++) {
         oscillators[i].sampleRate.p.i = 48000;
         oscillators[i].sampleRate.p.f = 0;
         oscillators[i].pitch.p.i = 440;
@@ -121,7 +83,7 @@ void testFOscContinuousWithPots() {
         oscillators[i].waveTable1 = wt_sine;
         oscillators[i].waveTable2 = wt_square;
         oscillators[i].mix = 128;
-        oscillators[i].dutyEnabled = 1;
+        oscillators[i].dutyEnabled = dutyEnabled;
         oscillators[i].duty = 0;
         oscillators[i].phase = 0;
         fOsc_init(&oscillators[i]);
@@ -139,19 +101,19 @@ void testFOscContinuousWithPots() {
             if(channel == 1) {
                 channel = 2;
             } else {
-                sample = sampleSum / NUMBER_OF_OSCILLATORS;
+                sample = sampleSum / numberOfOscillators;
                 sampleSum = 0;
                 channel = 1;
 
-                if(i != NUMBER_OF_OSCILLATORS) printf("UNDERRUN: ONLY %d SAMPLES GENERATED\n",i);
+                if(i != numberOfOscillators) printf("UNDERRUN: ONLY %d SAMPLES GENERATED\n",i);
                 i = 0;
             }
         }
 
-        if(i < channel * NUMBER_OF_OSCILLATORS / 2) {
+        if(i < channel * numberOfOscillators / 2) {
             sampleSum += fOsc_getNextSample(&oscillators[i]);
             i++;
-        } else {
+        } else if(potsEnabled){
 
             switch(updateStep++) {
             case 0:
@@ -184,7 +146,7 @@ void testFOscContinuousWithPots() {
             default:
                 updateStep = 0;
                 j++;
-                if(j == NUMBER_OF_OSCILLATORS) j = 0;
+                if(j == numberOfOscillators) j = 0;
                 break;
             }
         }
@@ -197,9 +159,9 @@ int main(void) {
     pots_initAndStart();
     timer_init();
 
-    testFOscOneShot();
-    testFOscContinuousWithPots();
-    //testFOscContinuous();
+    testFOscOneShot(25000,1);
+
+    testFOscContinuous(1,1,1);
 
     while(1);
 }
