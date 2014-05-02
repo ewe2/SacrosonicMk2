@@ -14,7 +14,13 @@
 
 #define POTS_TOTAL_OUTPUT_MAX (POTS_OVERSAMPLING * POTS_OUTPUT_MAX)
 
+#define POTS_ACTIVATION_THRESHOLD 0.02
+
 __IO uint16_t pots_values[POTS_DMA_ARRAY_SIZE]; // dma output array
+
+float pots_lastActiveRead[POTS_NUMBER];
+uint8_t pots_readSinceSwitch[POTS_NUMBER];
+uint8_t pots_isActive[POTS_NUMBER];
 
 void pots_dmaInit();
 void pots_adcInit();
@@ -22,5 +28,8 @@ void pots_start();
 void pots_initAndStart();
 
 float pots_getMappedAverage(uint16_t pot);
+int pots_readIfActive(uint16_t pot, float * output);
+
+void pots_switchFunction();
 
 #endif

@@ -97,3 +97,27 @@ float pots_getMappedAverage(uint16_t pot){
 
     return output;
 }
+
+int pots_readIfActive(uint16_t pot, float * output){
+    if(!pots_readSinceSwitch[pot]){
+        pots_lastActiveRead[pot] = pots_getMappedAverage(pot);
+        pots_readSinceSwitch[pot] = 1;
+        pots_isActive[pot] = 0;
+    } else {
+        float newValue = pots_getMappedAverage(pot);
+        if(pots_isActive[pot] // if the pot is active
+           || newValue + POTS_ACTIVATION_THRESHOLD < pots_lastActiveRead[pot] // or the pot is past the activation threshold
+           || newValue - POTS_ACTIVATION_THRESHOLD > pots_lastActiveRead[pot]){
+            pots_isActive[pot] = 1;
+            *output = newValue;
+        }
+    }
+    return pots_isActive[pot];
+}
+
+void pots_switchFunction(){
+    int i = 0;
+    for(i = 0; i < POTS_NUMBER; i++){
+        pots_readSinceSwitch[i] = 0;
+    }
+}

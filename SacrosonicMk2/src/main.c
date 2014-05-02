@@ -97,6 +97,7 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
     i = 0;
     uint8_t updateStep = 0;
     uint8_t selectedOscillator = 0;
+
     while(1) {
         if(SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE)) {
             SPI_I2S_SendData(CS43L22_I2S_PORT,sample);
@@ -116,13 +117,17 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
             sampleSum += fOsc_getNextSample(&oscillators[i]);
             i++;
         } else if(potsEnabled){
-
+            float newValue = 0.0;
             switch(updateStep++) {
             case 0:
-                oscillators[selectedOscillator].pitch.p.i = pots_getMappedAverage(PITCH_POT) * PITCH_RANGE + PITCH_BOTTOM;
+                if(pots_readIfActive(PITCH_POT,&newValue)){
+                    oscillators[selectedOscillator].pitch.p.i = newValue * PITCH_RANGE + PITCH_BOTTOM;
+                }
                 break;
             case 1:
-                oscillators[selectedOscillator].duty = pots_getMappedAverage(DUTY_POT) * (FOSC_DUTY_RESOLUTION - 16);
+                if(pots_readIfActive(DUTY_POT,&newValue)){
+                    oscillators[selectedOscillator].duty = newValue * (FOSC_DUTY_RESOLUTION - 16);
+                }
                 break;
             case 2:
                 fOsc_updateStepSizeBase(&oscillators[selectedOscillator]);
@@ -134,13 +139,19 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
                 fOsc_updateStepSizeLow(&oscillators[selectedOscillator]);
                 break;
             case 5:
-                oscillators[selectedOscillator].mix = pots_getMappedAverage(WAVEFORM_POT) * FOSC_MIX_RESOLUTION - 1;
+                if(pots_readIfActive(WAVEFORM_POT,&newValue)){
+                    oscillators[selectedOscillator].mix = newValue * FOSC_MIX_RESOLUTION - 1;
+                }
                 break;
             case 6:
-                oscillators[selectedOscillator].phase = pots_getMappedAverage(PHASE_POT) * WT_EFFECTIVE_SIZE - 1;
+               if(pots_readIfActive(PHASE_POT,&newValue)){
+                    oscillators[selectedOscillator].phase = newValue * WT_EFFECTIVE_SIZE - 1;
+                }
                 break;
             case 7:
-                oscillators[selectedOscillator].amplitude.c = pots_getMappedAverage(AMPLITUDE_POT) * UINT32_MAX;
+                if(pots_readIfActive(AMPLITUDE_POT,&newValue)){
+                    oscillators[selectedOscillator].amplitude.c = newValue * UINT32_MAX;
+                }
                 break;
             case 8:
                 fOsc_updateSwing(&oscillators[selectedOscillator]);
@@ -149,6 +160,7 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
                 if(btn_readOneShot(button)){
                     selectedOscillator++;
                     if(selectedOscillator >= numberOfOscillators) selectedOscillator = 0;
+                    pots_switchFunction();
                 }
                 updateStep = 0;
                 break;
@@ -199,7 +211,7 @@ int main(void) {
 
     testFOscOneShot(25000,1);
 
-    testFOscContinuous(5,1,1,&button1);
+    testFOscContinuous(2,1,1,&button1);
 
     while(1);
 }
