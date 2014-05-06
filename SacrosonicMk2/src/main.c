@@ -24,6 +24,7 @@
 #include "../timer/timer.h"
 #include "../leds/leds.h"
 #include "../buttons/buttons.h"
+#include "../midi/midi.h"
 
 #define PITCH_POT 0
 #define WAVEFORM_POT 1
@@ -229,7 +230,7 @@ int main(void) {
 
     //testButtonsAndLeds(&button1);
 
-    testPot(PITCH_POT);
+    //testPot(PITCH_POT);
 
     testFOscOneShot(25000,1);
 
