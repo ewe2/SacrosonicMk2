@@ -170,7 +170,7 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
     }
 }
 
-void testFOscContinuousWithEnvelope(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_t potsEnabled, Btn_struct * button) {
+void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_t potsEnabled, Btn_struct * button) {
 
     fOsc_struct oscillators[numberOfOscillators];
     int i = 0;
@@ -201,6 +201,10 @@ void testFOscContinuousWithEnvelope(uint8_t numberOfOscillators, uint8_t dutyEna
     uint8_t selectedOscillator = 0;
 
     float envSample = 0.0;
+
+    midi_init();
+
+    Midi_basicMsg midiMsg;
 
     while(1) {
         if(SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE)) {
@@ -263,14 +267,23 @@ void testFOscContinuousWithEnvelope(uint8_t numberOfOscillators, uint8_t dutyEna
                 break;
             case 9:
                 envSample = env_getNextSample(&env);
-            default:
-                if(btn_readOneShot(button)){
-                    if(!env.isHeld) {
-                        env_trigger(&env);
-                    } else {
-                        env_release(&env);
-                    }
+            case 10:
+                if(!midi_getMsgIfAble(&midiMsg)){
+                    midiMsg.msgType = 0;
                 }
+            case 11:
+                if(midiMsg.msgType == MIDI_MSG_TYPE_NOTE_ON){
+                    env_trigger(&env);
+                } else if(midiMsg.msgType == MIDI_MSG_TYPE_NOTE_OFF){
+                    env_release(&env);
+                }
+            case 12:
+                if(btn_readOneShot(button)){
+                    selectedOscillator++;
+                    if(selectedOscillator >= numberOfOscillators) selectedOscillator = 0;
+                    pots_switchFunction();
+                }
+            default:
                 updateStep = 0;
                 break;
             }
@@ -344,7 +357,7 @@ int main(void) {
     testFOscOneShot(25000,1);
 
     //testFOscContinuous(2,1,1,&button1);
-    testFOscContinuousWithEnvelope(1,1,1,&button1);
+    testFOscContinuousWithMidi(1,1,1,&button1);
 
     while(1);
 }
