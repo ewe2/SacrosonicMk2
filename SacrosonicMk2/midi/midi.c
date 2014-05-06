@@ -10,6 +10,40 @@ void midi_initBuffers() {
     midi_msgBufferIndex = 0;
 }
 
+void midi_initNotesTable(){
+
+    midi_notes[MIDI_NOTE_A4_INDEX].p.i = 440; // A4
+
+    FixedPoint currentNote;
+
+    int offset = 0;
+    int i = 0;
+    for(; i < 128; i++){
+        currentNote.c = midi_notes[MIDI_NOTE_A4_INDEX].c;
+
+        offset = i - MIDI_NOTE_A4_INDEX;
+
+        while(offset > 11){
+            offset -= 12;
+            currentNote.c <<= 1;
+        }
+        while(offset > 0){
+            offset--;
+            currentNote.c *= 1.059463; // roughly a semitone: 2^(1/12)
+        }
+
+        while(offset < -11){
+            offset += 12;
+            currentNote.c >>= 1;
+        }
+        while(offset < 0){
+            offset++;
+            currentNote.c *= 0.9438743; // roughly a semitone: 2^(-1/12)
+        }
+        midi_notes[i].c = currentNote.c;
+    }
+}
+
 void midi_initGpio() {
     RCC_AHB1PeriphClockCmd(MIDI_GPIO_PORT_RCC, ENABLE);
 
@@ -67,6 +101,7 @@ void midi_initDMA() {
 
 void midi_init() {
     midi_initBuffers();
+    midi_initNotesTable();
     midi_initGpio();
     midi_initUSART();
     midi_initDMA();

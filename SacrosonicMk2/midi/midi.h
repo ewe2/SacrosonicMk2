@@ -25,13 +25,17 @@
 #define MIDI_MSG_TYPE_CHAN_PRESSURE     0xD0
 #define MIDI_MSG_TYPE_PITCH_WHEEL       0xE0
 
-#define MIDI_BUFFER_RAW_SIZE 16
+#define MIDI_BUFFER_RAW_SIZE 32
 #define MIDI_BUFFER_MSGS_SIZE 16
+
+#define MIDI_NOTE_TABLE_SIZE 128
+#define MIDI_NOTE_A4_INDEX 69
 
 #include "stm32f4xx_conf.h"
 #include "stm32f4xx_usart.h"
 #include "stm32f4xx_dma.h"
 
+#include "fixedPoint.h"
 
 typedef struct {
     uint8_t msgType;
@@ -49,10 +53,14 @@ uint8_t midi_rawBufferIndex;
 Midi_basicMsg midi_msgBuffer[MIDI_BUFFER_MSGS_SIZE];
 uint8_t midi_msgBufferIndex;
 
+FixedPoint midi_notes[MIDI_NOTE_TABLE_SIZE];
+
+
+void midi_initBuffers();
+void midi_initNotesTable();
 void midi_initGpio();
 void midi_initUSART();
 void midi_initDMA();
-void midi_initBuffers();
 void midi_init();
 
 

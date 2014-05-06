@@ -227,43 +227,44 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
             i++;
         } else if(potsEnabled){
             float newValue = 0.0;
+            fOsc_struct * oscillator = &oscillators[selectedOscillator];
             switch(updateStep++) {
             case 0:
-                if(pots_readIfActive(PITCH_POT,&newValue)){
-                    oscillators[selectedOscillator].pitch.p.i = newValue * PITCH_RANGE + PITCH_BOTTOM;
-                }
+                /*if(pots_readIfActive(PITCH_POT,&newValue)){
+                    oscillator->pitch.p.i = newValue * PITCH_RANGE + PITCH_BOTTOM;
+                }*/
                 break;
             case 1:
                 if(pots_readIfActive(DUTY_POT,&newValue)){
-                    oscillators[selectedOscillator].duty = newValue * (FOSC_DUTY_RESOLUTION - 16);
+                    oscillator->duty = newValue * (FOSC_DUTY_RESOLUTION - 16);
                 }
                 break;
             case 2:
-                fOsc_updateStepSizeBase(&oscillators[selectedOscillator]);
+                fOsc_updateStepSizeBase(oscillator);
                 break;
             case 3:
-                fOsc_updateStepSizeHigh(&oscillators[selectedOscillator]);
+                fOsc_updateStepSizeHigh(oscillator);
                 break;
             case 4:
-                fOsc_updateStepSizeLow(&oscillators[selectedOscillator]);
+                fOsc_updateStepSizeLow(oscillator);
                 break;
             case 5:
                 if(pots_readIfActive(WAVEFORM_POT,&newValue)){
-                    oscillators[selectedOscillator].mix = newValue * FOSC_MIX_RESOLUTION - 1;
+                    oscillator->mix = newValue * FOSC_MIX_RESOLUTION - 1;
                 }
                 break;
             case 6:
                if(pots_readIfActive(PHASE_POT,&newValue)){
-                    oscillators[selectedOscillator].phase = newValue * WT_EFFECTIVE_SIZE - 1;
+                    oscillator->phase = newValue * WT_EFFECTIVE_SIZE - 1;
                 }
                 break;
             case 7:
                 if(pots_readIfActive(AMPLITUDE_POT,&newValue)){
-                    oscillators[selectedOscillator].amplitude.c = newValue * UINT32_MAX;
+                    oscillator->amplitude.c = newValue * UINT32_MAX;
                 }
                 break;
             case 8:
-                fOsc_updateSwing(&oscillators[selectedOscillator]);
+                fOsc_updateSwing(oscillator);
                 break;
             case 9:
                 envSample = env_getNextSample(&env);
@@ -273,7 +274,12 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
                 }
             case 11:
                 if(midiMsg.msgType == MIDI_MSG_TYPE_NOTE_ON){
-                    env_trigger(&env);
+                    if(midiMsg.dataBytes[1] == 0){
+                        env_release(&env);
+                    } else {
+                        oscillator->pitch.c = midi_notes[midiMsg.dataBytes[0]].c;
+                        env_trigger(&env);
+                    }
                 } else if(midiMsg.msgType == MIDI_MSG_TYPE_NOTE_OFF){
                     env_release(&env);
                 }
