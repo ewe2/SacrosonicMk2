@@ -25,8 +25,12 @@
 #define MIDI_MSG_TYPE_CHAN_PRESSURE     0xD0
 #define MIDI_MSG_TYPE_PITCH_WHEEL       0xE0
 
-#define MIDI_BUFFER_RAW_SIZE 32
-#define MIDI_BUFFER_MSGS_SIZE 16
+#define MIDI_MSG_STATUS_CLEAR       0x00
+#define MIDI_MSG_STATUS_INITIALIZED 0x01
+#define MIDI_MSG_STATUS_UNREAD      0x02
+
+#define MIDI_RAW_BUFFER_SIZE 30
+#define MIDI_MSG_BUFFER_SIZE 8
 
 #define MIDI_NOTE_TABLE_SIZE 128
 #define MIDI_NOTE_A4_INDEX 69
@@ -43,18 +47,18 @@ typedef struct {
     uint8_t dataBytes[MIDI_BASIC_MSG_DATABYTES_MAX];
     uint8_t numberOfDataBytes;
     uint8_t dataByteIndex;
+    uint8_t status;
 } Midi_basicMsg;
 
-__IO uint8_t midi_rawBuffer[MIDI_BUFFER_RAW_SIZE];
-uint8_t midi_rawBufferShadow[MIDI_BUFFER_RAW_SIZE];
+__IO uint8_t midi_rawBuffer[MIDI_RAW_BUFFER_SIZE];
 
 uint8_t midi_rawBufferIndex;
 
-Midi_basicMsg midi_msgBuffer[MIDI_BUFFER_MSGS_SIZE];
-uint8_t midi_msgBufferIndex;
+Midi_basicMsg midi_msgBuffer[MIDI_MSG_BUFFER_SIZE];
+uint8_t midi_msgBufferWriteIndex;
+uint8_t midi_msgBufferReadIndex;
 
 FixedPoint midi_notes[MIDI_NOTE_TABLE_SIZE];
-
 
 void midi_initBuffers();
 void midi_initNotesTable();
@@ -62,8 +66,6 @@ void midi_initGpio();
 void midi_initUSART();
 void midi_initDMA();
 void midi_init();
-
-
 
 uint8_t midi_getNumberOfDataBytesForMsgType(uint8_t msgType);
 

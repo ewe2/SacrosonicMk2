@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <EmBlocks_layout_file>
-	<ActiveTarget name="Release" />
+	<ActiveTarget name="Debug" />
 	<File name="SPL\src\stm32f4xx_spi.c" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="45982" topLine="1112" />
+		</Cursor>
+	</File>
+	<File name="buttons\buttons.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="29" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="buttons\buttons.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="349" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="cs43l22\cs43l22.c" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -33,22 +43,22 @@
 	</File>
 	<File name="envelope\envelope.c" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="812" topLine="7" />
+			<Cursor1 position="1447" topLine="14" />
 		</Cursor>
 	</File>
-	<File name="envelope\envelope.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="envelope\envelope.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="95" topLine="0" />
+			<Cursor1 position="401" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="fastOsc\fastOsc.c" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="fastOsc\fastOsc.c" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="831" topLine="0" />
+			<Cursor1 position="504" topLine="3" />
 		</Cursor>
 	</File>
-	<File name="fastOsc\fastOsc.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="fastOsc\fastOsc.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="449" topLine="8" />
+			<Cursor1 position="257" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="hardFaultHandler\hardFaultHandler.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -66,6 +76,16 @@
 			<Cursor1 position="318" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="midi\midi.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1187" topLine="20" />
+		</Cursor>
+	</File>
+	<File name="midi\midi.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1838" topLine="22" />
+		</Cursor>
+	</File>
 	<File name="osc\osc.c" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="2560" topLine="0" />
@@ -76,9 +96,9 @@
 			<Cursor1 position="1489" topLine="24" />
 		</Cursor>
 	</File>
-	<File name="pots\pots.c" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="pots\pots.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1801" topLine="21" />
+			<Cursor1 position="3572" topLine="78" />
 		</Cursor>
 	</File>
 	<File name="pots\pots.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -86,20 +106,17 @@
 			<Cursor1 position="452" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\main.c" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\main.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="6719" topLine="27" />
+			<Cursor1 position="7712" topLine="65" />
 		</Cursor>
 		<Folding>
-			<Collapse line="36" />
-			<Collapse line="73" />
-			<Collapse line="171" />
-			<Collapse line="216" />
+			<Collapse line="74" />
 		</Folding>
 	</File>
-	<File name="src\startup_stm32f4xx.S" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\startup_stm32f4xx.S" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="9439" topLine="187" />
+			<Cursor1 position="9439" topLine="169" />
 		</Cursor>
 	</File>
 	<File name="timer\timer.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">

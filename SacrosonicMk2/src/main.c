@@ -205,7 +205,6 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
     midi_init();
 
     Midi_basicMsg midiMsg;
-
     while(1) {
         if(SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE)) {
             SPI_I2S_SendData(CS43L22_I2S_PORT,sample);
@@ -214,7 +213,7 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
             } else {
                 channel = 1;
 
-                sample = (sampleSum / numberOfOscillators) * envSample;
+                sample = (sampleSum / numberOfOscillators);
                 sampleSum = 0;
 
                 if(i != numberOfOscillators) printf("UNDERRUN: ONLY %d SAMPLES GENERATED\n",i);
@@ -223,16 +222,16 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
         }
 
         if(i < channel * numberOfOscillators / 2) {
-            sampleSum += fOsc_getNextSample(&oscillators[i]);
+            sampleSum += envSample * fOsc_getNextSample(&oscillators[i]);
             i++;
         } else if(potsEnabled){
             float newValue = 0.0;
             fOsc_struct * oscillator = &oscillators[selectedOscillator];
             switch(updateStep++) {
             case 0:
-                /*if(pots_readIfActive(PITCH_POT,&newValue)){
-                    oscillator->pitch.p.i = newValue * PITCH_RANGE + PITCH_BOTTOM;
-                }*/
+                if(pots_readIfActive(PITCH_POT,&newValue)){
+                    env.attack = newValue * TIMER_CLOCK_SPEED;
+                }
                 break;
             case 1:
                 if(pots_readIfActive(DUTY_POT,&newValue)){

@@ -2,12 +2,17 @@
 
 void midi_initBuffers() {
     int i = 0;
-    for(i = 0; i < MIDI_BUFFER_RAW_SIZE; i++) {
-        midi_rawBuffer[i] = midi_rawBufferShadow[i] = 0xff;
+    for(i = 0; i < MIDI_RAW_BUFFER_SIZE; i++) {
+        midi_rawBuffer[i] = 0xff;
     }
 
     midi_rawBufferIndex = 0;
-    midi_msgBufferIndex = 0;
+    midi_msgBufferWriteIndex = 0;
+    midi_msgBufferReadIndex = 0;
+
+    for(i = 0; i < MIDI_MSG_BUFFER_SIZE; i++){
+        midi_msgBuffer[i].status = MIDI_MSG_STATUS_CLEAR;
+    }
 }
 
 void midi_initNotesTable(){
@@ -82,7 +87,7 @@ void midi_initDMA() {
     dmaInitStruct.DMA_PeripheralBaseAddr = (uint32_t)(&MIDI_USART_PORT->DR);
     dmaInitStruct.DMA_Memory0BaseAddr = (uint32_t)midi_rawBuffer;
     dmaInitStruct.DMA_DIR = DMA_DIR_PeripheralToMemory;
-    dmaInitStruct.DMA_BufferSize = MIDI_BUFFER_RAW_SIZE;
+    dmaInitStruct.DMA_BufferSize = MIDI_RAW_BUFFER_SIZE;
     dmaInitStruct.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
     dmaInitStruct.DMA_MemoryInc = DMA_MemoryInc_Enable;
     dmaInitStruct.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
@@ -132,26 +137,33 @@ uint8_t midi_getNumberOfDataBytesForMsgType(uint8_t msgType) {
 void midi_catchUpWithRawBuffer() {
     uint8_t currentByte = 0;
     Midi_basicMsg * currentMsg;
-    while(midi_rawBufferShadow[midi_rawBufferIndex] != midi_rawBuffer[midi_rawBufferIndex]) {
-
-        if(midi_msgBufferIndex < MIDI_BUFFER_MSGS_SIZE) { // space left in buffer?
+    while(midi_rawBuffer[midi_rawBufferIndex] != 0xff) {
+        if(midi_msgBuffer[midi_msgBufferWriteIndex].status != MIDI_MSG_STATUS_UNREAD) { // space left in buffer?
             currentByte = midi_rawBuffer[midi_rawBufferIndex];
-            currentMsg = &midi_msgBuffer[midi_msgBufferIndex];
+            currentMsg = &midi_msgBuffer[midi_msgBufferWriteIndex];
 
             if(currentByte > 127) { // status byte?
                 currentMsg->msgType = currentByte & 0xf0;
                 currentMsg->lowNibble = currentByte & 0x0f;
                 currentMsg->numberOfDataBytes = midi_getNumberOfDataBytesForMsgType(currentMsg->msgType);
                 currentMsg->dataByteIndex = 0;
+                currentMsg->status = MIDI_MSG_STATUS_INITIALIZED;
 
-            } else if(currentMsg->msgType != 0 // current message has been initialized?
+            } else if(currentMsg->status == MIDI_MSG_STATUS_INITIALIZED // current message has been initialized?
                     && currentMsg->dataByteIndex < currentMsg->numberOfDataBytes) { // still space left for more databytes?
                 currentMsg->dataBytes[currentMsg->dataByteIndex++] = currentByte;
-                if(currentMsg->dataByteIndex == currentMsg->numberOfDataBytes) midi_msgBufferIndex++;// msg is complete, increment msgBuffer index
             }
 
-            midi_rawBufferShadow[midi_rawBufferIndex++] = currentByte;
-            if(midi_rawBufferIndex == MIDI_BUFFER_RAW_SIZE) midi_rawBufferIndex = 0;
+            if(currentMsg->status == MIDI_MSG_STATUS_INITIALIZED // current message initialized?
+                && currentMsg->dataByteIndex == currentMsg->numberOfDataBytes) { // current message full and ready?
+
+                currentMsg->status = MIDI_MSG_STATUS_UNREAD; // mark as unread and on to the next one
+                midi_msgBufferWriteIndex++;
+                if(midi_msgBufferWriteIndex == MIDI_MSG_BUFFER_SIZE) midi_msgBufferWriteIndex = 0;
+            }
+
+            midi_rawBuffer[midi_rawBufferIndex++] = 0xff;
+            if(midi_rawBufferIndex == MIDI_RAW_BUFFER_SIZE) midi_rawBufferIndex = 0;
         } else { // no space left in buffer
             break; // break from loop and come back next function call
         }
@@ -160,10 +172,16 @@ void midi_catchUpWithRawBuffer() {
 
 int midi_getMsgIfAble(Midi_basicMsg * msg) {
     midi_catchUpWithRawBuffer();
-    if(midi_msgBufferIndex > 0){ // a message is ready
-        *msg = midi_msgBuffer[--midi_msgBufferIndex];
 
-        midi_msgBuffer[midi_msgBufferIndex].msgType = 0; // clear msgType to indicate that it has been read.
+    Midi_basicMsg * outputMsg = &midi_msgBuffer[midi_msgBufferReadIndex];
+
+    if(outputMsg->status == MIDI_MSG_STATUS_UNREAD){ // message is ready
+        *msg = *outputMsg;
+
+        outputMsg->status = MIDI_MSG_STATUS_CLEAR; // clear status to indicate that it has been read.
+
+        midi_msgBufferReadIndex++;
+        if(midi_msgBufferReadIndex == MIDI_MSG_BUFFER_SIZE) midi_msgBufferReadIndex = 0;
         return 1;
     }
     return 0;
