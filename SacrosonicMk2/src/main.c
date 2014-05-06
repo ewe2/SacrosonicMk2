@@ -194,6 +194,26 @@ void testButtonsAndLeds(Btn_struct * button){
     }
 }
 
+void testPot(uint8_t pot){
+
+    float potValue = 0.0;
+    while(1){
+        pots_readIfActive(pot,&potValue);
+        if(potValue < 0.25){
+            led_setAll(0,0,0,0);
+        } else if(potValue < 0.5){
+            led_setAll(1,0,0,0);
+        } else if(potValue < 0.75){
+            led_setAll(1,1,0,0);
+        } else if(potValue < 1.0){
+            led_setAll(1,1,1,0);
+        } else {
+            led_setAll(1,1,1,1);
+        }
+        timer_delay(0.1);
+    }
+}
+
 int main(void) {
     printf("\f\n");
     osc_init();
@@ -208,6 +228,8 @@ int main(void) {
     btn_init(&button1);
 
     //testButtonsAndLeds(&button1);
+
+    testPot(PITCH_POT);
 
     testFOscOneShot(25000,1);
 
