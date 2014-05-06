@@ -217,7 +217,7 @@
 1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\inc\stm32f4xx_wwdg.h
 	"stm32f4xx.h"
 
-1399379233 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
+1399379562 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
 	"stm32f4xx_conf.h"
 	<stdio.h>
 	"../osc/osc.h"
@@ -298,8 +298,9 @@
 
 1398426956 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\lfo\lfo.h
 
-1398807237 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\fastosc\fastosc.h
+1399380029 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\fastosc\fastosc.h
 	"../wavetable/wavetable.h"
+	"fixedPoint.h"
 
 1398865894 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\fastosc\fastosc.c
 	"fastOsc.h"
@@ -329,4 +330,6 @@
 	"stm32f4xx_conf.h"
 	"stm32f4xx_usart.h"
 	"stm32f4xx_dma.h"
+
+1399380019 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\inc\fixedpoint.h
 

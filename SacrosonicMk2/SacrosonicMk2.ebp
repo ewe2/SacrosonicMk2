@@ -229,6 +229,7 @@
 		<Unit filename="hardFaultHandler\hardFaultHandler.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="inc\fixedPoint.h" />
 		<Unit filename="inc\stm32f4xx.h" />
 		<Unit filename="inc\stm32f4xx_conf.h" />
 		<Unit filename="inc\system_stm32f4xx.h" />

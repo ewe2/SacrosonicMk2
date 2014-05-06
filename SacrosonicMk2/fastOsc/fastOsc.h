@@ -2,17 +2,9 @@
 #define FASTOSC_H_INCLUDED
 
 #include "../wavetable/wavetable.h"
-
+#include "fixedPoint.h"
 #define FOSC_DUTY_RESOLUTION 256
 #define FOSC_MIX_RESOLUTION 256
-
-typedef union {
-    struct {
-        uint16_t f;
-        uint16_t i;
-    } p;
-    uint32_t c;
-} FixedPoint;
 
 typedef struct{
     FixedPoint sampleRate;
