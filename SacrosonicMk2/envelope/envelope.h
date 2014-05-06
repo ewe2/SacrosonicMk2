@@ -1,14 +1,13 @@
 #ifndef ENVELOPE_H_INCLUDED
 #define ENVELOPE_H_INCLUDED
 
-#define ENV_SAMPLE_RATE (96000 / 32)
-#define ENV_SAMPLE_PERIOD (1.0 / ENV_SAMPLE_RATE)
+#include "../timer/timer.h"
 
-#define ENV_HOLD_DEFAULT 1.0
-#define ENV_ATTACK_DEFAULT 0.01
-#define ENV_DECAY_DEFAULT 0.1
+#define ENV_ATTACK_DEFAULT (0.5 * TIMER_CLOCK_SPEED)
+#define ENV_DECAY_DEFAULT (0.1 * TIMER_CLOCK_SPEED)
 #define ENV_SUSTAIN_DEFAULT 0.5
-#define ENV_RELEASE_DEFAULT 0.5
+#define ENV_RELEASE_DEFAULT (0.5 * TIMER_CLOCK_SPEED)
+#define ENV_PEAK_DEFAULT 1.0
 
 typedef enum {
     ENV_STATE_ATTACK,
@@ -16,21 +15,23 @@ typedef enum {
     ENV_STATE_SUSTAIN,
     ENV_STATE_RELEASE,
     ENV_STATE_DEAD
-} env_State;
+} Env_state;
 
 typedef struct {
-    env_State state;
+    Env_state state;
+    uint8_t isHeld;
     float output;
-    float runTime;
-    float hold;
+    float lastSampleTime;
     float attack;
     float decay;
     float sustain;
     float release;
-} env_Envelope;
+    float peak;
+} Env_envelope;
 
-void env_init(env_Envelope * envelope);
-float env_getNextSample(env_Envelope * envelope);
-void env_trigger(env_Envelope * envelope);
+void env_init(Env_envelope * env);
+float env_getNextSample(Env_envelope * env);
+void env_trigger(Env_envelope * env);
+void env_release(Env_envelope * env);
 
 #endif /* ENVELOPE_H_INCLUDED */

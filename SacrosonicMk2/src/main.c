@@ -170,6 +170,115 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
     }
 }
 
+void testFOscContinuousWithEnvelope(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_t potsEnabled, Btn_struct * button) {
+
+    fOsc_struct oscillators[numberOfOscillators];
+    int i = 0;
+    for(; i < numberOfOscillators; i++) {
+        oscillators[i].sampleRate.p.i = 48000;
+        oscillators[i].sampleRate.p.f = 0;
+        oscillators[i].pitch.p.i = 440;
+        oscillators[i].pitch.p.f = 0;
+        oscillators[i].amplitude.p.i = (1 << 14);
+        oscillators[i].amplitude.p.f = 0;
+        oscillators[i].waveTable1 = wt_sine;
+        oscillators[i].waveTable2 = wt_square;
+        oscillators[i].mix = 128;
+        oscillators[i].dutyEnabled = dutyEnabled;
+        oscillators[i].duty = 0;
+        oscillators[i].phase = 0;
+        fOsc_init(&oscillators[i]);
+    }
+
+    Env_envelope env;
+    env_init(&env);
+
+    int16_t sample = 0;
+    int32_t sampleSum = 0;
+    uint8_t channel = 1;
+    i = 0;
+    uint8_t updateStep = 0;
+    uint8_t selectedOscillator = 0;
+
+    float envSample = 0.0;
+
+    while(1) {
+        if(SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE)) {
+            SPI_I2S_SendData(CS43L22_I2S_PORT,sample);
+            if(channel == 1) {
+                channel = 2;
+            } else {
+                channel = 1;
+
+                sample = (sampleSum / numberOfOscillators) * envSample;
+                sampleSum = 0;
+
+                if(i != numberOfOscillators) printf("UNDERRUN: ONLY %d SAMPLES GENERATED\n",i);
+                i = 0;
+            }
+        }
+
+        if(i < channel * numberOfOscillators / 2) {
+            sampleSum += fOsc_getNextSample(&oscillators[i]);
+            i++;
+        } else if(potsEnabled){
+            float newValue = 0.0;
+            switch(updateStep++) {
+            case 0:
+                if(pots_readIfActive(PITCH_POT,&newValue)){
+                    oscillators[selectedOscillator].pitch.p.i = newValue * PITCH_RANGE + PITCH_BOTTOM;
+                }
+                break;
+            case 1:
+                if(pots_readIfActive(DUTY_POT,&newValue)){
+                    oscillators[selectedOscillator].duty = newValue * (FOSC_DUTY_RESOLUTION - 16);
+                }
+                break;
+            case 2:
+                fOsc_updateStepSizeBase(&oscillators[selectedOscillator]);
+                break;
+            case 3:
+                fOsc_updateStepSizeHigh(&oscillators[selectedOscillator]);
+                break;
+            case 4:
+                fOsc_updateStepSizeLow(&oscillators[selectedOscillator]);
+                break;
+            case 5:
+                if(pots_readIfActive(WAVEFORM_POT,&newValue)){
+                    oscillators[selectedOscillator].mix = newValue * FOSC_MIX_RESOLUTION - 1;
+                }
+                break;
+            case 6:
+               if(pots_readIfActive(PHASE_POT,&newValue)){
+                    oscillators[selectedOscillator].phase = newValue * WT_EFFECTIVE_SIZE - 1;
+                }
+                break;
+            case 7:
+                if(pots_readIfActive(AMPLITUDE_POT,&newValue)){
+                    oscillators[selectedOscillator].amplitude.c = newValue * UINT32_MAX;
+                }
+                break;
+            case 8:
+                fOsc_updateSwing(&oscillators[selectedOscillator]);
+                break;
+            case 9:
+                envSample = env_getNextSample(&env);
+            default:
+                if(btn_readOneShot(button)){
+                    if(!env.isHeld) {
+                        env_trigger(&env);
+                    } else {
+                        env_release(&env);
+                    }
+                }
+                updateStep = 0;
+                break;
+            }
+        }
+    }
+}
+
+
 void testButtonsAndLeds(Btn_struct * button){
     int ledState = 1;
     while(1){
@@ -234,7 +343,8 @@ int main(void) {
 
     testFOscOneShot(25000,1);
 
-    testFOscContinuous(2,1,1,&button1);
+    //testFOscContinuous(2,1,1,&button1);
+    testFOscContinuousWithEnvelope(1,1,1,&button1);
 
     while(1);
 }
