@@ -25,6 +25,7 @@
 #include "../leds/leds.h"
 #include "../buttons/buttons.h"
 #include "../midi/midi.h"
+#include "../poly/poly.h"
 
 #define PITCH_POT 0
 #define WAVEFORM_POT 1
@@ -48,7 +49,7 @@ void testFOscOneShot(uint16_t numberOfTests, uint8_t dutyEnabled) {
     oscillator.mix = 100;
     oscillator.dutyEnabled = dutyEnabled;
     oscillator.duty = 207;
-    fOsc_init(&oscillator);
+    fOsc_init(&oscillator,0);
 
     uint16_t samples[numberOfTests];
     uint32_t startTime;
@@ -89,7 +90,7 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
         oscillators[i].dutyEnabled = dutyEnabled;
         oscillators[i].duty = 0;
         oscillators[i].phase = 0;
-        fOsc_init(&oscillators[i]);
+        fOsc_init(&oscillators[i],0);
     }
 
     int16_t sample = 0;
@@ -117,16 +118,16 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
         if(i < channel * numberOfOscillators / 2) {
             sampleSum += fOsc_getNextSample(&oscillators[i]);
             i++;
-        } else if(potsEnabled){
+        } else if(potsEnabled) {
             float newValue = 0.0;
             switch(updateStep++) {
             case 0:
-                if(pots_readIfActive(PITCH_POT,&newValue)){
+                if(pots_readIfActive(PITCH_POT,&newValue)) {
                     oscillators[selectedOscillator].pitch.p.i = newValue * PITCH_RANGE + PITCH_BOTTOM;
                 }
                 break;
             case 1:
-                if(pots_readIfActive(DUTY_POT,&newValue)){
+                if(pots_readIfActive(DUTY_POT,&newValue)) {
                     oscillators[selectedOscillator].duty = newValue * (FOSC_DUTY_RESOLUTION - 16);
                 }
                 break;
@@ -140,17 +141,17 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
                 fOsc_updateStepSizeLow(&oscillators[selectedOscillator]);
                 break;
             case 5:
-                if(pots_readIfActive(WAVEFORM_POT,&newValue)){
+                if(pots_readIfActive(WAVEFORM_POT,&newValue)) {
                     oscillators[selectedOscillator].mix = newValue * FOSC_MIX_RESOLUTION - 1;
                 }
                 break;
             case 6:
-               if(pots_readIfActive(PHASE_POT,&newValue)){
+                if(pots_readIfActive(PHASE_POT,&newValue)) {
                     oscillators[selectedOscillator].phase = newValue * WT_EFFECTIVE_SIZE - 1;
                 }
                 break;
             case 7:
-                if(pots_readIfActive(AMPLITUDE_POT,&newValue)){
+                if(pots_readIfActive(AMPLITUDE_POT,&newValue)) {
                     oscillators[selectedOscillator].amplitude.c = newValue * UINT32_MAX;
                 }
                 break;
@@ -158,7 +159,7 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
                 fOsc_updateSwing(&oscillators[selectedOscillator]);
                 break;
             default:
-                if(btn_readOneShot(button)){
+                if(btn_readOneShot(button)) {
                     selectedOscillator++;
                     if(selectedOscillator >= numberOfOscillators) selectedOscillator = 0;
                     pots_switchFunction();
@@ -179,6 +180,7 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
         oscillators[i].sampleRate.p.f = 0;
         oscillators[i].pitch.p.i = 440;
         oscillators[i].pitch.p.f = 0;
+        oscillators[i].pitchOffset = 1.0;
         oscillators[i].amplitude.p.i = (1 << 14);
         oscillators[i].amplitude.p.f = 0;
         oscillators[i].waveTable1 = wt_sine;
@@ -187,7 +189,7 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
         oscillators[i].dutyEnabled = dutyEnabled;
         oscillators[i].duty = 0;
         oscillators[i].phase = 0;
-        fOsc_init(&oscillators[i]);
+        fOsc_init(&oscillators[i],0);
     }
 
     Env_envelope env;
@@ -224,17 +226,17 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
         if(i < channel * numberOfOscillators / 2) {
             sampleSum += envSample * fOsc_getNextSample(&oscillators[i]);
             i++;
-        } else if(potsEnabled){
+        } else if(potsEnabled) {
             float newValue = 0.0;
             fOsc_struct * oscillator = &oscillators[selectedOscillator];
             switch(updateStep++) {
             case 0:
-                if(pots_readIfActive(PITCH_POT,&newValue)){
-                    env.attack = newValue * TIMER_CLOCK_SPEED;
+                if(pots_readIfActive(PITCH_POT,&newValue)) {
+                    oscillator->pitchOffset = newValue * 3 + 0.5;
                 }
                 break;
             case 1:
-                if(pots_readIfActive(DUTY_POT,&newValue)){
+                if(pots_readIfActive(DUTY_POT,&newValue)) {
                     oscillator->duty = newValue * (FOSC_DUTY_RESOLUTION - 16);
                 }
                 break;
@@ -248,17 +250,17 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
                 fOsc_updateStepSizeLow(oscillator);
                 break;
             case 5:
-                if(pots_readIfActive(WAVEFORM_POT,&newValue)){
+                if(pots_readIfActive(WAVEFORM_POT,&newValue)) {
                     oscillator->mix = newValue * FOSC_MIX_RESOLUTION - 1;
                 }
                 break;
             case 6:
-               if(pots_readIfActive(PHASE_POT,&newValue)){
+                if(pots_readIfActive(PHASE_POT,&newValue)) {
                     oscillator->phase = newValue * WT_EFFECTIVE_SIZE - 1;
                 }
                 break;
             case 7:
-                if(pots_readIfActive(AMPLITUDE_POT,&newValue)){
+                if(pots_readIfActive(AMPLITUDE_POT,&newValue)) {
                     oscillator->amplitude.c = newValue * UINT32_MAX;
                 }
                 break;
@@ -267,27 +269,31 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
                 break;
             case 9:
                 envSample = env_getNextSample(&env);
+                break;
             case 10:
-                if(!midi_getMsgIfAble(&midiMsg)){
+                if(!midi_getMsgIfAble(&midiMsg)) {
                     midiMsg.msgType = 0;
                 }
+                break;
             case 11:
-                if(midiMsg.msgType == MIDI_MSG_TYPE_NOTE_ON){
-                    if(midiMsg.dataBytes[1] == 0){
+                if(midiMsg.msgType == MIDI_MSG_TYPE_NOTE_ON) {
+                    if(midiMsg.dataBytes[1] == 0) {
                         env_release(&env);
                     } else {
                         oscillator->pitch.c = midi_notes[midiMsg.dataBytes[0]].c;
                         env_trigger(&env);
                     }
-                } else if(midiMsg.msgType == MIDI_MSG_TYPE_NOTE_OFF){
+                } else if(midiMsg.msgType == MIDI_MSG_TYPE_NOTE_OFF) {
                     env_release(&env);
                 }
+                break;
             case 12:
-                if(btn_readOneShot(button)){
+                if(btn_readOneShot(button)) {
                     selectedOscillator++;
                     if(selectedOscillator >= numberOfOscillators) selectedOscillator = 0;
                     pots_switchFunction();
                 }
+                break;
             default:
                 updateStep = 0;
                 break;
@@ -296,12 +302,60 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
     }
 }
 
+void testFOscContinuousPolyphonicMidi() {
+    ply_init();
+    midi_init();
 
-void testButtonsAndLeds(Btn_struct * button){
+    int16_t sample = 0;
+    uint8_t channel = 1;
+    uint8_t updateStep = 0;
+
+    Midi_basicMsg midiMsg;
+
+    while(1) {
+        if(SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE)) {
+            SPI_I2S_SendData(CS43L22_I2S_PORT,sample);
+            if(channel == 1) {
+                channel = 2;
+            } else {
+                channel = 1;
+                sample = ply_getNextSample();
+            }
+        }
+
+        switch(updateStep++) {
+        default:
+            ply_makeUpdateStep();
+            break;
+        case 3:
+            if(!midi_getMsgIfAble(&midiMsg)) {
+                midiMsg.msgType = 0;
+            }
+            break;
+        case 5:
+            if(midiMsg.msgType == MIDI_MSG_TYPE_NOTE_ON) {
+                if(midiMsg.dataBytes[1] == 0) {
+                    ply_noteOff(midiMsg.dataBytes[0]);
+                } else {
+                    ply_noteOn(midiMsg.dataBytes[0]);
+                }
+            } else if(midiMsg.msgType == MIDI_MSG_TYPE_NOTE_OFF) {
+                ply_noteOff(midiMsg.dataBytes[0]);
+            }
+            break;
+        case 7:
+            updateStep = 0;
+            break;
+        }
+
+    }
+}
+
+void testButtonsAndLeds(Btn_struct * button) {
     int ledState = 1;
-    while(1){
-        if(btn_readOneShot(button)){
-            switch(ledState++){
+    while(1) {
+        if(btn_readOneShot(button)) {
+            switch(ledState++) {
             case 1:
                 led_setAll(1,0,0,0);
                 break;
@@ -322,18 +376,18 @@ void testButtonsAndLeds(Btn_struct * button){
     }
 }
 
-void testPot(uint8_t pot){
+void testPot(uint8_t pot) {
 
     float potValue = 0.0;
-    while(1){
+    while(1) {
         pots_readIfActive(pot,&potValue);
-        if(potValue < 0.25){
+        if(potValue < 0.25) {
             led_setAll(0,0,0,0);
-        } else if(potValue < 0.5){
+        } else if(potValue < 0.5) {
             led_setAll(1,0,0,0);
-        } else if(potValue < 0.75){
+        } else if(potValue < 0.75) {
             led_setAll(1,1,0,0);
-        } else if(potValue < 1.0){
+        } else if(potValue < 1.0) {
             led_setAll(1,1,1,0);
         } else {
             led_setAll(1,1,1,1);
@@ -341,6 +395,8 @@ void testPot(uint8_t pot){
         timer_delay(0.1);
     }
 }
+
+
 
 int main(void) {
     printf("\f\n");
@@ -359,10 +415,11 @@ int main(void) {
 
     //testPot(PITCH_POT);
 
-    testFOscOneShot(25000,1);
+    //testFOscOneShot(25000,1);
 
     //testFOscContinuous(2,1,1,&button1);
-    testFOscContinuousWithMidi(1,1,1,&button1);
+    //testFOscContinuousWithMidi(1,1,1,&button1);
+    testFOscContinuousPolyphonicMidi();
 
     while(1);
 }

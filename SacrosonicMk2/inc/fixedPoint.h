@@ -1,6 +1,8 @@
 #ifndef FIXEDPOINT_H_INCLUDED
 #define FIXEDPOINT_H_INCLUDED
 
+#include <stdint.h>
+
 typedef union {
     struct {
         uint16_t f;

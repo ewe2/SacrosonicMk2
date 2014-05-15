@@ -5,7 +5,7 @@ void fOsc_updateSwing(fOsc_struct * oscillator) {
 }
 
 void fOsc_updateStepSizeBase(fOsc_struct * oscillator) {
-    oscillator->stepSizeBase.c = ((float)oscillator->pitch.c / oscillator->sampleRate.p.i) * WT_EFFECTIVE_SIZE;
+    oscillator->stepSizeBase.c = ((oscillator->pitch.c * oscillator->pitchOffset) / oscillator->sampleRate.p.i) * WT_EFFECTIVE_SIZE;
 }
 
 void fOsc_updateStepSizeHigh(fOsc_struct * oscillator) {
@@ -23,34 +23,38 @@ void fOsc_updateDerivatives(fOsc_struct * oscillator) {
     fOsc_updateStepSizeLow(oscillator);
 }
 
-void fOsc_init(fOsc_struct * oscillator) {
-    if(oscillator->sampleRate.p.i < 8000) {
+void fOsc_init(fOsc_struct * oscillator, uint8_t init) {
+    if(oscillator->sampleRate.p.i < 8000 || init) {
         oscillator->sampleRate.p.i = 48000;
     }
 
-    if(oscillator->pitch.p.i > 20000) {
+    if(oscillator->pitch.p.i > 20000 || init) {
         oscillator->pitch.p.i = 440;
         oscillator->pitch.p.f = 0;
     }
 
-    if(oscillator->waveTable1 != wt_sine && oscillator->waveTable1 != wt_tri && oscillator->waveTable1 != wt_square) {
+    if(oscillator->pitchOffset < 0 || oscillator->pitchOffset > 10 || init){
+        oscillator->pitchOffset = 1.0;
+    }
+
+    if((oscillator->waveTable1 != wt_sine && oscillator->waveTable1 != wt_tri && oscillator->waveTable1 != wt_square) || init) {
         oscillator->waveTable1 = wt_sine;
     }
-    if(oscillator->waveTable2 != wt_sine && oscillator->waveTable2 != wt_tri && oscillator->waveTable2 != wt_square) {
+    if((oscillator->waveTable2 != wt_sine && oscillator->waveTable2 != wt_tri && oscillator->waveTable2 != wt_square )|| init) {
         oscillator->waveTable2 = wt_square;
     }
 
-    // not initializing mix because it can't break anything
-
-    // not initializing amplitude because it can't break anything
-
-    if(oscillator->dutyEnabled > 1){ // should be 1 for on and 0 for off, if it is more than 1, value has not yet been initialized
+    if(oscillator->dutyEnabled > 1 || init){ // should be 1 for on and 0 for off, if it is more than 1, value has not yet been initialized
         oscillator->dutyEnabled = 0;
     }
 
-    // not initializing duty because it can't break anything
-
-    // not initializing phase because it can't break anything
+    if(init){
+        oscillator->mix = 0;
+        oscillator->amplitude.p.i = (1 << 15);
+        oscillator->amplitude.p.f = 0;
+        oscillator->duty = 0;
+        oscillator->phase = 0;
+    }
 
     oscillator->index.c = 0;
 

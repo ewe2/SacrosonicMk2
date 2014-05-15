@@ -10,6 +10,8 @@ typedef struct{
     FixedPoint sampleRate;
     FixedPoint pitch;
 
+    float pitchOffset;
+
     float * waveTable1;
     float * waveTable2;
 
@@ -36,7 +38,7 @@ void fOsc_updateStepSizeLow(fOsc_struct * oscillator);
 
 void fOsc_updateDerivatives(fOsc_struct * oscillator);
 
-void fOsc_init(fOsc_struct * oscillator);
+void fOsc_init(fOsc_struct * oscillator, uint8_t init);
 
 int16_t fOsc_getNextSample(fOsc_struct * oscillator);
 

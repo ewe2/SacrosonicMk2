@@ -18,6 +18,7 @@ void midi_initBuffers() {
 void midi_initNotesTable(){
 
     midi_notes[MIDI_NOTE_A4_INDEX].p.i = 440; // A4
+    midi_notes[MIDI_NOTE_A4_INDEX].p.f = 0;
 
     FixedPoint currentNote;
 
