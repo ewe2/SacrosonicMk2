@@ -302,13 +302,15 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
     }
 }
 
-void testFOscContinuousPolyphonicMidi() {
+void testFOscContinuousPolyphonicMidi(Btn_struct * button) {
     ply_init();
     midi_init();
 
     int16_t sample = 0;
     uint8_t channel = 1;
     uint8_t updateStep = 0;
+    uint8_t selectedOscillator = 0;
+    float newValue = 0.0;
 
     Midi_basicMsg midiMsg;
 
@@ -324,15 +326,52 @@ void testFOscContinuousPolyphonicMidi() {
         }
 
         switch(updateStep++) {
+        case 0:
+            if(pots_readIfActive(PITCH_POT,&newValue)) {
+                ply_setPitchOffset(selectedOscillator, newValue * 3 + 0.5);
+            }
+            break;
+        case 1:
+            if(pots_readIfActive(WAVEFORM_POT,&newValue)) {
+                ply_setMix(selectedOscillator, newValue * FOSC_MIX_RESOLUTION - 1);
+            }
+            break;
+        case 2:
+            if(pots_readIfActive(DUTY_POT,&newValue)) {
+                ply_setDuty(selectedOscillator, newValue * (FOSC_DUTY_RESOLUTION - 16));
+            }
+            break;
+        case 3:
+            if(pots_readIfActive(PHASE_POT,&newValue)) {
+                ply_setPhase(selectedOscillator, newValue * WT_EFFECTIVE_SIZE - 1);
+            }
+            break;
+        case 4:
+            if(pots_readIfActive(AMPLITUDE_POT,&newValue)) {
+                ply_setAmplitude(selectedOscillator, newValue * UINT32_MAX);
+            }
+            break;
+        case 5:
+            if(btn_readOneShot(button)) {
+                selectedOscillator++;
+                if(selectedOscillator >= VOC_OSCILLATORS_PER_VOICE) selectedOscillator = 0;
+                pots_switchFunction();
+                if(selectedOscillator == 0) led_setAll(1,0,0,0);
+                else if(selectedOscillator == 1) led_setAll(1,1,0,0);
+                else if(selectedOscillator == 2) led_setAll(1,1,1,0);
+            }
+            break;
+        //========= 6-16 gets to do this
         default:
             ply_makeUpdateStep();
             break;
-        case 3:
+        //=========
+        case 17:
             if(!midi_getMsgIfAble(&midiMsg)) {
                 midiMsg.msgType = 0;
             }
             break;
-        case 5:
+        case 18:
             if(midiMsg.msgType == MIDI_MSG_TYPE_NOTE_ON) {
                 if(midiMsg.dataBytes[1] == 0) {
                     ply_noteOff(midiMsg.dataBytes[0]);
@@ -343,7 +382,7 @@ void testFOscContinuousPolyphonicMidi() {
                 ply_noteOff(midiMsg.dataBytes[0]);
             }
             break;
-        case 7:
+        case 19:
             updateStep = 0;
             break;
         }
@@ -396,8 +435,6 @@ void testPot(uint8_t pot) {
     }
 }
 
-
-
 int main(void) {
     printf("\f\n");
     osc_init();
@@ -419,7 +456,8 @@ int main(void) {
 
     //testFOscContinuous(2,1,1,&button1);
     //testFOscContinuousWithMidi(1,1,1,&button1);
-    testFOscContinuousPolyphonicMidi();
+
+    testFOscContinuousPolyphonicMidi(&button1);
 
     while(1);
 }

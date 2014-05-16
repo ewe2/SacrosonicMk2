@@ -53,10 +53,54 @@ void ply_makeUpdateStep() {
 int16_t ply_getNextSample() {
     int32_t total = 0;
     int i = 0;
-    for(; i < PLY_NUMBER_OF_VOICES; i++){
+    for(; i < PLY_NUMBER_OF_VOICES; i++) {
         total += voc_getNextSample(&ply_voices[i]);
     }
     total /= PLY_NUMBER_OF_VOICES;
     return (int16_t)total;
 }
 
+void ply_setPitchOffset(uint8_t oscillator, float offset) {
+    if(oscillator < VOC_OSCILLATORS_PER_VOICE) {
+        int i = 0;
+        for(; i < PLY_NUMBER_OF_VOICES; i++) {
+            ply_voices[i].oscillators[oscillator].pitchOffset = offset;
+        }
+    }
+}
+
+void ply_setMix(uint8_t oscillator, uint8_t mix) {
+    if(oscillator < VOC_OSCILLATORS_PER_VOICE) {
+        int i = 0;
+        for(; i < PLY_NUMBER_OF_VOICES; i++) {
+            ply_voices[i].oscillators[oscillator].mix = mix;
+        }
+    }
+}
+
+void ply_setDuty(uint8_t oscillator, uint8_t duty) {
+    if(oscillator < VOC_OSCILLATORS_PER_VOICE) {
+        int i = 0;
+        for(; i < PLY_NUMBER_OF_VOICES; i++) {
+            ply_voices[i].oscillators[oscillator].duty = duty;
+        }
+    }
+}
+
+void ply_setPhase(uint8_t oscillator, uint16_t phase) {
+    if(oscillator < VOC_OSCILLATORS_PER_VOICE) {
+        int i = 0;
+        for(; i < PLY_NUMBER_OF_VOICES; i++) {
+            ply_voices[i].oscillators[oscillator].phase = phase;
+        }
+    }
+}
+
+void ply_setAmplitude(uint8_t oscillator, uint32_t amplitude) {
+    if(oscillator < VOC_OSCILLATORS_PER_VOICE) {
+        int i = 0;
+        for(; i < PLY_NUMBER_OF_VOICES; i++) {
+            ply_voices[i].oscillators[oscillator].amplitude.c = amplitude;
+        }
+    }
+}

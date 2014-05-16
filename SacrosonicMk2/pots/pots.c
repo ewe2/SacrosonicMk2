@@ -86,17 +86,16 @@ void pots_initAndStart(){
 float pots_getMappedAverage(uint16_t pot){
     assert_param(pot < POTS_NUMBER);
 
-    float total = 0.0;
+    uint16_t total = 0;
 
     int sample = 0;
     for(; sample < POTS_OVERSAMPLING; sample++){
-        total += (uint16_t)pots_values[pot + sample * POTS_NUMBER];
+        total += pots_values[pot + sample * POTS_NUMBER];
     }
 
-    float output = total / POTS_TOTAL_OUTPUT_MAX;
-
-    return output;
+    return (float)total / POTS_TOTAL_OUTPUT_MAX;
 }
+
 
 int pots_readIfActive(uint16_t pot, float * output){
     if(!pots_readSinceSwitch[pot]){

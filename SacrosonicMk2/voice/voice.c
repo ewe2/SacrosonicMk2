@@ -16,15 +16,8 @@ void voc_init(voc_voiceStruct * voice) {
     int i = 0;
     for(; i < VOC_OSCILLATORS_PER_VOICE; i++) {
         fOsc_init(&voice->oscillators[i],1);
-        voice->oscillators[i].mix = 0;
+        voice->oscillators[i].dutyEnabled = 1;
     }
-
-    voice->oscillators[1].pitchOffset = 0.5005;
-    voice->oscillators[1].mix = 128;
-    voice->oscillators[1].duty = 200;
-    voice->oscillators[2].pitchOffset = 2.0020;
-    voice->oscillators[2].mix = 255;
-    voice->oscillators[2].duty = 200;
 
     env_init(&voice->envelope);
 
