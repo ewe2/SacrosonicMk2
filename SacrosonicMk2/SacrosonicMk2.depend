@@ -217,7 +217,7 @@
 1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\inc\stm32f4xx_wwdg.h
 	"stm32f4xx.h"
 
-1400243071 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
+1400509579 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
 	"stm32f4xx_conf.h"
 	<stdio.h>
 	"../osc/osc.h"
@@ -230,6 +230,8 @@
 	"../buttons/buttons.h"
 	"../midi/midi.h"
 	"../poly/poly.h"
+	<math.h>
+	"../fastExp/fExp.h"
 
 1398005874 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22.h
 	"cs43l22_i2c.h"
@@ -354,4 +356,10 @@
 
 1400243335 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\voice\voice.c
 	"voice.h"
+
+1400509694 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\fastexp\fexp.c
+	"fExp.h"
+
+1400506782 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\fastexp\fexp.h
+	<math.h>
 

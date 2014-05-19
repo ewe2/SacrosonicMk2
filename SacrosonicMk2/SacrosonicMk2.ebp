@@ -222,6 +222,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="envelope\envelope.h" />
+		<Unit filename="fastExp\fExp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fastExp\fExp.h" />
 		<Unit filename="fastOsc\fastOsc.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -26,6 +26,8 @@
 #include "../buttons/buttons.h"
 #include "../midi/midi.h"
 #include "../poly/poly.h"
+#include <math.h>
+#include "../fastExp/fExp.h"
 
 #define PITCH_POT 0
 #define WAVEFORM_POT 1
@@ -435,6 +437,56 @@ void testPot(uint8_t pot) {
     }
 }
 
+void testExponent(){
+    fExp_init();
+
+    int numberOfTests = 0;
+
+    uint32_t totalTimeExp2f = 0;
+    uint32_t totalTimeFExp = 0;
+    uint32_t startTime = 0;
+
+    float input = 0;
+    float outputExp2f = 0;
+    float outputFExp = 0;
+
+    float deviationTotal = 0.0;
+
+    float semitone = -63.0;
+    int semitoneStep = -630;
+    for(; semitoneStep < 640; semitoneStep += 1){
+        input = ((float)semitoneStep / 10.0) / 12.0;
+
+        startTime = timer_getTimerTicks();
+
+        outputExp2f = exp2f(input);
+
+        totalTimeExp2f += timer_getTimerTicks() - startTime;
+
+
+        startTime = timer_getTimerTicks();
+
+        outputFExp = fExp((float)semitoneStep / 10.0);
+
+        totalTimeFExp += timer_getTimerTicks() - startTime;
+
+
+        if(outputExp2f > outputFExp){
+            deviationTotal += (outputExp2f - outputFExp);
+        } else {
+            deviationTotal += (outputFExp - outputExp2f);
+        }
+        //printf(":%d,%d,%d;",semitoneStep,(int)(outputExp2f * 1000),(int)(outputFExp * 1000));
+
+        numberOfTests++;
+    }
+
+    printf("\n");
+    printf("exp2f: %d, %d\n",totalTimeExp2f, totalTimeExp2f / numberOfTests);
+    printf("fExp: %d, %d\n", totalTimeFExp, totalTimeFExp / numberOfTests);
+    printf("deviation: %d, %d\n", (uint32_t)(deviationTotal * 1000), (uint32_t)((deviationTotal / numberOfTests) * 1000000));
+}
+
 int main(void) {
     printf("\f\n");
     osc_init();
@@ -456,6 +508,8 @@ int main(void) {
 
     //testFOscContinuous(2,1,1,&button1);
     //testFOscContinuousWithMidi(1,1,1,&button1);
+
+    //testExponent();
 
     testFOscContinuousPolyphonicMidi(&button1);
 
