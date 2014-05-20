@@ -69,11 +69,11 @@ void ply_setPitchOffset(uint8_t oscillator, float offset) {
     }
 }
 
-void ply_setMix(uint8_t oscillator, uint8_t mix) {
+void ply_setWaveMix(uint8_t oscillator, uint8_t waveMix) {
     if(oscillator < VOC_OSCILLATORS_PER_VOICE) {
         int i = 0;
         for(; i < PLY_NUMBER_OF_VOICES; i++) {
-            ply_voices[i].oscillators[oscillator].mix = mix;
+            ply_voices[i].oscillators[oscillator].waveMix = waveMix;
         }
     }
 }
@@ -100,7 +100,7 @@ void ply_setAmplitude(uint8_t oscillator, uint32_t amplitude) {
     if(oscillator < VOC_OSCILLATORS_PER_VOICE) {
         int i = 0;
         for(; i < PLY_NUMBER_OF_VOICES; i++) {
-            ply_voices[i].oscillators[oscillator].amplitude.c = amplitude;
+            ply_voices[i].oscillators[oscillator].amplitude = amplitude;
         }
     }
 }

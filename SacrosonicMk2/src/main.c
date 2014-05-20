@@ -16,11 +16,8 @@
 
 #include <stdio.h>
 
-#include "../osc/osc.h"
+#include "../cs43l22/cs43l22.h"
 #include "../pots/pots.h"
-#include "../envelope/envelope.h"
-#include "../lfo/lfo.h"
-#include "../fastOsc/fastOsc.h"
 #include "../timer/timer.h"
 #include "../leds/leds.h"
 #include "../buttons/buttons.h"
@@ -44,11 +41,10 @@ void testFOscOneShot(uint16_t numberOfTests, uint8_t dutyEnabled) {
     oscillator.sampleRate.p.f = 0;
     oscillator.pitch.p.i = 440;
     oscillator.pitch.p.f = 0;
-    oscillator.amplitude.p.i = (1 << 14);
-    oscillator.amplitude.p.f = 0;
+    oscillator.amplitude = (1 << 14);
     oscillator.waveTable1 = wt_tri;
     oscillator.waveTable2 = wt_square;
-    oscillator.mix = 100;
+    oscillator.waveMix = 100;
     oscillator.dutyEnabled = dutyEnabled;
     oscillator.duty = 207;
     fOsc_init(&oscillator,0);
@@ -84,11 +80,10 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
         oscillators[i].sampleRate.p.f = 0;
         oscillators[i].pitch.p.i = 440;
         oscillators[i].pitch.p.f = 0;
-        oscillators[i].amplitude.p.i = (1 << 14);
-        oscillators[i].amplitude.p.f = 0;
+        oscillators[i].amplitude = (1 << 14);
         oscillators[i].waveTable1 = wt_sine;
         oscillators[i].waveTable2 = wt_square;
-        oscillators[i].mix = 128;
+        oscillators[i].waveMix = 128;
         oscillators[i].dutyEnabled = dutyEnabled;
         oscillators[i].duty = 0;
         oscillators[i].phase = 0;
@@ -144,7 +139,7 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
                 break;
             case 5:
                 if(pots_readIfActive(WAVEFORM_POT,&newValue)) {
-                    oscillators[selectedOscillator].mix = newValue * FOSC_MIX_RESOLUTION - 1;
+                    oscillators[selectedOscillator].waveMix = newValue * FOSC_WAVE_MIX_RESOLUTION - 1;
                 }
                 break;
             case 6:
@@ -154,7 +149,7 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
                 break;
             case 7:
                 if(pots_readIfActive(AMPLITUDE_POT,&newValue)) {
-                    oscillators[selectedOscillator].amplitude.c = newValue * UINT32_MAX;
+                    oscillators[selectedOscillator].amplitude = newValue * FOSC_AMPLITUDE_MAX;
                 }
                 break;
             case 8:
@@ -183,11 +178,10 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
         oscillators[i].pitch.p.i = 440;
         oscillators[i].pitch.p.f = 0;
         oscillators[i].pitchOffset = 1.0;
-        oscillators[i].amplitude.p.i = (1 << 14);
-        oscillators[i].amplitude.p.f = 0;
+        oscillators[i].amplitude = (1 << 14);
         oscillators[i].waveTable1 = wt_sine;
         oscillators[i].waveTable2 = wt_square;
-        oscillators[i].mix = 128;
+        oscillators[i].waveMix = 128;
         oscillators[i].dutyEnabled = dutyEnabled;
         oscillators[i].duty = 0;
         oscillators[i].phase = 0;
@@ -253,7 +247,7 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
                 break;
             case 5:
                 if(pots_readIfActive(WAVEFORM_POT,&newValue)) {
-                    oscillator->mix = newValue * FOSC_MIX_RESOLUTION - 1;
+                    oscillator->waveMix = newValue * FOSC_WAVE_MIX_RESOLUTION - 1;
                 }
                 break;
             case 6:
@@ -263,7 +257,7 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
                 break;
             case 7:
                 if(pots_readIfActive(AMPLITUDE_POT,&newValue)) {
-                    oscillator->amplitude.c = newValue * UINT32_MAX;
+                    oscillator->amplitude = newValue * FOSC_AMPLITUDE_MAX;
                 }
                 break;
             case 8:
@@ -335,7 +329,7 @@ void testFOscContinuousPolyphonicMidi(Btn_struct * button) {
             break;
         case 1:
             if(pots_readIfActive(WAVEFORM_POT,&newValue)) {
-                ply_setMix(selectedOscillator, newValue * FOSC_MIX_RESOLUTION - 1);
+                ply_setWaveMix(selectedOscillator, newValue * FOSC_WAVE_MIX_RESOLUTION - 1);
             }
             break;
         case 2:
@@ -350,7 +344,7 @@ void testFOscContinuousPolyphonicMidi(Btn_struct * button) {
             break;
         case 4:
             if(pots_readIfActive(AMPLITUDE_POT,&newValue)) {
-                ply_setAmplitude(selectedOscillator, newValue * UINT32_MAX);
+                ply_setAmplitude(selectedOscillator, newValue * FOSC_AMPLITUDE_MAX);
             }
             break;
         case 5:
@@ -363,17 +357,20 @@ void testFOscContinuousPolyphonicMidi(Btn_struct * button) {
                 else if(selectedOscillator == 2) led_setAll(1,1,1,0);
             }
             break;
-        //========= 6-16 gets to do this
+        //========= 6-28 gets to do this
         default:
             ply_makeUpdateStep();
             break;
         //=========
-        case 17:
+        case 29:
+            //led_setAll(0,0,0,0);
             if(!midi_getMsgIfAble(&midiMsg)) {
                 midiMsg.msgType = 0;
+            } else {
+                //led_setAll(1,1,1,1);
             }
             break;
-        case 18:
+        case 30:
             if(midiMsg.msgType == MIDI_MSG_TYPE_NOTE_ON) {
                 if(midiMsg.dataBytes[1] == 0) {
                     ply_noteOff(midiMsg.dataBytes[0]);
@@ -384,7 +381,7 @@ void testFOscContinuousPolyphonicMidi(Btn_struct * button) {
                 ply_noteOff(midiMsg.dataBytes[0]);
             }
             break;
-        case 19:
+        case 31:
             updateStep = 0;
             break;
         }
@@ -438,8 +435,6 @@ void testPot(uint8_t pot) {
 }
 
 void testExponent(){
-    fExp_init();
-
     int numberOfTests = 0;
 
     uint32_t totalTimeExp2f = 0;
@@ -452,7 +447,6 @@ void testExponent(){
 
     float deviationTotal = 0.0;
 
-    float semitone = -63.0;
     int semitoneStep = -630;
     for(; semitoneStep < 640; semitoneStep += 1){
         input = ((float)semitoneStep / 10.0) / 12.0;
@@ -489,10 +483,12 @@ void testExponent(){
 
 int main(void) {
     printf("\f\n");
-    osc_init();
     pots_initAndStart();
     timer_init();
     led_init();
+    fExp_init();
+    cs43l22_init();
+    wt_init();
 
     Btn_struct button1;
     button1.debounceTime = TIMER_CLOCK_SPEED / 100;

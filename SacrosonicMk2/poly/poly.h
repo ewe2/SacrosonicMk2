@@ -24,7 +24,7 @@ void ply_makeUpdateStep();
 int16_t ply_getNextSample();
 
 void ply_setPitchOffset(uint8_t oscillator, float offset);
-void ply_setMix(uint8_t oscillator, uint8_t mix);
+void ply_setWaveMix(uint8_t oscillator, uint8_t waveMix);
 void ply_setDuty(uint8_t oscillator, uint8_t duty);
 void ply_setPhase(uint8_t oscillator, uint16_t phase);
 void ply_setAmplitude(uint8_t oscillator, uint32_t amplitude);
