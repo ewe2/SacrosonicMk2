@@ -125,7 +125,7 @@ void testFOscContinuous(uint8_t numberOfOscillators, uint8_t dutyEnabled, uint8_
                 break;
             case 1:
                 if(pots_readIfActive(DUTY_POT,&newValue)) {
-                    oscillators[selectedOscillator].duty = newValue * (FOSC_DUTY_RESOLUTION - 16);
+                    oscillators[selectedOscillator].duty = newValue * FOSC_DUTY_MAX;
                 }
                 break;
             case 2:
@@ -233,7 +233,7 @@ void testFOscContinuousWithMidi(uint8_t numberOfOscillators, uint8_t dutyEnabled
                 break;
             case 1:
                 if(pots_readIfActive(DUTY_POT,&newValue)) {
-                    oscillator->duty = newValue * (FOSC_DUTY_RESOLUTION - 16);
+                    oscillator->duty = newValue * (FOSC_DUTY_MAX);
                 }
                 break;
             case 2:
@@ -334,7 +334,7 @@ void testFOscContinuousPolyphonicMidi(Btn_struct * button) {
             break;
         case 2:
             if(pots_readIfActive(DUTY_POT,&newValue)) {
-                ply_setDuty(selectedOscillator, newValue * (FOSC_DUTY_RESOLUTION - 16));
+                ply_setDuty(selectedOscillator, newValue * FOSC_DUTY_MAX);
             }
             break;
         case 3:

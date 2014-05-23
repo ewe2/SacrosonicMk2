@@ -217,7 +217,7 @@
 1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\inc\stm32f4xx_wwdg.h
 	"stm32f4xx.h"
 
-1400610581 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
+1400675723 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
 	"stm32f4xx_conf.h"
 	<stdio.h>
 	"../cs43l22/cs43l22.h"
@@ -287,23 +287,26 @@
 1398781200 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\osc\osc.c
 	"osc.h"
 
-1399378212 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\envelope\envelope.c
+1400670302 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\envelope\envelope.c
 	"envelope.h"
 
-1400174688 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\envelope\envelope.h
+1400671701 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\envelope\envelope.h
 	"../timer/timer.h"
 
-1398427539 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\lfo\lfo.c
+1400676468 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\lfo\lfo.c
 	"lfo.h"
 
-1398426956 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\lfo\lfo.h
+1400673918 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\lfo\lfo.h
+	"../wavetable/wavetable.h"
+	"../timer/timer.h"
+	"fixedPoint.h"
 
-1400608775 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\fastosc\fastosc.h
+1400675418 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\fastosc\fastosc.h
 	"../wavetable/wavetable.h"
 	"fixedPoint.h"
 	"../fastExp/fExp.h"
 
-1400612162 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\fastosc\fastosc.c
+1400675504 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\fastosc\fastosc.c
 	"fastOsc.h"
 
 1398696743 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\hardfaulthandler\hardfaulthandler.c
@@ -345,14 +348,15 @@
 	"../midi/midi.h"
 	"../voice/voice.h"
 
-1400613270 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\voice\voice.h
+1400677038 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\voice\voice.h
 	"fixedPoint.h"
 	<stdint.h>
 	"../fastOsc/fastOsc.h"
 	"../envelope/envelope.h"
+	"../lfo/lfo.h"
 	"../midi/midi.h"
 
-1400613346 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\voice\voice.c
+1400676755 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\voice\voice.c
 	"voice.h"
 
 1400509694 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\fastexp\fexp.c

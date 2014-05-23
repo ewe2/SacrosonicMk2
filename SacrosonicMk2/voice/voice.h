@@ -6,20 +6,24 @@
 
 #include "../fastOsc/fastOsc.h"
 #include "../envelope/envelope.h"
+#include "../lfo/lfo.h"
 #include "../midi/midi.h"
 
 #define VOC_OSCILLATORS_PER_VOICE 3
 #define VOC_ENVELOPES_PER_VOICE 3
 #define VOC_GLOBAL_AMPLITUDE_ENVELOPE 0
+#define VOC_LFOS_PER_VOICE 1
 
 typedef struct {
     uint8_t currentNote;
     FixedPoint pitch;
     fOsc_struct oscillators[VOC_OSCILLATORS_PER_VOICE];
     Env_envelope envelopes[VOC_ENVELOPES_PER_VOICE];
+    lfo_Lfo lfos[VOC_LFOS_PER_VOICE];
 
     uint8_t oscillatorUpdateIndex;
     uint8_t envelopeUpdateIndex;
+    uint8_t lfoUpdateIndex;
     uint8_t updateStep;
 } voc_voiceStruct;
 

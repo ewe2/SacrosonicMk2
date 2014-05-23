@@ -1,4 +1,4 @@
-cscope 15 $HOME\Dropbox\misc\STM32F4 Discovery\git\SacrosonicMk2\SacrosonicMk2"               0001057011
+cscope 15 $HOME\Dropbox\misc\STM32F4 Discovery\git\SacrosonicMk2\SacrosonicMk2"               0001058629
 	@C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\HARDFA~1\HARDFA~1.C
 
 1 
@@ -111635,7 +111635,9 @@ ušt8_t
 	mouut
 ;
 
-24 
+24 
+ušt32_t
+ 
 	mÏ¡Sam¶eTime
 ;
 
@@ -111897,7 +111899,7 @@ moduÏtiÚ
 moduÏtÜ
 ->
 modResuÉ
- = 1.0 + 
+ = 
 moduÏtiÚ
 ;
 
@@ -111983,11 +111985,13 @@ ušt32_t
 oscžÏtÜ
 ->
 waveMix
- * oscžÏtÜ->
+ + oscžÏtÜ->
 waveMixMod
 .
 modResuÉ
-;
+ * (
+FOSC_WAVE_MIX_RESOLUTION
+ - 1);
 
 29 if(
 ‹mpMix
@@ -112023,11 +112027,13 @@ ušt32_t
 oscžÏtÜ
 ->
 duty
- * oscžÏtÜ->
+ + oscžÏtÜ->
 dutyMod
 .
 modResuÉ
-;
+ * (
+FOSC_DUTY_RESOLUTION
+ - 1);
 
 35 if(
 ‹mpDuty
@@ -112061,11 +112067,13 @@ oscžÏtÜ
 moduÏ‹dPha£
  = oscžÏtÜ->
 pha£
- * oscžÏtÜ->
+ + oscžÏtÜ->
 pha£Mod
 .
 modResuÉ
-;
+ * (
+WT_EFFECTIVE_SIZE
+ - 1);
 
 41 if(
 oscžÏtÜ
@@ -112093,6 +112101,8 @@ oscžÏtÜ
 moduÏ‹dAm¶™ude
  = oscžÏtÜ->
 am¶™ude
+ + 
+FOSC_AMPLITUDE_MAX
  * oscžÏtÜ->
 am¶™udeMod
 .
@@ -112124,7 +112134,7 @@ oscžÏtÜ
 ->
 swšg
  = (oscžÏtÜ->
-am¶™ude
+moduÏ‹dAm¶™ude
  / 2);
 
 51 
@@ -112551,15 +112561,7 @@ p™chMod
 isLog
  = 1;
 
-128 
-oscžÏtÜ
-->
-am¶™udeMod
-.
-isLog
- = 1;
-
-130 
+129 
 oscžÏtÜ
 ->
 šdex
@@ -112567,17 +112569,17 @@ oscžÏtÜ
 c
  = 0;
 
-132 
+131 
 	`fOsc_upd©eD”iv©ives
 (
 oscžÏtÜ
 );
 
-133 
+132 
 	}
 }
 
-135 
+134 
 št16_t
  
 	$fOsc_g‘NextSam¶e
@@ -112587,25 +112589,25 @@ fOsc_¡ruù
 oscžÏtÜ
 ) {
 
-136 if(
+135 if(
 oscžÏtÜ
 ->
 dutyEÇbËd
 ) {
 
-137 
+136 
 FixedPošt
  
 ÃwIndex
 ;
 
-138 
+137 
 ÃwIndex
 .
 c
  = 0;
 
-140 if(
+139 if(
 oscžÏtÜ
 ->
 šdex
@@ -112617,7 +112619,7 @@ i
 WT_NODE_INDEX
 ) {
 
-141 
+140 
 ÃwIndex
 .
 c
@@ -112629,7 +112631,7 @@ oscžÏtÜ
 ¡•SizeHigh
 .c;
 
-143 if(
+142 if(
 ÃwIndex
 .
 p
@@ -112638,26 +112640,26 @@ i
  > 
 WT_NODE_INDEX
 ) {
+
+143 
+ušt32_t
+ 
+subS‹pHigh
+ = (
+WT_NODE_INDEX
+ - 
+oscžÏtÜ
+->
+šdex
+.
+p
+.
+i
+) << 16;
 
 144 
 ušt32_t
  
-subS‹pHigh
- = (
-WT_NODE_INDEX
- - 
-oscžÏtÜ
-->
-šdex
-.
-p
-.
-i
-) << 16;
-
-145 
-ušt32_t
- 
 subS‹pLow
  = ((
 oscžÏtÜ
@@ -112671,7 +112673,7 @@ subS‹pHigh
 ¡•SizeLow
 .c) / oscillator->stepSizeHigh.c;
 
-146 
+145 
 ÃwIndex
 .
 c
@@ -112685,7 +112687,7 @@ subS‹pHigh
 subS‹pLow
 ;
 
-148 if(
+147 if(
 ÃwIndex
 .
 p
@@ -112695,13 +112697,13 @@ i
 WT_INDEX_MAX
 ) {
 
-149 
+148 
 subS‹pLow
  = (
 WT_EFFECTIVE_SIZE
  << 16) / 2;
 
-150 
+149 
 subS‹pHigh
  = ((
 oscžÏtÜ
@@ -112715,7 +112717,7 @@ subS‹pLow
 ¡•SizeHigh
 .c) / oscillator->stepSizeLow.c;
 
-151 
+150 
 ÃwIndex
 .
 c
@@ -112729,7 +112731,7 @@ subS‹pHigh
 subS‹pLow
 ;
 
-155 
+154 
 ÃwIndex
 .
 c
@@ -112741,7 +112743,7 @@ oscžÏtÜ
 ¡•SizeLow
 .c;
 
-157 if(
+156 if(
 ÃwIndex
 .
 p
@@ -112751,7 +112753,7 @@ i
 WT_INDEX_MAX
 ) {
 
-158 
+157 
 ušt32_t
  
 subS‹pLow
@@ -112767,7 +112769,7 @@ p
 i
 ) << 16;
 
-159 
+158 
 ušt32_t
  
 subS‹pHigh
@@ -112783,7 +112785,7 @@ subS‹pLow
 ¡•SizeHigh
 .c) / oscillator->stepSizeLow.c;
 
-160 
+159 
 ÃwIndex
 .
 c
@@ -112797,7 +112799,7 @@ subS‹pHigh
 subS‹pLow
 ;
 
-162 if(
+161 if(
 ÃwIndex
 .
 p
@@ -112809,13 +112811,13 @@ WT_INDEX_MAX
 WT_NODE_INDEX
 ) {
 
-163 
+162 
 subS‹pHigh
  = (
 WT_EFFECTIVE_SIZE
  << 16) / 2;
 
-164 
+163 
 subS‹pLow
  = ((
 oscžÏtÜ
@@ -112829,7 +112831,7 @@ subS‹pHigh
 ¡•SizeLow
 .c) / oscillator->stepSizeHigh.c;
 
-165 
+164 
 ÃwIndex
 .
 c
@@ -112843,7 +112845,7 @@ subS‹pHigh
 subS‹pLow
 ;
 
-170 
+169 
 oscžÏtÜ
 ->
 šdex
@@ -112855,7 +112857,7 @@ c
 WT_INDEX_MASK_32
 ;
 
-172 
+171 
 oscžÏtÜ
 ->
 šdex
@@ -112865,7 +112867,7 @@ c
 ¡•SizeBa£
 .c;
 
-175 
+174 
 št16_t
  
 adju¡edIndex
@@ -112880,26 +112882,26 @@ p
 .
 i
  + oscžÏtÜ->
-pha£
+moduÏ‹dPha£
 );
 
-176 
+175 
 Ãg©ive
  = 0;
 
-177 if(
+176 if(
 adju¡edIndex
  < 0) {
 
-178 
+177 
 adju¡edIndex
  *= -1;
 
-179 
+178 
 Ãg©ive
  = 1;
 
-181 
+180 
 št16_t
  
 §m¶e1
@@ -112913,7 +112915,7 @@ waveTabË1
 adju¡edIndex
 ];
 
-182 
+181 
 št16_t
  
 §m¶e2
@@ -112927,7 +112929,7 @@ waveTabË2
 adju¡edIndex
 ];
 
-183 
+182 
 št16_t
  
 ouut
@@ -112945,17 +112947,17 @@ moduÏ‹dWaveMix
 FOSC_WAVE_MIX_RESOLUTION
 );
 
-184 if(
+183 if(
 Ãg©ive
 è
 ouut
  *= -1;
 
-185  
+184  
 ouut
 ;
 
-186 
+185 
 	}
 }
 
@@ -161808,28 +161810,36 @@ LFO_PITCH_DEFAULT
 5 
 lfo
 ->
-amouÁ
- = 
-LFO_AMOUNT_DEFAULT
-;
+šdex
+ = 0.0;
 
 6 
+lfo
+->
+Ï¡Sam¶eTime
+ = 
+	`tim”_g‘Tim”Ticks
+();
+
+7 
 lfo
 ->
 ouut
  = 0.0;
 
-7 
+8 
 lfo
 ->
-šdex
- = 0.0;
+wav‘abË
+ = &
+wt_sše
+;
 
-8 
+9 
 	}
 }
 
-11 
+12 
 	$lfo_g‘NextSam¶e
 (
 lfo_Lfo
@@ -161837,47 +161847,43 @@ lfo_Lfo
 lfo
 ){
 
-12 if(
+13 
+timePas£d
+ = ()(
+	`tim”_g‘Tim”Ticks
+(è- 
 lfo
 ->
-šdex
- <= 0.5){
-
-13 
-lfo
-->
-ouut
- = (-1 + 4 *†fo->
-šdex
-è*†fo->
-amouÁ
+Ï¡Sam¶eTime
+è/ 
+TIMER_CLOCK_SPEED
 ;
 
-15 
-lfo
-->
-ouut
- = (1 - 4 * (lfo->
+16 
 šdex
- - 0.5)è*†fo->
-amouÁ
-;
-
-18 
-lfo
-->
-šdex
- +ðlfo->
+ +ð
+timePas£d
+ * 
 p™ch
- / 
-LFO_SAMPLE_RATE
 ;
 
-19 if(
+17 
+šdex
+ -= ()index;
+
+19 
 lfo
 ->
+ouut
+ = 
+wav‘abË
+[
+	`wt_št_g‘TabËIndex
+(
 šdex
- > 1.0)†fo->index -= 1.0;
+ * 
+WT_EFFECTIVE_SIZE
+)];
 
 21  
 lfo
@@ -161902,44 +161908,50 @@ LFO_H_INCLUDED
 	)
 
 4 
-	#LFO_SAMPLE_RATE
- (96000 / 32);
-
-	)
-
-6 
 	#LFO_PITCH_DEFAULT
  1.0
 
 	)
 
-7 
-	#LFO_AMOUNT_DEFAULT
- 1.0
+6 
+	~"../wav‘abË/wav‘abË.h
+"
 
-	)
+7 
+	~"../tim”/tim”.h
+"
 
-10 
+8 
+	~"fixedPošt.h
+"
+
+11 
 	mp™ch
 ;
 
-11 
-	mamouÁ
-;
-
 12 
-	mouut
-;
-
-13 
 	mšdex
 ;
 
-14 } 
+13 * 
+	mwav‘abË
+;
+
+14 
+ušt32_t
+ 
+	mÏ¡Sam¶eTime
+;
+
+15 
+	mouut
+;
+
+16 } 
 	tlfo_Lfo
 ;
 
-16 
+18 
 lfo_š™
 (
 lfo_Lfo
@@ -161947,7 +161959,7 @@ lfo_Lfo
 lfo
 );
 
-17 
+19 
 lfo_g‘NextSam¶e
 (
 lfo_Lfo
@@ -169515,10 +169527,6 @@ VOC_OSCILLATORS_PER_VOICE
 	`¶y_makeUpd©eS‹p
 ();
 
-366 
-	`Ëd_£tAÎ
-(0,0,0,0);
-
 367 if(!
 	`midi_g‘MsgIfAbË
 (&
@@ -169530,10 +169538,6 @@ midiMsg
 .
 msgTy³
  = 0;
-
-370 
-	`Ëd_£tAÎ
-(1,1,1,1);
 
 374 if(
 midiMsg
@@ -170271,31 +170275,153 @@ i
 dutyEÇbËd
  = 1;
 
+20 
+voiû
+->
+oscžÏtÜs
+[
+i
+].
+am¶™ude
+ = 0;
+
+21 
+voiû
+->
+oscžÏtÜs
+[
+i
+].
+am¶™udeMod
+.
+modSourû
+ = &voiû->
+’v–Ýes
+[
+VOC_GLOBAL_AMPLITUDE_ENVELOPE
+].
+ouut
+;
+
 22 
+voiû
+->
+oscžÏtÜs
+[
+i
+].
+am¶™udeMod
+.
+modAmouÁ
+ = 1.0;
+
+25 
+i
+ = 0; i < 
+VOC_ENVELOPES_PER_VOICE
+; i++){
+
+26 
 	`’v_š™
 (&
 voiû
 ->
-am¶™udeEnv–Ýe
-);
+’v–Ýes
+[
+i
+]);
 
-24 
+29 
+voiû
+->
+’v–Ýes
+[1].
+©ck
+ = 1.0 * 
+TIMER_CLOCK_SPEED
+;
+
+30 
+voiû
+->
+’v–Ýes
+[2].
+©ck
+ = 0.5 * 
+TIMER_CLOCK_SPEED
+;
+
+32 
+voiû
+->
+oscžÏtÜs
+[0].
+p™chMod
+.
+modSourû
+ = &voiû->
+’v–Ýes
+[1].
+ouut
+;
+
+33 
+voiû
+->
+oscžÏtÜs
+[0].
+p™chMod
+.
+modAmouÁ
+ = 12.0;
+
+34 
+voiû
+->
+oscžÏtÜs
+[0].
+pha£Mod
+.
+modSourû
+ = &voiû->
+’v–Ýes
+[2].
+ouut
+;
+
+35 
+voiû
+->
+oscžÏtÜs
+[0].
+pha£Mod
+.
+modAmouÁ
+ = 1.0;
+
+37 
 voiû
 ->
 upd©eS‹p
  = 0;
 
-25 
+38 
 voiû
 ->
-upd©eOscžÏtÜ
+oscžÏtÜUpd©eIndex
  = 0;
 
-26 
+39 
+voiû
+->
+’v–ÝeUpd©eIndex
+ = 0;
+
+40 
 	}
 }
 
-28 
+42 
 	$voc_Œigg”
 (
 voc_voiûSŒuù
@@ -170307,7 +170433,7 @@ ušt8_t
 midiNÙe
 ) {
 
-29 
+43 
 	`voc_£tP™ch
 (
 voiû
@@ -170315,19 +170441,31 @@ voiû
 midiNÙe
 );
 
-30 
+44 
+i
+ = 0;
+
+45 ; 
+i
+ < 
+VOC_ENVELOPES_PER_VOICE
+; i++){
+
+46 
 	`’v_Œigg”
 (&
 voiû
 ->
-am¶™udeEnv–Ýe
-);
+’v–Ýes
+[
+i
+]);
 
-31 
+48 
 	}
 }
 
-33 
+50 
 	$voc_»Ëa£
 (
 voc_voiûSŒuù
@@ -170335,19 +170473,31 @@ voc_voiûSŒuù
 voiû
 ) {
 
-34 
+51 
+i
+ = 0;
+
+52 ; 
+i
+ < 
+VOC_ENVELOPES_PER_VOICE
+; i++){
+
+53 
 	`’v_»Ëa£
 (&
 voiû
 ->
-am¶™udeEnv–Ýe
-);
+’v–Ýes
+[
+i
+]);
 
-35 
+55 
 	}
 }
 
-37 
+57 
 	$voc_isAùive
 (
 voc_voiûSŒuù
@@ -170355,21 +170505,33 @@ voc_voiûSŒuù
 voiû
 ) {
 
-38  (
+58 
+i
+ = 0;
+
+59 ; 
+i
+ < 
+VOC_ENVELOPES_PER_VOICE
+; i++){
+
+60 if(
 voiû
 ->
-am¶™udeEnv–Ýe
-.
+’v–Ýes
+[
+i
+].
 ¡©e
  !ð
 ENV_STATE_DEAD
-);
+)  1;
 
-39 
+63 
 	}
 }
 
-41 
+65 
 št16_t
  
 	$voc_g‘NextSam¶e
@@ -170379,23 +170541,23 @@ voc_voiûSŒuù
 voiû
 ) {
 
-42 
+66 
 št32_t
  
 tÙ®
  = 0;
 
-44 
+68 
 i
  = 0;
 
-45 ; 
+69 ; 
 i
  < 
 VOC_OSCILLATORS_PER_VOICE
 ; i++) {
 
-46 
+70 
 tÙ®
  +ð
 	`fOsc_g‘NextSam¶e
@@ -170407,33 +170569,23 @@ oscžÏtÜs
 i
 ]);
 
-49 
+73 
 tÙ®
  /ð
 VOC_OSCILLATORS_PER_VOICE
 ;
 
-50 
-tÙ®
- *ð
-voiû
-->
-am¶™udeEnv–Ýe
-.
-ouut
-;
-
-51  (
+74  (
 št16_t
 )
 tÙ®
 ;
 
-52 
+75 
 	}
 }
 
-54 
+77 
 	$voc_makeUpd©eS‹p
 (
 voc_voiûSŒuù
@@ -170441,7 +170593,7 @@ voc_voiûSŒuù
 voiû
 ) {
 
-55 
+78 
 fOsc_¡ruù
  * 
 oscžÏtÜ
@@ -170450,74 +170602,148 @@ voiû
 ->
 oscžÏtÜs
 [voiû->
-upd©eOscžÏtÜ
+oscžÏtÜUpd©eIndex
 ];
 
-57 
+80 
 voiû
 ->
 upd©eS‹p
 ++) {
 
-59 
+82 
+	`fOsc_upd©eModResuÉ
+(&
+oscžÏtÜ
+->
+p™chMod
+);
+
+85 
+	`fOsc_upd©eModResuÉ
+(&
+oscžÏtÜ
+->
+waveMixMod
+);
+
+88 
+	`fOsc_upd©eModResuÉ
+(&
+oscžÏtÜ
+->
+dutyMod
+);
+
+91 
+	`fOsc_upd©eModResuÉ
+(&
+oscžÏtÜ
+->
+pha£Mod
+);
+
+94 
+	`fOsc_upd©eModResuÉ
+(&
+oscžÏtÜ
+->
+am¶™udeMod
+);
+
+97 
+	`fOsc_moduÏ‹P™ch
+(
+oscžÏtÜ
+);
+
+100 
+	`fOsc_moduÏ‹WaveMix
+(
+oscžÏtÜ
+);
+
+103 
+	`fOsc_moduÏ‹Duty
+(
+oscžÏtÜ
+);
+
+106 
+	`fOsc_moduÏ‹Pha£
+(
+oscžÏtÜ
+);
+
+109 
+	`fOsc_moduÏ‹Am¶™ude
+(
+oscžÏtÜ
+);
+
+112 
 	`fOsc_upd©eS‹pSizeBa£
 (
 oscžÏtÜ
 );
 
-62 
+115 
 	`fOsc_upd©eS‹pSizeHigh
 (
 oscžÏtÜ
 );
 
-65 
+118 
 	`fOsc_upd©eS‹pSizeLow
 (
 oscžÏtÜ
 );
 
-68 
+121 
 	`fOsc_upd©eSwšg
 (
 oscžÏtÜ
 );
 
-71 if(
-voiû
-->
-upd©eOscžÏtÜ
- == 0) {
-
-72 
+124 
 	`’v_g‘NextSam¶e
 (&
 voiû
 ->
-am¶™udeEnv–Ýe
-);
+’v–Ýes
+[voiû->
+’v–ÝeUpd©eIndex
+++]);
 
-76 
+125 if(
+voiû
+->
+’v–ÝeUpd©eIndex
+ >ð
+VOC_ENVELOPES_PER_VOICE
+) voice->envelopeUpdateIndex = 0;
+
+128 
 voiû
 ->
 upd©eS‹p
  = 0;
 
-77 
+129 
 voiû
 ->
-upd©eOscžÏtÜ
+oscžÏtÜUpd©eIndex
 ++;
 
-78 if(
+130 if(
 voiû
 ->
-upd©eOscžÏtÜ
+oscžÏtÜUpd©eIndex
  >ð
 VOC_OSCILLATORS_PER_VOICE
-) voice->updateOscillator = 0;
+) voice->oscillatorUpdateIndex = 0;
 
-80 
+132 
 	}
 }
 
@@ -170559,19 +170785,31 @@ VOICE_H_INCLUDED
 
 	)
 
-14 
+12 
+	#VOC_ENVELOPES_PER_VOICE
+ 3
+
+	)
+
+13 
+	#VOC_GLOBAL_AMPLITUDE_ENVELOPE
+ 0
+
+	)
+
+16 
 ušt8_t
  
 	mcu¼’tNÙe
 ;
 
-15 
+17 
 FixedPošt
  
 	mp™ch
 ;
 
-16 
+18 
 fOsc_¡ruù
  
 	moscžÏtÜs
@@ -170579,29 +170817,37 @@ fOsc_¡ruù
 VOC_OSCILLATORS_PER_VOICE
 ];
 
-17 
+19 
 Env_’v–Ýe
  
-	mam¶™udeEnv–Ýe
-;
+	m’v–Ýes
+[
+VOC_ENVELOPES_PER_VOICE
+];
 
-19 
+21 
 ušt8_t
  
-	mupd©eOscžÏtÜ
+	moscžÏtÜUpd©eIndex
 ;
 
-20 
+22 
+ušt8_t
+ 
+	m’v–ÝeUpd©eIndex
+;
+
+23 
 ušt8_t
  
 	mupd©eS‹p
 ;
 
-21 } 
+24 } 
 	tvoc_voiûSŒuù
 ;
 
-23 
+26 
 voc_£tP™ch
 (
 voc_voiûSŒuù
@@ -170613,7 +170859,7 @@ ušt8_t
 midiNÙe
 );
 
-24 
+27 
 voc_š™
 (
 voc_voiûSŒuù
@@ -170621,7 +170867,7 @@ voc_voiûSŒuù
 voiû
 );
 
-26 
+29 
 voc_Œigg”
 (
 voc_voiûSŒuù
@@ -170633,7 +170879,7 @@ ušt8_t
 midiNÙe
 );
 
-27 
+30 
 voc_»Ëa£
 (
 voc_voiûSŒuù
@@ -170641,7 +170887,7 @@ voc_voiûSŒuù
 voiû
 );
 
-28 
+31 
 voc_isAùive
 (
 voc_voiûSŒuù
@@ -170649,7 +170895,7 @@ voc_voiûSŒuù
 voiû
 );
 
-30 
+33 
 št16_t
  
 voc_g‘NextSam¶e
@@ -170659,7 +170905,7 @@ voc_voiûSŒuù
 voiû
 );
 
-31 
+34 
 voc_makeUpd©eS‹p
 (
 voc_voiûSŒuù

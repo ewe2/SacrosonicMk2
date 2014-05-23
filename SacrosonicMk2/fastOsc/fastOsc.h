@@ -5,6 +5,7 @@
 #include "fixedPoint.h"
 #include "../fastExp/fExp.h"
 #define FOSC_DUTY_RESOLUTION 256
+#define FOSC_DUTY_MAX 240
 #define FOSC_WAVE_MIX_RESOLUTION 256
 
 #define FOSC_PITCH_MAX 16000

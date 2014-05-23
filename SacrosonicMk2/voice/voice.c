@@ -17,11 +17,19 @@ void voc_init(voc_voiceStruct * voice) {
     for(; i < VOC_OSCILLATORS_PER_VOICE; i++) {
         fOsc_init(&voice->oscillators[i],1);
         voice->oscillators[i].dutyEnabled = 1;
+        voice->oscillators[i].amplitude = 0;
         voice->oscillators[i].amplitudeMod.modSource = &voice->envelopes[VOC_GLOBAL_AMPLITUDE_ENVELOPE].output;
+        voice->oscillators[i].amplitudeMod.modAmount = 1.0;
+        voice->oscillators[i].dutyMod.modSource = &voice->lfos[0].output;
+        voice->oscillators[i].dutyMod.modAmount = 0.5;
     }
 
     for(i = 0; i < VOC_ENVELOPES_PER_VOICE; i++){
         env_init(&voice->envelopes[i]);
+    }
+
+    for(i = 0; i < VOC_LFOS_PER_VOICE; i++){
+        lfo_init(&voice->lfos[i]);
     }
 
     voice->envelopes[1].attack = 1.0 * TIMER_CLOCK_SPEED;
@@ -121,6 +129,10 @@ void voc_makeUpdateStep(voc_voiceStruct* voice) {
     case 14:
         env_getNextSample(&voice->envelopes[voice->envelopeUpdateIndex++]);
         if(voice->envelopeUpdateIndex >= VOC_ENVELOPES_PER_VOICE) voice->envelopeUpdateIndex = 0;
+        break;
+    case 15:
+        lfo_getNextSample(&voice->lfos[voice->lfoUpdateIndex++]);
+        if(voice->lfoUpdateIndex >= VOC_LFOS_PER_VOICE) voice->lfoUpdateIndex = 0;
         break;
     default:
         voice->updateStep = 0;

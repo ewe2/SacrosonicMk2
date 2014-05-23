@@ -31,8 +31,8 @@ void fOsc_modulateWaveMix(fOsc_struct* oscillator) {
 }
 
 void fOsc_modulateDuty(fOsc_struct* oscillator) {
-    uint32_t tempDuty = oscillator->duty + oscillator->dutyMod.modResult * (FOSC_DUTY_RESOLUTION - 1);
-    if(tempDuty >= FOSC_DUTY_RESOLUTION) tempDuty = FOSC_DUTY_RESOLUTION - 1;
+    uint32_t tempDuty = oscillator->duty + oscillator->dutyMod.modResult * (FOSC_DUTY_MAX);
+    if(tempDuty > FOSC_DUTY_MAX) tempDuty = FOSC_DUTY_MAX;
     oscillator->modulatedDuty = tempDuty;
 }
 
@@ -42,7 +42,7 @@ void fOsc_modulatePhase(fOsc_struct* oscillator) {
 }
 
 void fOsc_modulateAmplitude(fOsc_struct* oscillator) {
-    oscillator->modulatedAmplitude = oscillator->amplitude * oscillator->amplitudeMod.modResult;
+    oscillator->modulatedAmplitude = oscillator->amplitude + FOSC_AMPLITUDE_MAX * oscillator->amplitudeMod.modResult;
     if(oscillator->modulatedAmplitude > FOSC_AMPLITUDE_MAX) oscillator->modulatedAmplitude = FOSC_AMPLITUDE_MAX;
 }
 
@@ -125,7 +125,6 @@ void fOsc_init(fOsc_struct * oscillator, uint8_t init) {
     fOsc_initModulator(&oscillator->amplitudeMod);
 
     oscillator->pitchMod.isLog = 1;
-    oscillator->amplitudeMod.isLog = 1;
 
     oscillator->index.c = 0;
 

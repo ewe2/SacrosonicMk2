@@ -21,7 +21,7 @@ typedef struct {
     Env_state state;
     uint8_t isHeld;
     float output;
-    float lastSampleTime;
+    uint32_t lastSampleTime;
     float attack;
     float decay;
     float sustain;
