@@ -249,9 +249,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="midi\midi.h" />
-		<Unit filename="osc\osc.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="osc\osc.h" />
 		<Unit filename="poly\poly.c">
 			<Option compilerVar="CC" />
