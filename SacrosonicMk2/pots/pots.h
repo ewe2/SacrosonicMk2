@@ -5,7 +5,7 @@
 #include "stm32f4xx_adc.h"
 #include "stm32f4xx_dma.h"
 
-#define POTS_NUMBER 5
+#define POTS_NUMBER 8
 #define POTS_OVERSAMPLING 8
 #define POTS_DMA_ARRAY_SIZE (POTS_NUMBER * POTS_OVERSAMPLING)
 

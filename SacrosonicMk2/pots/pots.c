@@ -33,14 +33,20 @@ void pots_adcInit(){
 RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
 
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
 
     GPIO_InitTypeDef gpioInitStruct;
-    gpioInitStruct.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_5 | GPIO_Pin_6; // skipping 4 because it is used in the I2S
+    gpioInitStruct.GPIO_Pin = GPIO_Pin_0
+                            | GPIO_Pin_1
+                            | GPIO_Pin_2
+                            | GPIO_Pin_3;
     gpioInitStruct.GPIO_Mode = GPIO_Mode_AN;
     gpioInitStruct.GPIO_OType = GPIO_OType_PP;
     gpioInitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
-    gpioInitStruct.GPIO_Speed = GPIO_Speed_2MHz;
+    gpioInitStruct.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &gpioInitStruct);
+    GPIO_Init(GPIOC, &gpioInitStruct);
+
 
     ADC_CommonInitTypeDef adcCommonInitStruct;
     adcCommonInitStruct.ADC_Mode = ADC_Mode_Independent;
@@ -56,14 +62,18 @@ RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
     adcInitStruct.ADC_ExternalTrigConv = ADC_ExternalTrigConv_T1_CC1;
     adcInitStruct.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
     adcInitStruct.ADC_DataAlign = ADC_DataAlign_Right;
-    adcInitStruct.ADC_NbrOfConversion = 5;
+    adcInitStruct.ADC_NbrOfConversion = POTS_NUMBER;
     ADC_Init(ADC1,&adcInitStruct);
 
-    ADC_RegularChannelConfig(ADC1,ADC_Channel_1,1,ADC_SampleTime_144Cycles);
-    ADC_RegularChannelConfig(ADC1,ADC_Channel_2,2,ADC_SampleTime_144Cycles);
-    ADC_RegularChannelConfig(ADC1,ADC_Channel_3,3,ADC_SampleTime_144Cycles);
-    ADC_RegularChannelConfig(ADC1,ADC_Channel_5,4,ADC_SampleTime_144Cycles);
-    ADC_RegularChannelConfig(ADC1,ADC_Channel_6,5,ADC_SampleTime_144Cycles);
+    ADC_RegularChannelConfig(ADC1,ADC_Channel_10,1,ADC_SampleTime_480Cycles); // pc0
+    ADC_RegularChannelConfig(ADC1,ADC_Channel_11,2,ADC_SampleTime_480Cycles); // pc1
+    ADC_RegularChannelConfig(ADC1,ADC_Channel_12,3,ADC_SampleTime_480Cycles); // pc2
+    ADC_RegularChannelConfig(ADC1,ADC_Channel_13,4,ADC_SampleTime_480Cycles); // pc3
+
+    ADC_RegularChannelConfig(ADC1,ADC_Channel_0,5,ADC_SampleTime_480Cycles); // pa0
+    ADC_RegularChannelConfig(ADC1,ADC_Channel_1,6,ADC_SampleTime_480Cycles); // pa1
+    ADC_RegularChannelConfig(ADC1,ADC_Channel_2,7,ADC_SampleTime_480Cycles); // pa2
+    ADC_RegularChannelConfig(ADC1,ADC_Channel_3,8,ADC_SampleTime_480Cycles); // pa3
 
     ADC_ContinuousModeCmd(ADC1,ENABLE);
 }

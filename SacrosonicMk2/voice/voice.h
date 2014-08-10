@@ -36,5 +36,6 @@ int voc_isActive(voc_voiceStruct * voice);
 
 int16_t voc_getNextSample(voc_voiceStruct * voice);
 void voc_makeUpdateStep(voc_voiceStruct * voice);
+void voc_updateAll(voc_voiceStruct * voice);
 
 #endif /* VOICE_H_INCLUDED */

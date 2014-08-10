@@ -19,6 +19,7 @@
 					<Add option="-ffunction-sections" />
 					<Add option="-O0" />
 					<Add option="-g3" />
+					<Add option="-DDEBUG" />
 				</Compiler>
 				<Assembler>
 					<Add option="-Wa,--gdwarf-2" />
@@ -77,6 +78,10 @@
 			<Add option="-eb_start_files" />
 			<Add option="-eb_lib=n" />
 		</Linker>
+		<Unit filename="HD44780\HD44780.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="HD44780\HD44780.h" />
 		<Unit filename="SPL\inc\misc.h" />
 		<Unit filename="SPL\inc\stm32f4xx_adc.h" />
 		<Unit filename="SPL\inc\stm32f4xx_can.h" />

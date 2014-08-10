@@ -1,7 +1,7 @@
 #include "cs43l22.h"
 
 // initializes the GPIO pin (PD4) that is connected to the CS43L22 reset
-void cs43l22_initResetPin(){
+void cs43l22_initResetPin() {
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
 
     GPIO_InitTypeDef pinInitStruct;
@@ -14,7 +14,7 @@ void cs43l22_initResetPin(){
 }
 
 // Central init function. First calls a bunch of other init functions and then configures the CS43L22 for 16-bit@48kHz stereo output
-void cs43l22_init(){
+void cs43l22_init() {
     cs43l22_initResetPin();
 
     cs43l22_powerOff();
@@ -69,22 +69,38 @@ void cs43l22_init(){
     cs43l22_i2c_writeByte(CS43L22_REG_POWER_CTL1, 0x9e);
 }
 
+void cs43l22_initInterrupt() {
+    NVIC_InitTypeDef nvicInitStruct;
+    nvicInitStruct.NVIC_IRQChannel = SPI3_IRQn;
+    nvicInitStruct.NVIC_IRQChannelPreemptionPriority = 0;
+    nvicInitStruct.NVIC_IRQChannelSubPriority = 0;
+    nvicInitStruct.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&nvicInitStruct);
+}
+
+void cs43l22_enableInterrupt() {
+    SPI_I2S_ITConfig(SPI3,SPI_I2S_IT_TXE, ENABLE);
+}
+
+void cs43l22_disableInterrupt() {
+    SPI_I2S_ITConfig(SPI3,SPI_I2S_IT_TXE, DISABLE);
+}
+
 // powers on the unit by setting the pin that is attached to the CS43L22 reset
-void cs43l22_powerOn(){
+void cs43l22_powerOn() {
     GPIO_SetBits(GPIOD,GPIO_Pin_4);
 }
 
 // powers off the unit by clearing the pin that is attached to the CS43L22 reset
-void cs43l22_powerOff(){
+void cs43l22_powerOff() {
     GPIO_ResetBits(GPIOD,GPIO_Pin_4);
 }
 
-// Tries to output a sample and will not stop trying until it succeeds. Use with care.
-void cs43l22_outputSample(int16_t sample){
-    cs43l22_i2s_outputSample(sample);
+void cs43l22_outputSample(int16_t sample) {
+    SPI_I2S_SendData(CS43L22_I2S_PORT,sample); // send the sample directly to the I2S bus, will not wait for it to be ready
 }
 
 // Tries to output a sample once and then returns 1 if successful, 0 if not.
-int cs43l22_attemptOutputSample(int16_t sample){
+int cs43l22_attemptOutputSample(int16_t sample) {
     return cs43l22_i2s_attemptOutputSample(sample);
 }

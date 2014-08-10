@@ -1,4 +1,4 @@
-cscope 15 $HOME\Dropbox\misc\STM32F4 Discovery\git\SacrosonicMk2\SacrosonicMk2"               0001058629
+cscope 15 $HOME\Dropbox\misc\STM32F4 Discovery\git\SacrosonicMk2\SacrosonicMk2"               0001063551
 	@C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\HARDFA~1\HARDFA~1.C
 
 1 
@@ -166,6 +166,930 @@ SHCSR
 39 
 	}
 }
+
+	@C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\HD44780\HD44780.c
+
+1 
+	~"HD44780.h
+"
+
+3 
+	$HD44780_£tD©aPös
+(
+uöt8_t
+ 
+d©a
+) {
+
+4 
+	`GPIO_WrôeBô
+(
+HD44780_DATA_PORT
+,
+HD44780_DATA_0
+,(
+d©a
+ >> 0) & 1);
+
+5 
+	`GPIO_WrôeBô
+(
+HD44780_DATA_PORT
+,
+HD44780_DATA_1
+,(
+d©a
+ >> 1) & 1);
+
+6 
+	`GPIO_WrôeBô
+(
+HD44780_DATA_PORT
+,
+HD44780_DATA_2
+,(
+d©a
+ >> 2) & 1);
+
+7 
+	`GPIO_WrôeBô
+(
+HD44780_DATA_PORT
+,
+HD44780_DATA_3
+,(
+d©a
+ >> 3) & 1);
+
+8 
+	}
+}
+
+10 
+	$HD44780_pul£E«bÀ
+() {
+
+11 
+	`GPIO_SëBôs
+(
+HD44780_CTRL_PORT
+, 
+HD44780_CTRL_EN
+);
+
+12 
+	`timî_dñay
+(
+HD44780_EN_PULSE
+);
+
+13 
+	`GPIO_Re£tBôs
+(
+HD44780_CTRL_PORT
+, 
+HD44780_CTRL_EN
+);
+
+14 
+	`timî_dñay
+(
+HD44780_EN_PULSE
+);
+
+15 
+	}
+}
+
+17 
+	$HD44780_waôF‹Busy
+() {
+
+19 
+GPIO_InôTy≥Def
+ 
+öôSåu˘
+;
+
+20 
+	`GPIO_Såu˘Inô
+(&
+öôSåu˘
+);
+
+21 
+öôSåu˘
+.
+GPIO_Pö
+ = 
+HD44780_DATA_3
+;
+
+22 
+öôSåu˘
+.
+GPIO_S≥ed
+ = 
+GPIO_S≥ed_50MHz
+;
+
+23 
+	`GPIO_Inô
+(
+HD44780_DATA_PORT
+, &
+öôSåu˘
+);
+
+25 
+	`GPIO_Re£tBôs
+(
+HD44780_CTRL_PORT
+, 
+HD44780_CTRL_RS
+);
+
+26 
+	`GPIO_SëBôs
+(
+HD44780_CTRL_PORT
+, 
+HD44780_CTRL_RW
+);
+
+28 
+	`HD44780_£tD©aPös
+(0);
+
+30 
+uöt8_t
+ 
+busy
+ = 1;
+
+31 
+busy
+){
+
+32 
+	`GPIO_SëBôs
+(
+HD44780_CTRL_PORT
+, 
+HD44780_CTRL_EN
+);
+
+33 
+	`timî_dñay
+(
+HD44780_EN_PULSE
+);
+
+34 
+busy
+ = 
+	`GPIO_RódI≈utD©aBô
+(
+HD44780_DATA_PORT
+,
+HD44780_DATA_3
+);
+
+35 
+	`GPIO_Re£tBôs
+(
+HD44780_CTRL_PORT
+, 
+HD44780_CTRL_EN
+);
+
+36 
+	`timî_dñay
+(
+HD44780_EN_PULSE
+);
+
+37 
+	`HD44780_pul£E«bÀ
+();
+
+40 
+öôSåu˘
+.
+GPIO_Mode
+ = 
+GPIO_Mode_OUT
+;
+
+41 
+	`GPIO_Inô
+(
+HD44780_DATA_PORT
+, &
+öôSåu˘
+);
+
+42 
+	}
+}
+
+44 
+	$HD44780_wrôeNibbÀ
+(
+uöt8_t
+ 
+d©a
+, uöt8_à
+isComm™d
+) {
+
+45 
+	`HD44780_£tD©aPös
+(
+d©a
+);
+
+46 
+	`HD44780_pul£E«bÀ
+();
+
+47 
+	}
+}
+
+49 
+	$HD44780_wrôe
+(
+uöt8_t
+ 
+d©a
+, uöt8_à
+isComm™d
+) {
+
+50 
+	`HD44780_waôF‹Busy
+();
+
+52 
+	`GPIO_Re£tBôs
+(
+HD44780_CTRL_PORT
+,
+HD44780_CTRL_RW
+);
+
+53 
+	`GPIO_WrôeBô
+(
+HD44780_CTRL_PORT
+,
+HD44780_CTRL_RS
+,!
+isComm™d
+);
+
+55 
+	`HD44780_wrôeNibbÀ
+((
+d©a
+ >> 4Ë& 0xf, 
+isComm™d
+);
+
+56 
+	`HD44780_wrôeNibbÀ
+((
+d©a
+ >> 0Ë& 0xf, 
+isComm™d
+);
+
+57 
+	}
+}
+
+59 
+	$HD44780_wrôeComm™d
+(
+uöt8_t
+ 
+comm™d
+) {
+
+60 
+	`HD44780_wrôe
+(
+comm™d
+,1);
+
+61 
+	}
+}
+
+63 
+	$HD44780_wrôeD©a
+(
+uöt8_t
+ 
+d©a
+) {
+
+64 
+	`HD44780_wrôe
+(
+d©a
+,0);
+
+65 
+	}
+}
+
+67 
+	$HD44780_swôchToLöe
+(
+uöt8_t
+ 
+löe
+) {
+
+68 
+löe
+) {
+
+70 
+	`HD44780_wrôeComm™d
+(
+HD44780_CMD_MOV_CRSR
+ | 
+HD44780_LINE_1
+);
+
+73 
+	`HD44780_wrôeComm™d
+(
+HD44780_CMD_MOV_CRSR
+ | 
+HD44780_LINE_2
+);
+
+76 
+	}
+}
+
+78 
+	$HD44780_fûlS¸ìn
+(
+c
+) {
+
+79 
+uöt8_t
+ 
+row
+, 
+cﬁumn
+;
+
+80 
+row
+ = 0;Ñow < 2;Ñow++) {
+
+81 
+	`HD44780_swôchToLöe
+(
+row
++1);
+
+82 
+cﬁumn
+ = 0; column < 16; column++) {
+
+83 
+	`HD44780_wrôeD©a
+(
+c
+);
+
+86 
+	}
+}
+
+88 
+	$HD44780_wrôeSåög
+(* 
+aSåög
+) {
+
+89 
+i
+ = 0;
+
+90 
+aSåög
+[
+i
+] != '\0') {
+
+91 
+	`HD44780_wrôeD©a
+(
+aSåög
+[
+i
+++]);
+
+93 
+	}
+}
+
+95 
+	$HD44780_öôGpio
+() {
+
+96 
+GPIO_InôTy≥Def
+ 
+öôSåu˘
+;
+
+98 
+	`RCC_AHB1PîùhClockCmd
+(
+HD44780_DATA_PORT_AHB
+, 
+ENABLE
+);
+
+99 
+öôSåu˘
+.
+GPIO_Pö
+ = 
+HD44780_DATA_0
+
+
+100 | 
+HD44780_DATA_1
+
+
+101 | 
+HD44780_DATA_2
+
+
+102 | 
+HD44780_DATA_3
+;
+
+103 
+öôSåu˘
+.
+GPIO_Mode
+ = 
+GPIO_Mode_OUT
+;
+
+104 
+öôSåu˘
+.
+GPIO_S≥ed
+ = 
+GPIO_S≥ed_50MHz
+;
+
+105 
+öôSåu˘
+.
+GPIO_OTy≥
+ = 
+GPIO_OTy≥_PP
+;
+
+106 
+öôSåu˘
+.
+GPIO_PuPd
+ = 
+GPIO_PuPd_NOPULL
+;
+
+107 
+	`GPIO_Inô
+(
+HD44780_DATA_PORT
+, &
+öôSåu˘
+);
+
+109 
+	`GPIO_Re£tBôs
+(
+HD44780_DATA_PORT
+,
+GPIO_Pö_AŒ
+);
+
+112 
+	`RCC_AHB1PîùhClockCmd
+(
+HD44780_CTRL_PORT_AHB
+, 
+ENABLE
+);
+
+113 
+öôSåu˘
+.
+GPIO_Pö
+ = 
+HD44780_CTRL_EN
+
+
+114 | 
+HD44780_CTRL_RS
+
+
+115 | 
+HD44780_CTRL_RW
+;
+
+116 
+öôSåu˘
+.
+GPIO_Mode
+ = 
+GPIO_Mode_OUT
+;
+
+117 
+öôSåu˘
+.
+GPIO_S≥ed
+ = 
+GPIO_S≥ed_50MHz
+;
+
+118 
+öôSåu˘
+.
+GPIO_OTy≥
+ = 
+GPIO_OTy≥_PP
+;
+
+119 
+öôSåu˘
+.
+GPIO_PuPd
+ = 
+GPIO_PuPd_NOPULL
+;
+
+120 
+	`GPIO_Inô
+(
+HD44780_CTRL_PORT
+, &
+öôSåu˘
+);
+
+122 
+	`GPIO_Re£tBôs
+(
+HD44780_CTRL_PORT
+,
+GPIO_Pö_AŒ
+);
+
+123 
+	}
+}
+
+125 
+	$HD44780_öôDi•œy
+() {
+
+127 
+	`timî_dñay
+(0.02);
+
+130 
+	`GPIO_Re£tBôs
+(
+HD44780_CTRL_PORT
+, 
+HD44780_CTRL_RS
+);
+
+131 
+	`GPIO_Re£tBôs
+(
+HD44780_CTRL_PORT
+, 
+HD44780_CTRL_RW
+);
+
+132 
+	`HD44780_£tD©aPös
+(0x30 >> 4);
+
+133 
+	`timî_dñay
+(0.001);
+
+134 
+	`HD44780_pul£E«bÀ
+();
+
+136 
+	`timî_dñay
+(0.005);
+
+139 
+	`HD44780_pul£E«bÀ
+();
+
+141 
+	`timî_dñay
+(0.0002);
+
+144 
+	`HD44780_pul£E«bÀ
+();
+
+146 
+	`timî_dñay
+(0.0002);
+
+149 
+	`HD44780_wrôeNibbÀ
+(0x20 >> 4, 1);
+
+150 
+	`HD44780_wrôeComm™d
+(0x08);
+
+151 
+	`HD44780_wrôeComm™d
+(0x01);
+
+152 
+	`HD44780_wrôeComm™d
+(0x06);
+
+153 
+	`HD44780_wrôeComm™d
+(0x0C);
+
+154 
+	}
+}
+
+156 
+	$HD44780_öô
+() {
+
+157 
+	`HD44780_öôGpio
+();
+
+158 
+	`HD44780_öôDi•œy
+();
+
+159 
+	`HD44780_wrôeSåög
+("Hello!");
+
+160 
+	}
+}
+
+	@C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\HD44780\HD44780.h
+
+1 #i‚de‡
+HD44780_H_INCLUDED
+
+
+2 
+	#HD44780_H_INCLUDED
+
+
+	)
+
+4 
+	~"°m32f4xx_c⁄f.h
+"
+
+5 
+	~"°m32f4xx_gpio.h
+"
+
+6 
+	~<°döt.h
+>
+
+7 
+	~"../timî/timî.h
+"
+
+9 
+	#HD44780_DATA_PORT
+ 
+GPIOD
+
+
+	)
+
+10 
+	#HD44780_DATA_PORT_AHB
+ 
+RCC_AHB1Pîùh_GPIOD
+
+
+	)
+
+11 
+	#HD44780_DATA_0
+ 
+GPIO_Pö_0
+
+
+	)
+
+12 
+	#HD44780_DATA_1
+ 
+GPIO_Pö_1
+
+
+	)
+
+13 
+	#HD44780_DATA_2
+ 
+GPIO_Pö_2
+
+
+	)
+
+14 
+	#HD44780_DATA_3
+ 
+GPIO_Pö_3
+
+
+	)
+
+16 
+	#HD44780_CTRL_PORT
+ 
+GPIOE
+
+
+	)
+
+17 
+	#HD44780_CTRL_PORT_AHB
+ 
+RCC_AHB1Pîùh_GPIOE
+
+
+	)
+
+18 
+	#HD44780_CTRL_RS
+ 
+GPIO_Pö_0
+
+
+	)
+
+19 
+	#HD44780_CTRL_RW
+ 
+GPIO_Pö_1
+
+
+	)
+
+20 
+	#HD44780_CTRL_EN
+ 
+GPIO_Pö_2
+
+
+	)
+
+22 
+	#HD44780_CMD_MOV_CRSR
+ 0x80
+
+	)
+
+24 
+	#HD44780_LINE_1
+ 0x00
+
+	)
+
+25 
+	#HD44780_LINE_2
+ 0x40
+
+	)
+
+27 
+	#HD44780_EN_PULSE
+ 0.0000005
+
+28 
+
+	)
+
+29 
+HD44780_£tD©aPös
+(
+uöt8_t
+ 
+d©a
+);
+
+30 
+HD44780_pul£E«bÀ
+();
+
+32 
+HD44780_waôF‹Busy
+();
+
+34 
+HD44780_wrôeNibbÀ
+(
+uöt8_t
+ 
+d©a
+, uöt8_à
+isComm™d
+);
+
+35 
+HD44780_wrôe
+(
+uöt8_t
+ 
+d©a
+, uöt8_à
+isComm™d
+);
+
+37 
+HD44780_wrôeComm™d
+(
+uöt8_t
+ 
+comm™d
+);
+
+38 
+HD44780_wrôeD©a
+(
+uöt8_t
+ 
+d©a
+);
+
+40 
+HD44780_swôchToLöe
+(
+uöt8_t
+ 
+löe
+);
+
+41 
+HD44780_fûlS¸ìn
+(
+c
+);
+
+42 
+HD44780_wrôeSåög
+(* 
+aSåög
+);
+
+44 
+HD44780_öôGpio
+();
+
+45 
+HD44780_öôDi•œy
+();
+
+46 
+HD44780_öô
+();
 
 	@C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\SPL\inc\ST06C6~1.H
 
@@ -110301,7 +111225,7 @@ i2c_evít
 
 3 
 	$cs43l22_i2s_öôClocksAndPös
-(){
+() {
 
 4 
 	`as£π_∑øm
@@ -110334,18 +111258,26 @@ ENABLE
 );
 
 11 
+	`RCC_PLLI2SC⁄fig
+(
+CS43L22_I2S_PLL_N
+,
+CS43L22_I2S_PLL_R
+);
+
+12 
 	`RCC_PLLI2SCmd
 (
 ENABLE
 );
 
-13 
+14 
 GPIO_InôTy≥Def
  
 pöInôSåu˘
 ;
 
-16 
+17 
 pöInôSåu˘
 .
 GPIO_Pö
@@ -110353,7 +111285,7 @@ GPIO_Pö
 GPIO_Pö_4
 ;
 
-17 
+18 
 pöInôSåu˘
 .
 GPIO_Mode
@@ -110361,7 +111293,7 @@ GPIO_Mode
 GPIO_Mode_AF
 ;
 
-18 
+19 
 pöInôSåu˘
 .
 GPIO_OTy≥
@@ -110369,7 +111301,7 @@ GPIO_OTy≥
 GPIO_OTy≥_PP
 ;
 
-19 
+20 
 pöInôSåu˘
 .
 GPIO_PuPd
@@ -110377,7 +111309,7 @@ GPIO_PuPd
 GPIO_PuPd_NOPULL
 ;
 
-20 
+21 
 pöInôSåu˘
 .
 GPIO_S≥ed
@@ -110385,7 +111317,7 @@ GPIO_S≥ed
 GPIO_S≥ed_50MHz
 ;
 
-21 
+22 
 	`GPIO_Inô
 (
 GPIOA
@@ -110393,7 +111325,7 @@ GPIOA
 pöInôSåu˘
 );
 
-22 
+23 
 	`GPIO_PöAFC⁄fig
 (
 GPIOA
@@ -110403,7 +111335,7 @@ GPIO_PöSour˚4
 GPIO_AF_SPI3
 );
 
-25 
+26 
 pöInôSåu˘
 .
 GPIO_Pö
@@ -110415,7 +111347,7 @@ GPIO_Pö_10
 GPIO_Pö_12
 ;
 
-26 
+27 
 pöInôSåu˘
 .
 GPIO_Mode
@@ -110423,7 +111355,7 @@ GPIO_Mode
 GPIO_Mode_AF
 ;
 
-27 
+28 
 pöInôSåu˘
 .
 GPIO_OTy≥
@@ -110431,7 +111363,7 @@ GPIO_OTy≥
 GPIO_OTy≥_PP
 ;
 
-28 
+29 
 pöInôSåu˘
 .
 GPIO_PuPd
@@ -110439,7 +111371,7 @@ GPIO_PuPd
 GPIO_PuPd_NOPULL
 ;
 
-29 
+30 
 pöInôSåu˘
 .
 GPIO_S≥ed
@@ -110447,7 +111379,7 @@ GPIO_S≥ed
 GPIO_S≥ed_50MHz
 ;
 
-30 
+31 
 	`GPIO_Inô
 (
 GPIOC
@@ -110455,7 +111387,7 @@ GPIOC
 pöInôSåu˘
 );
 
-31 
+32 
 	`GPIO_PöAFC⁄fig
 (
 GPIOC
@@ -110465,7 +111397,7 @@ GPIO_PöSour˚7
 GPIO_AF_SPI3
 );
 
-32 
+33 
 	`GPIO_PöAFC⁄fig
 (
 GPIOC
@@ -110475,7 +111407,7 @@ GPIO_PöSour˚10
 GPIO_AF_SPI3
 );
 
-33 
+34 
 	`GPIO_PöAFC⁄fig
 (
 GPIOC
@@ -110485,21 +111417,21 @@ GPIO_PöSour˚12
 GPIO_AF_SPI3
 );
 
-34 
+35 
 	}
 }
 
-36 
+37 
 	$cs43l22_i2s_c⁄fig
-(){
+() {
 
-38 
+39 
 I2S_InôTy≥Def
  
 i2sInôSåu˘
 ;
 
-39 
+40 
 i2sInôSåu˘
 .
 I2S_AudioFªq
@@ -110507,7 +111439,7 @@ I2S_AudioFªq
 I2S_AudioFªq_48k
 ;
 
-40 
+41 
 i2sInôSåu˘
 .
 I2S_MCLKOuçut
@@ -110515,7 +111447,7 @@ I2S_MCLKOuçut
 I2S_MCLKOuçut_E«bÀ
 ;
 
-41 
+42 
 i2sInôSåu˘
 .
 I2S_Mode
@@ -110523,7 +111455,7 @@ I2S_Mode
 I2S_Mode_Ma°îTx
 ;
 
-42 
+43 
 i2sInôSåu˘
 .
 I2S_D©aF‹m©
@@ -110531,7 +111463,7 @@ I2S_D©aF‹m©
 I2S_D©aF‹m©_16b
 ;
 
-43 
+44 
 i2sInôSåu˘
 .
 I2S_Sènd¨d
@@ -110539,7 +111471,7 @@ I2S_Sènd¨d
 I2S_Sènd¨d_Phûlùs
 ;
 
-44 
+45 
 i2sInôSåu˘
 .
 I2S_CPOL
@@ -110547,7 +111479,7 @@ I2S_CPOL
 I2S_CPOL_Low
 ;
 
-45 
+46 
 	`I2S_Inô
 (
 CS43L22_I2S_PORT
@@ -110555,7 +111487,7 @@ CS43L22_I2S_PORT
 i2sInôSåu˘
 );
 
-46 
+47 
 	`I2S_Cmd
 (
 CS43L22_I2S_PORT
@@ -110563,19 +111495,19 @@ CS43L22_I2S_PORT
 ENABLE
 );
 
-47 
+48 
 	}
 }
 
-50 
-	$cs43l22_i2s_ouçutSam∂e
+51 
+	$cs43l22_i2s_ouçutSam∂eWhíRódy
 (
 öt16_t
  
 ßm∂e
-){
+) {
 
-51 !
+52 !
 	`SPI_I2S_GëFœgSètus
 (
 CS43L22_I2S_PORT
@@ -110583,7 +111515,7 @@ CS43L22_I2S_PORT
 SPI_I2S_FLAG_TXE
 ));
 
-52 
+53 
 	`SPI_I2S_SídD©a
 (
 CS43L22_I2S_PORT
@@ -110591,27 +111523,27 @@ CS43L22_I2S_PORT
 ßm∂e
 );
 
-53 
+54 
 	}
 }
 
-56 
+57 
 	$cs43l22_i2s_©ãm±OuçutSam∂e
 (
 öt16_t
  
 ßm∂e
-){
+) {
 
-57 if(
+58 if(
 	`SPI_I2S_GëFœgSètus
 (
 CS43L22_I2S_PORT
 , 
 SPI_I2S_FLAG_TXE
-)){
+)) {
 
-58 
+59 
 	`SPI_I2S_SídD©a
 (
 CS43L22_I2S_PORT
@@ -110619,7 +111551,7 @@ CS43L22_I2S_PORT
 ßm∂e
 );
 
-63 
+64 
 	}
 }
 
@@ -110651,23 +111583,33 @@ SPI3
 
 	)
 
-9 
+9 
+	#CS43L22_I2S_PLL_N
+ 197
+
+10 
+	#CS43L22_I2S_PLL_R
+ 2
+
+	)
+
+12 
 cs43l22_i2s_öôClocksAndPös
 ();
 
-10 
+13 
 cs43l22_i2s_c⁄fig
 ();
 
-12 
-cs43l22_i2s_ouçutSam∂e
+15 
+cs43l22_i2s_ouçutSam∂eWhíRódy
 (
 öt16_t
  
 ßm∂e
 );
 
-13 
+16 
 cs43l22_i2s_©ãm±OuçutSam∂e
 (
 öt16_t
@@ -110683,7 +111625,7 @@ cs43l22_i2s_©ãm±OuçutSam∂e
 
 4 
 	$cs43l22_öôRe£tPö
-(){
+() {
 
 5 
 	`RCC_AHB1PîùhClockCmd
@@ -110753,7 +111695,7 @@ pöInôSåu˘
 
 17 
 	$cs43l22_öô
-(){
+() {
 
 18 
 	`cs43l22_öôRe£tPö
@@ -110889,11 +111831,95 @@ CS43L22_REG_POWER_CTL1
 	}
 }
 
-73 
-	$cs43l22_powîOn
-(){
+72 
+	$cs43l22_öôI¡îru±
+() {
+
+73 
+NVIC_InôTy≥Def
+ 
+nvicInôSåu˘
+;
 
 74 
+nvicInôSåu˘
+.
+NVIC_IRQCh™√l
+ = 
+SPI3_IRQn
+;
+
+75 
+nvicInôSåu˘
+.
+NVIC_IRQCh™√lPªem±i⁄Pri‹ôy
+ = 0;
+
+76 
+nvicInôSåu˘
+.
+NVIC_IRQCh™√lSubPri‹ôy
+ = 0;
+
+77 
+nvicInôSåu˘
+.
+NVIC_IRQCh™√lCmd
+ = 
+ENABLE
+;
+
+78 
+	`NVIC_Inô
+(&
+nvicInôSåu˘
+);
+
+79 
+	}
+}
+
+81 
+	$cs43l22_íabÀI¡îru±
+() {
+
+82 
+	`SPI_I2S_ITC⁄fig
+(
+SPI3
+,
+SPI_I2S_IT_TXE
+, 
+ENABLE
+);
+
+83 
+	}
+}
+
+85 
+	$cs43l22_dißbÀI¡îru±
+() {
+
+86 
+	`SPI_I2S_ITC⁄fig
+(
+SPI3
+,
+SPI_I2S_IT_TXE
+, 
+DISABLE
+);
+
+87 
+	}
+}
+
+90 
+	$cs43l22_powîOn
+() {
+
+91 
 	`GPIO_SëBôs
 (
 GPIOD
@@ -110901,15 +111927,15 @@ GPIOD
 GPIO_Pö_4
 );
 
-75 
+92 
 	}
 }
 
-78 
+95 
 	$cs43l22_powîOff
-(){
+() {
 
-79 
+96 
 	`GPIO_Re£tBôs
 (
 GPIOD
@@ -110917,43 +111943,45 @@ GPIOD
 GPIO_Pö_4
 );
 
-80 
+97 
 	}
 }
 
-83 
+99 
 	$cs43l22_ouçutSam∂e
 (
 öt16_t
  
 ßm∂e
-){
+) {
 
-84 
-	`cs43l22_i2s_ouçutSam∂e
+100 
+	`SPI_I2S_SídD©a
 (
+CS43L22_I2S_PORT
+,
 ßm∂e
 );
 
-85 
+101 
 	}
 }
 
-88 
+104 
 	$cs43l22_©ãm±OuçutSam∂e
 (
 öt16_t
  
 ßm∂e
-){
+) {
 
-89  
+105  
 	`cs43l22_i2s_©ãm±OuçutSam∂e
 (
 ßm∂e
 );
 
-90 
+106 
 	}
 }
 
@@ -110977,237 +112005,253 @@ CS43L22_H_INCLUDED
 	~"cs43l22_i2s.h
 "
 
-8 
+6 
+	~"misc.h
+"
+
+9 
 	#CS43L22_REG_ID
  0x1
 
 	)
 
-9 
+10 
 	#CS43L22_REG_POWER_CTL1
  0x2
 
 	)
 
-10 
+11 
 	#CS43L22_REG_POWER_CTL2
  0x4
 
 	)
 
-11 
+12 
 	#CS43L22_REG_CLOCKING_CTL
  0x5
 
 	)
 
-12 
+13 
 	#CS43L22_REG_INTERFACE_CTL1
  0x6
 
 	)
 
-13 
+14 
 	#CS43L22_REG_INTERFACE_CTL2
  0x7
 
 	)
 
-14 
+15 
 	#CS43L22_REG_PASSTRHOUGH_A_SELECT
  0x8
 
 	)
 
-15 
+16 
 	#CS43L22_REG_PASSTRHOUGH_B_SELECT
  0x9
 
 	)
 
-16 
+17 
 	#CS43L22_REG_ANALOG_SET
  0x0A
 
 	)
 
-17 
+18 
 	#CS43L22_REG_PASSTHROUGH_GANG_CTRL
  0x0C
 
 	)
 
-18 
+19 
 	#CS43L22_REG_PLAYBACK_CTRL1
  0x0D
 
 	)
 
-19 
+20 
 	#CS43L22_REG_MISC_CTRL
  0x0E
 
 	)
 
-20 
+21 
 	#CS43L22_REG_PLAYBACK_CTRL2
  0x0F
 
 	)
 
-21 
+22 
 	#CS43L22_REG_PASSTHROUGH_A_VOL
  0x14
 
 	)
 
-22 
+23 
 	#CS43L22_REG_PASSTHROUGH_B_VOL
  0x15
 
 	)
 
-23 
+24 
 	#CS43L22_REG_PCMA_VOL
  0x1A
 
 	)
 
-24 
+25 
 	#CS43L22_REG_PCMB_VOL
  0x1B
 
 	)
 
-25 
+26 
 	#CS43L22_REG_BEEP_FREQ_ONTIME
  0x1C
 
 	)
 
-26 
+27 
 	#CS43L22_REG_BEEP_VOL_OFFTIME
  0x1D
 
 	)
 
-27 
+28 
 	#CS43L22_REG_BEEP_TONE_CFG
  0x1E
 
 	)
 
-28 
+29 
 	#CS43L22_REG_TONE_CTRL
  0x1F
 
 	)
 
-29 
+30 
 	#CS43L22_REG_MASTER_A_VOL
  0x20
 
 	)
 
-30 
+31 
 	#CS43L22_REG_MASTER_B_VOL
  0x21
 
 	)
 
-31 
+32 
 	#CS43L22_REG_HP_A_VOL
  0x22
 
 	)
 
-32 
+33 
 	#CS43L22_REG_HP_B_VOL
  0x23
 
 	)
 
-33 
+34 
 	#CS43L22_REG_SPEAK_A_VOL
  0x24
 
 	)
 
-34 
+35 
 	#CS43L22_REG_SPEAK_B_VOL
  0x25
 
 	)
 
-35 
+36 
 	#CS43L22_REG_CH_MIX_SWAP
  0x26
 
 	)
 
-36 
+37 
 	#CS43L22_REG_LIMIT_CTRL1
  0x27
 
 	)
 
-37 
+38 
 	#CS43L22_REG_LIMIT_CTRL2
  0x28
 
 	)
 
-38 
+39 
 	#CS43L22_REG_LIMIT_ATTACK
  0x29
 
 	)
 
-39 
+40 
 	#CS43L22_REG_OVFL_CLK_STATUS
  0x2E
 
 	)
 
-40 
+41 
 	#CS43L22_REG_BATT_COMP
  0x2F
 
 	)
 
-41 
+42 
 	#CS43L22_REG_VP_BATT_LEVEL
  0x30
 
 	)
 
-42 
+43 
 	#CS43L22_REG_SPEAK_STATUS
  0x31
 
 	)
 
-43 
+44 
 	#CS43L22_REG_CHARGE_PUMP_FREQ
  0x34
 
 	)
 
-45 
+46 
 	#CS43L22_SAMPLE_RATE
  48000
 
 	)
 
-47 
+48 
 cs43l22_öôRe£tPö
 ();
 
-48 
+49 
 cs43l22_öô
 ();
 
-49 
+50 
+cs43l22_öôI¡îru±
+();
+
+51 
+cs43l22_íabÀI¡îru±
+();
+
+52 
+cs43l22_dißbÀI¡îru±
+();
+
+54 
 cs43l22_ouçutSam∂e
 (
 öt16_t
@@ -111215,7 +112259,7 @@ cs43l22_ouçutSam∂e
 ßm∂e
 );
 
-50 
+55 
 cs43l22_©ãm±OuçutSam∂e
 (
 öt16_t
@@ -111223,11 +112267,11 @@ cs43l22_©ãm±OuçutSam∂e
 ßm∂e
 );
 
-52 
+57 
 cs43l22_powîOn
 ();
 
-53 
+58 
 cs43l22_powîOff
 ();
 
@@ -112032,14 +113076,14 @@ dutyMod
 .
 modResu…
  * (
-FOSC_DUTY_RESOLUTION
- - 1);
+FOSC_DUTY_MAX
+);
 
 35 if(
 ãmpDuty
- >
-FOSC_DUTY_RESOLUTION
-)ÅempDuty = FOSC_DUTY_RESOLUTION - 1;
+ > 
+FOSC_DUTY_MAX
+)ÅempDuty = FOSC_DUTY_MAX;
 
 36 
 oscûœt‹
@@ -112992,198 +114036,204 @@ FASTOSC_H_INCLUDED
 	)
 
 8 
+	#FOSC_DUTY_MAX
+ 240
+
+	)
+
+9 
 	#FOSC_WAVE_MIX_RESOLUTION
  256
 
 	)
 
-10 
+11 
 	#FOSC_PITCH_MAX
  16000
 
 	)
 
-11 
+12 
 	#FOSC_AMPLITUDE_MAX
  0xFFFF
 
 	)
 
-13 
+14 
 	gfOsc_deÁu…_mod_§c
 ;
 
-16 * 
+17 * 
 	mmodSour˚
 ;
 
-17 
+18 
 	mmodAmou¡
 ;
 
-18 
+19 
 	mmodResu…
 ;
 
-19 
+20 
 uöt8_t
  
 	misLog
 ;
 
-20 } 
+21 } 
 	tfOsc_modSåu˘
 ;
 
-23 
+24 
 FixedPoöt
  
 	mßm∂eR©e
 ;
 
-25 
+26 
 FixedPoöt
  
 	mpôch
 ;
 
-26 
+27 
 	mpôchOff£t
-;
-
-27 
-FixedPoöt
- 
-	mmoduœãdPôch
 ;
 
 28 
 FixedPoöt
  
-	m°ïSizeBa£
+	mmoduœãdPôch
 ;
 
 29 
 FixedPoöt
  
-	m°ïSizeHigh
+	m°ïSizeBa£
 ;
 
 30 
 FixedPoöt
  
+	m°ïSizeHigh
+;
+
+31 
+FixedPoöt
+ 
 	m°ïSizeLow
 ;
 
-32 * 
+33 * 
 	mwaveTabÀ1
 ;
 
-33 * 
+34 * 
 	mwaveTabÀ2
-;
-
-34 
-uöt8_t
- 
-	mwaveMix
 ;
 
 35 
 uöt8_t
  
-	mmoduœãdWaveMix
+	mwaveMix
 ;
 
-37 
+36 
 uöt8_t
  
-	mdutyE«bÀd
+	mmoduœãdWaveMix
 ;
 
 38 
 uöt8_t
  
-	mduty
+	mdutyE«bÀd
 ;
 
 39 
 uöt8_t
  
-	mmoduœãdDuty
+	mduty
 ;
 
-41 
-uöt16_t
+40 
+uöt8_t
  
-	mpha£
+	mmoduœãdDuty
 ;
 
 42 
 uöt16_t
  
-	mmoduœãdPha£
+	mpha£
 ;
 
-44 
-uöt32_t
+43 
+uöt16_t
  
-	mam∂ôude
+	mmoduœãdPha£
 ;
 
 45 
 uöt32_t
  
-	mmoduœãdAm∂ôude
+	mam∂ôude
 ;
 
 46 
+uöt32_t
+ 
+	mmoduœãdAm∂ôude
+;
+
+47 
 öt16_t
  
 	mswög
 ;
 
-49 
+50 
 FixedPoöt
  
 	mödex
 ;
 
-51 
+52 
 fOsc_modSåu˘
  
 	mpôchMod
 ;
 
-52 
+53 
 fOsc_modSåu˘
  
 	mwaveMixMod
 ;
 
-53 
+54 
 fOsc_modSåu˘
  
 	mdutyMod
 ;
 
-54 
+55 
 fOsc_modSåu˘
  
 	mpha£Mod
 ;
 
-55 
+56 
 fOsc_modSåu˘
  
 	mam∂ôudeMod
 ;
 
-56 } 
+57 } 
 	tfOsc_°ru˘
 ;
 
-58 
+59 
 fOsc_öôModuœt‹
 (
 fOsc_modSåu˘
@@ -113191,7 +114241,7 @@ fOsc_modSåu˘
 moduœt‹
 );
 
-60 
+61 
 fOsc_upd©eModResu…
 (
 fOsc_modSåu˘
@@ -113199,7 +114249,7 @@ fOsc_modSåu˘
 moduœt‹
 );
 
-62 
+63 
 fOsc_moduœãPôch
 (
 fOsc_°ru˘
@@ -113207,7 +114257,7 @@ fOsc_°ru˘
 oscûœt‹
 );
 
-63 
+64 
 fOsc_moduœãWaveMix
 (
 fOsc_°ru˘
@@ -113215,7 +114265,7 @@ fOsc_°ru˘
 oscûœt‹
 );
 
-64 
+65 
 fOsc_moduœãDuty
 (
 fOsc_°ru˘
@@ -113223,7 +114273,7 @@ fOsc_°ru˘
 oscûœt‹
 );
 
-65 
+66 
 fOsc_moduœãPha£
 (
 fOsc_°ru˘
@@ -113231,7 +114281,7 @@ fOsc_°ru˘
 oscûœt‹
 );
 
-66 
+67 
 fOsc_moduœãAm∂ôude
 (
 fOsc_°ru˘
@@ -113239,7 +114289,7 @@ fOsc_°ru˘
 oscûœt‹
 );
 
-68 
+69 
 fOsc_upd©eSwög
 (
 fOsc_°ru˘
@@ -113247,7 +114297,7 @@ fOsc_°ru˘
 oscûœt‹
 );
 
-69 
+70 
 fOsc_upd©eSãpSizeBa£
 (
 fOsc_°ru˘
@@ -113255,7 +114305,7 @@ fOsc_°ru˘
 oscûœt‹
 );
 
-70 
+71 
 fOsc_upd©eSãpSizeHigh
 (
 fOsc_°ru˘
@@ -113263,7 +114313,7 @@ fOsc_°ru˘
 oscûœt‹
 );
 
-71 
+72 
 fOsc_upd©eSãpSizeLow
 (
 fOsc_°ru˘
@@ -113271,7 +114321,7 @@ fOsc_°ru˘
 oscûœt‹
 );
 
-73 
+74 
 fOsc_upd©eDîiv©ives
 (
 fOsc_°ru˘
@@ -113279,7 +114329,7 @@ fOsc_°ru˘
 oscûœt‹
 );
 
-75 
+76 
 fOsc_öô
 (
 fOsc_°ru˘
@@ -113291,7 +114341,7 @@ uöt8_t
 öô
 );
 
-77 
+78 
 öt16_t
  
 fOsc_gëNextSam∂e
@@ -161832,7 +162882,7 @@ lfo
 ->
 wavëabÀ
  = &
-wt_söe
+wt_åi
 ;
 
 9 
@@ -161859,39 +162909,75 @@ lfo
 TIMER_CLOCK_SPEED
 ;
 
-16 
+14 
+lfo
+->
+œ°Sam∂eTime
+ = 
+	`timî_gëTimîTicks
+();
+
+17 
+lfo
+->
 ödex
  +
 timePas£d
- * 
+ *Üfo->
 pôch
 ;
 
-17 
-ödex
- -= ()index;
-
-19 
+18 
 lfo
 ->
-ouçut
+ödex
+ -= ()lfo->index;
+
+20 
+öt16_t
+ 
+adju°edIndex
  = 
-wavëabÀ
-[
 	`wt_öt_gëTabÀIndex
 (
+lfo
+->
 ödex
  * 
 WT_EFFECTIVE_SIZE
-)];
+);
 
-21  
+21 if(
+adju°edIndex
+ < 0){
+
+22 
+lfo
+->
+ouçut
+ = -1 *Üfo->
+wavëabÀ
+[
+adju°edIndex
+ * -1];
+
+24 
+lfo
+->
+ouçut
+ =Üfo->
+wavëabÀ
+[
+adju°edIndex
+];
+
+27  
 lfo
 ->
 ouçut
 ;
 
-22 
+28 
 	}
 }
 
@@ -163167,844 +164253,6 @@ Midi_basicMsg
 msg
 );
 
-	@C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\osc\osc.c
-
-2 
-	~"osc.h
-"
-
-4 
-	$osc_upd©eSãpSizeBa£
-(
-Osc_°ru˘
- * 
-osc
-){
-
-5 
-osc
-->
-°ïSizeBa£
- = osc->
-pôch
- / 
-OSC_SAMPLE_RATE
-;
-
-6 
-	}
-}
-
-8 
-	$osc_upd©eSãpSizeHigh
-(
-Osc_°ru˘
- * 
-osc
-){
-
-9 
-osc
-->
-°ïSizeHigh
- = osc->
-°ïSizeBa£
- / (osc->
-duty
- * 2);
-
-10 
-	}
-}
-
-12 
-	$osc_upd©eSãpSizeLow
-(
-Osc_°ru˘
- * 
-osc
-){
-
-13 
-osc
-->
-°ïSizeLow
- = osc->
-°ïSizeBa£
- / ((1-osc->
-duty
-) * 2);
-
-14 
-	}
-}
-
-16 
-	$osc_upd©eDîiv©ives
-(
-Osc_°ru˘
- * 
-osc
-){
-
-17 
-	`osc_upd©eSãpSizeBa£
-(
-osc
-);
-
-18 
-	`osc_upd©eSãpSizeHigh
-(
-osc
-);
-
-19 
-	`osc_upd©eSãpSizeLow
-(
-osc
-);
-
-20 
-	}
-}
-
-22 
-	$osc_öô
-(){
-
-23 
-	`cs43l22_öô
-();
-
-24 
-	`wt_öô
-();
-
-25 
-osc_ch™√l
- = 0;
-
-26 
-	`osc_öôOscûœt‹
-(&
-osc_oscûœt‹1
-);
-
-27 
-	`osc_öôOscûœt‹
-(&
-osc_oscûœt‹2
-);
-
-28 
-	}
-}
-
-30 
-	$osc_öôOscûœt‹
-(
-Osc_°ru˘
- * 
-osc
-){
-
-31 
-osc
-->
-pôch
- = 
-OSC_PITCH_DEFAULT
-;
-
-32 
-osc
-->
-wavef‹m
- = 
-OSC_WAVEFORM_DEFAULT
-;
-
-33 
-osc
-->
-duty
- = 
-OSC_DUTY_DEFAULT
-;
-
-34 
-osc
-->
-pha£
- = 
-OSC_PHASE_DEFAULT
-;
-
-35 
-osc
-->
-am∂ôude
- = 
-OSC_AMPLITUDE_DEFAULT
-;
-
-37 
-osc
-->
-ödex
- = 0.0;
-
-38 
-osc
-->
-ßm∂e
- = 0;
-
-40 
-	`osc_upd©eDîiv©ives
-(
-osc
-);
-
-41 
-	}
-}
-
-43 
-	$osc_gíî©eNextSam∂e
-(
-Osc_°ru˘
- * 
-osc
-){
-
-46 * 
-wavef‹m1
-;
-
-47 * 
-wavef‹m2
-;
-
-48 
-mix
-;
-
-49 if(
-osc
-->
-wavef‹m
- <
-OSC_WAVEFORM_INTERVAL
-){
-
-50 
-wavef‹m1
- = 
-OSC_WAVEFORM_1
-;
-
-51 
-wavef‹m2
- = 
-OSC_WAVEFORM_2
-;
-
-52 
-mix
- = 
-osc
-->
-wavef‹m
- * 
-OSC_NUM_OF_WAVEFORMS
-;
-
-53 } if(
-osc
-->
-wavef‹m
- <
-OSC_WAVEFORM_INTERVAL
- * 2){
-
-54 
-wavef‹m1
- = 
-OSC_WAVEFORM_2
-;
-
-55 
-wavef‹m2
- = 
-OSC_WAVEFORM_3
-;
-
-56 
-mix
- = (
-osc
-->
-wavef‹m
- - 
-OSC_WAVEFORM_INTERVAL
-Ë* 
-OSC_NUM_OF_WAVEFORMS
-;
-
-57 } if(
-osc
-->
-wavef‹m
- <= 1.0){
-
-58 
-wavef‹m1
- = 
-OSC_WAVEFORM_3
-;
-
-59 
-wavef‹m2
- = 
-OSC_WAVEFORM_1
-;
-
-60 
-mix
- = (
-osc
-->
-wavef‹m
- - 
-OSC_WAVEFORM_INTERVAL
- * 2Ë* 
-OSC_NUM_OF_WAVEFORMS
-;
-
-65 
-wavef‹m1Sam∂e
- = 
-	`wt_gëSam∂eFromTabÀ
-(
-wavef‹m1
-,
-osc
-->
-ödex
-,osc->
-pha£
-);
-
-66 
-wavef‹m2Sam∂e
- = 
-	`wt_gëSam∂eFromTabÀ
-(
-wavef‹m2
-,
-osc
-->
-ödex
-,osc->
-pha£
-);
-
-68 
-osc
-->
-ßm∂e
- = 
-	`wt_mixSam∂es
-(
-wavef‹m1Sam∂e
-,
-wavef‹m2Sam∂e
-,
-mix
-Ë* osc->
-am∂ôude
-;
-
-70 
-√wIndex
- = 0.0;
-
-72 if(
-osc
-->
-ödex
- <= 0.5){
-
-73 
-√wIndex
- = 
-osc
-->
-ödex
- + osc->
-°ïSizeHigh
-;
-
-75 if(
-√wIndex
- > 0.5){
-
-76 
-subSãpHigh
- = 0.5 - 
-osc
-->
-ödex
-;
-
-77 
-subSãpLow
- = (1.0 - (
-subSãpHigh
- / 
-osc
-->
-°ïSizeHigh
-)Ë* osc->
-°ïSizeLow
-;
-
-78 
-√wIndex
- = 
-osc
-->
-ödex
- + 
-subSãpHigh
- + 
-subSãpLow
-;
-
-80 if(
-√wIndex
- > 1.0){
-
-81 
-subSãpLow
- = 0.5;
-
-82 
-subSãpHigh
- = (1.0 - (
-subSãpLow
- / 
-osc
-->
-°ïSizeLow
-)Ë* osc->
-°ïSizeHigh
-;
-
-83 
-√wIndex
- = 
-osc
-->
-ödex
- + 
-subSãpHigh
- + 
-subSãpLow
-;
-
-87 
-√wIndex
- = 
-osc
-->
-ödex
- + osc->
-°ïSizeLow
-;
-
-89 if(
-√wIndex
- > 1.0){
-
-90 
-subSãpLow
- = 1.0 - 
-osc
-->
-ödex
-;
-
-91 
-subSãpHigh
- = (1.0 - (
-subSãpLow
- / 
-osc
-->
-°ïSizeLow
-)Ë* osc->
-°ïSizeHigh
-;
-
-92 
-√wIndex
- = 
-osc
-->
-ödex
- + 
-subSãpLow
- + 
-subSãpHigh
-;
-
-94 if(
-√wIndex
- > 1.5){
-
-95 
-subSãpHigh
- = 0.5;
-
-96 
-subSãpLow
- = (1.0 - (
-subSãpHigh
- / 
-osc
-->
-°ïSizeHigh
-)Ë* osc->
-°ïSizeLow
-;
-
-97 
-√wIndex
- = 
-osc
-->
-ödex
- + 
-subSãpLow
- + 
-subSãpHigh
-;
-
-101 
-osc
-->
-ödex
- = 
-√wIndex
-;
-
-103 
-osc
-->
-ödex
- -= ()osc->index;
-
-104 
-	}
-}
-
-106 
-	$osc_©ãm±Ouçut
-(){
-
-107 if(
-osc_ch™√l
- =0 && 
-	`cs43l22_©ãm±OuçutSam∂e
-(
-osc_ßm∂e
-)) {
-
-108 
-osc_ch™√l
- = 1;
-
-109 
-	`osc_gíî©eNextSam∂e
-(&
-osc_oscûœt‹1
-);
-
-111 } if(
-osc_ch™√l
- =1 && 
-	`cs43l22_©ãm±OuçutSam∂e
-(
-osc_ßm∂e
-)) {
-
-112 
-osc_ch™√l
- = 0;
-
-113 
-	`osc_gíî©eNextSam∂e
-(&
-osc_oscûœt‹2
-);
-
-114 
-osc_ßm∂e
- = (
-osc_oscûœt‹1
-.
-ßm∂e
- + 
-osc_oscûœt‹2
-.ßm∂eË* 
-OSC_SWING
- / 2;
-
-119 
-	}
-}
-
-	@C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\osc\osc.h
-
-1 #i‚de‡
-OSC_H_INCLUDED
-
-
-2 
-	#OSC_H_INCLUDED
-
-
-	)
-
-4 
-	~"../cs43l22/cs43l22.h
-"
-
-5 
-	~"../wavëabÀ/wavëabÀ.h
-"
-
-7 
-	~<°döt.h
->
-
-9 
-	#OSC_SAMPLE_RATE
- (
-CS43L22_SAMPLE_RATE
-)
-
-	)
-
-11 
-	#OSC_PITCH_MAX
- 20000
-
-	)
-
-13 
-	#OSC_NUM_OF_WAVEFORMS
- 3
-
-	)
-
-14 
-	#OSC_WAVEFORM_1
- 
-wt_åi
-
-
-	)
-
-15 
-	#OSC_WAVEFORM_2
- 
-wt_söe
-
-
-	)
-
-16 
-	#OSC_WAVEFORM_3
- 
-wt_squ¨e
-
-
-	)
-
-17 
-	#OSC_WAVEFORM_INTERVAL
- (1.0 / 
-OSC_NUM_OF_WAVEFORMS
-)
-
-	)
-
-19 
-	#OSC_SWING
- (1 << 15)
-
-20 
-
-	)
-
-21 
-	#OSC_PITCH_DEFAULT
- 440.0
-
-	)
-
-22 
-	#OSC_WAVEFORM_DEFAULT
- 0.0
-
-	)
-
-23 
-	#OSC_DUTY_DEFAULT
- 0.5;
-
-	)
-
-24 
-	#OSC_PHASE_DEFAULT
- 0.0
-
-	)
-
-25 
-	#OSC_AMPLITUDE_DEFAULT
- 1.0
-
-	)
-
-29 
-	mpôch
-;
-
-30 
-	mwavef‹m
-;
-
-31 
-	mduty
-;
-
-32 
-	mpha£
-;
-
-33 
-	mam∂ôude
-;
-
-35 
-	m°ïSizeBa£
-;
-
-36 
-	m°ïSizeHigh
-;
-
-37 
-	m°ïSizeLow
-;
-
-39 
-	mödex
-;
-
-40 
-	mßm∂e
-;
-
-41 } 
-	tOsc_°ru˘
-;
-
-43 
-Osc_°ru˘
- 
-	gosc_oscûœt‹1
-;
-
-44 
-Osc_°ru˘
- 
-	gosc_oscûœt‹2
-;
-
-46 
-uöt8_t
- 
-	gosc_ch™√l
-;
-
-48 
-öt16_t
- 
-	gosc_ßm∂e
-;
-
-51 
-osc_upd©eSãpSizeBa£
-(
-Osc_°ru˘
- * 
-osc
-);
-
-52 
-osc_upd©eSãpSizeHigh
-(
-Osc_°ru˘
- * 
-osc
-);
-
-53 
-osc_upd©eSãpSizeLow
-(
-Osc_°ru˘
- * 
-osc
-);
-
-55 
-osc_upd©eDîiv©ives
-(
-Osc_°ru˘
- * 
-osc
-);
-
-57 
-osc_öô
-();
-
-59 
-osc_öôOscûœt‹
-(
-Osc_°ru˘
- * 
-osc
-);
-
-61 
-osc_gíî©eNextSam∂e
-(
-Osc_°ru˘
- * 
-osc
-);
-
-63 
-osc_©ãm±Ouçut
-();
-
 	@C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\poly\poly.c
 
 1 
@@ -164203,29 +164451,55 @@ PLY_NUMBER_OF_VOICES
 	}
 }
 
-53 
+53 
+	$∂y_upd©eAŒ
+(){
+
+54 
+i
+ = 0;
+
+55 
+i
+ = 0; i < 
+PLY_NUMBER_OF_VOICES
+; i++){
+
+56 
+	`voc_upd©eAŒ
+(&
+∂y_voi˚s
+[
+i
+]);
+
+58 
+	}
+}
+
+61 
 öt16_t
  
 	$∂y_gëNextSam∂e
 () {
 
-54 
+62 
 öt32_t
  
 tŸÆ
  = 0;
 
-55 
+63 
 i
  = 0;
 
-56 ; 
+64 ; 
 i
  < 
 PLY_NUMBER_OF_VOICES
 ; i++) {
 
-57 
+65 
 tŸÆ
  +
 	`voc_gëNextSam∂e
@@ -164235,23 +164509,23 @@ tŸÆ
 i
 ]);
 
-59 
+67 
 tŸÆ
  /
 PLY_NUMBER_OF_VOICES
 ;
 
-60  (
+68  (
 öt16_t
 )
 tŸÆ
 ;
 
-61 
+69 
 	}
 }
 
-63 
+71 
 	$∂y_£tPôchOff£t
 (
 uöt8_t
@@ -164261,23 +164535,23 @@ oscûœt‹
 off£t
 ) {
 
-64 if(
+72 if(
 oscûœt‹
  < 
 VOC_OSCILLATORS_PER_VOICE
 ) {
 
-65 
+73 
 i
  = 0;
 
-66 ; 
+74 ; 
 i
  < 
 PLY_NUMBER_OF_VOICES
 ; i++) {
 
-67 
+75 
 ∂y_voi˚s
 [
 i
@@ -164291,11 +164565,11 @@ pôchOff£t
 off£t
 ;
 
-70 
+78 
 	}
 }
 
-72 
+80 
 	$∂y_£tWaveMix
 (
 uöt8_t
@@ -164305,23 +164579,23 @@ oscûœt‹
 waveMix
 ) {
 
-73 if(
+81 if(
 oscûœt‹
  < 
 VOC_OSCILLATORS_PER_VOICE
 ) {
 
-74 
+82 
 i
  = 0;
 
-75 ; 
+83 ; 
 i
  < 
 PLY_NUMBER_OF_VOICES
 ; i++) {
 
-76 
+84 
 ∂y_voi˚s
 [
 i
@@ -164333,11 +164607,11 @@ oscûœt‹
 waveMix
  = waveMix;
 
-79 
+87 
 	}
 }
 
-81 
+89 
 	$∂y_£tDuty
 (
 uöt8_t
@@ -164347,23 +164621,23 @@ oscûœt‹
 duty
 ) {
 
-82 if(
+90 if(
 oscûœt‹
  < 
 VOC_OSCILLATORS_PER_VOICE
 ) {
 
-83 
+91 
 i
  = 0;
 
-84 ; 
+92 ; 
 i
  < 
 PLY_NUMBER_OF_VOICES
 ; i++) {
 
-85 
+93 
 ∂y_voi˚s
 [
 i
@@ -164375,11 +164649,11 @@ oscûœt‹
 duty
  = duty;
 
-88 
+96 
 	}
 }
 
-90 
+98 
 	$∂y_£tPha£
 (
 uöt8_t
@@ -164391,23 +164665,23 @@ uöt16_t
 pha£
 ) {
 
-91 if(
+99 if(
 oscûœt‹
  < 
 VOC_OSCILLATORS_PER_VOICE
 ) {
 
-92 
+100 
 i
  = 0;
 
-93 ; 
+101 ; 
 i
  < 
 PLY_NUMBER_OF_VOICES
 ; i++) {
 
-94 
+102 
 ∂y_voi˚s
 [
 i
@@ -164419,11 +164693,11 @@ oscûœt‹
 pha£
  =Öhase;
 
-97 
+105 
 	}
 }
 
-99 
+107 
 	$∂y_£tAm∂ôude
 (
 uöt8_t
@@ -164435,23 +164709,23 @@ uöt32_t
 am∂ôude
 ) {
 
-100 if(
+108 if(
 oscûœt‹
  < 
 VOC_OSCILLATORS_PER_VOICE
 ) {
 
-101 
+109 
 i
  = 0;
 
-102 ; 
+110 ; 
 i
  < 
 PLY_NUMBER_OF_VOICES
 ; i++) {
 
-103 
+111 
 ∂y_voi˚s
 [
 i
@@ -164463,7 +164737,7 @@ oscûœt‹
 am∂ôude
  =ámplitude;
 
-106 
+114 
 	}
 }
 
@@ -164549,13 +164823,17 @@ midiNŸe
 ∂y_makeUpd©eSãp
 ();
 
-24 
+24 
+∂y_upd©eAŒ
+();
+
+25 
 öt16_t
  
 ∂y_gëNextSam∂e
 ();
 
-26 
+27 
 ∂y_£tPôchOff£t
 (
 uöt8_t
@@ -164565,7 +164843,7 @@ oscûœt‹
 off£t
 );
 
-27 
+28 
 ∂y_£tWaveMix
 (
 uöt8_t
@@ -164575,7 +164853,7 @@ oscûœt‹
 waveMix
 );
 
-28 
+29 
 ∂y_£tDuty
 (
 uöt8_t
@@ -164585,7 +164863,7 @@ oscûœt‹
 duty
 );
 
-29 
+30 
 ∂y_£tPha£
 (
 uöt8_t
@@ -164597,7 +164875,7 @@ uöt16_t
 pha£
 );
 
-30 
+31 
 ∂y_£tAm∂ôude
 (
 uöt8_t
@@ -164821,29 +165099,41 @@ RCC_AHB1Pîùh_GPIOA
 ENABLE
 );
 
-37 
+36 
+	`RCC_AHB1PîùhClockCmd
+(
+RCC_AHB1Pîùh_GPIOC
+, 
+ENABLE
+);
+
+38 
 GPIO_InôTy≥Def
  
 gpioInôSåu˘
 ;
 
-38 
+39 
 gpioInôSåu˘
 .
 GPIO_Pö
  = 
+GPIO_Pö_0
+
+
+40 | 
 GPIO_Pö_1
- | 
+
+
+41 | 
 GPIO_Pö_2
- | 
+
+
+42 | 
 GPIO_Pö_3
- | 
-GPIO_Pö_5
- | 
-GPIO_Pö_6
 ;
 
-39 
+43 
 gpioInôSåu˘
 .
 GPIO_Mode
@@ -164851,7 +165141,7 @@ GPIO_Mode
 GPIO_Mode_AN
 ;
 
-40 
+44 
 gpioInôSåu˘
 .
 GPIO_OTy≥
@@ -164859,7 +165149,7 @@ GPIO_OTy≥
 GPIO_OTy≥_PP
 ;
 
-41 
+45 
 gpioInôSåu˘
 .
 GPIO_PuPd
@@ -164867,7 +165157,7 @@ GPIO_PuPd
 GPIO_PuPd_NOPULL
 ;
 
-42 
+46 
 gpioInôSåu˘
 .
 GPIO_S≥ed
@@ -164875,7 +165165,7 @@ GPIO_S≥ed
 GPIO_S≥ed_2MHz
 ;
 
-43 
+47 
 	`GPIO_Inô
 (
 GPIOA
@@ -164883,13 +165173,21 @@ GPIOA
 gpioInôSåu˘
 );
 
-45 
+48 
+	`GPIO_Inô
+(
+GPIOC
+, &
+gpioInôSåu˘
+);
+
+51 
 ADC_Comm⁄InôTy≥Def
  
 adcComm⁄InôSåu˘
 ;
 
-46 
+52 
 adcComm⁄InôSåu˘
 .
 ADC_Mode
@@ -164897,7 +165195,7 @@ ADC_Mode
 ADC_Mode_Indïídít
 ;
 
-47 
+53 
 adcComm⁄InôSåu˘
 .
 ADC_PªsˇÀr
@@ -164905,7 +165203,7 @@ ADC_PªsˇÀr
 ADC_PªsˇÀr_Div2
 ;
 
-48 
+54 
 adcComm⁄InôSåu˘
 .
 ADC_DMAAc˚ssMode
@@ -164913,7 +165211,7 @@ ADC_DMAAc˚ssMode
 ADC_DMAAc˚ssMode_DißbÀd
 ;
 
-49 
+55 
 adcComm⁄InôSåu˘
 .
 ADC_TwoSam∂ögDñay
@@ -164921,19 +165219,19 @@ ADC_TwoSam∂ögDñay
 ADC_TwoSam∂ögDñay_5Cy˛es
 ;
 
-50 
+56 
 	`ADC_Comm⁄Inô
 (&
 adcComm⁄InôSåu˘
 );
 
-52 
+58 
 ADC_InôTy≥Def
  
 adcInôSåu˘
 ;
 
-53 
+59 
 adcInôSåu˘
 .
 ADC_Resﬁuti⁄
@@ -164941,7 +165239,7 @@ ADC_Resﬁuti⁄
 ADC_Resﬁuti⁄_12b
 ;
 
-54 
+60 
 adcInôSåu˘
 .
 ADC_SˇnC⁄vMode
@@ -164949,7 +165247,7 @@ ADC_SˇnC⁄vMode
 ENABLE
 ;
 
-55 
+61 
 adcInôSåu˘
 .
 ADC_C⁄töuousC⁄vMode
@@ -164957,7 +165255,7 @@ ADC_C⁄töuousC⁄vMode
 ENABLE
 ;
 
-56 
+62 
 adcInôSåu˘
 .
 ADC_Exã∫ÆTrigC⁄v
@@ -164965,7 +165263,7 @@ ADC_Exã∫ÆTrigC⁄v
 ADC_Exã∫ÆTrigC⁄v_T1_CC1
 ;
 
-57 
+63 
 adcInôSåu˘
 .
 ADC_Exã∫ÆTrigC⁄vEdge
@@ -164973,7 +165271,7 @@ ADC_Exã∫ÆTrigC⁄vEdge
 ADC_Exã∫ÆTrigC⁄vEdge_N⁄e
 ;
 
-58 
+64 
 adcInôSåu˘
 .
 ADC_D©aAlign
@@ -164981,13 +165279,15 @@ ADC_D©aAlign
 ADC_D©aAlign_Right
 ;
 
-59 
+65 
 adcInôSåu˘
 .
 ADC_NbrOfC⁄vîsi⁄
- = 5;
+ = 
+POTS_NUMBER
+;
 
-60 
+66 
 	`ADC_Inô
 (
 ADC1
@@ -164995,57 +165295,87 @@ ADC1
 adcInôSåu˘
 );
 
-62 
+68 
+	`ADC_ReguœrCh™√lC⁄fig
+(
+ADC1
+,
+ADC_Ch™√l_0
+,1,
+ADC_Sam∂eTime_144Cy˛es
+);
+
+69 
 	`ADC_ReguœrCh™√lC⁄fig
 (
 ADC1
 ,
 ADC_Ch™√l_1
-,1,
+,2,
 ADC_Sam∂eTime_144Cy˛es
 );
 
-63 
+70 
 	`ADC_ReguœrCh™√lC⁄fig
 (
 ADC1
 ,
 ADC_Ch™√l_2
-,2,
+,3,
 ADC_Sam∂eTime_144Cy˛es
 );
 
-64 
+71 
 	`ADC_ReguœrCh™√lC⁄fig
 (
 ADC1
 ,
 ADC_Ch™√l_3
-,3,
-ADC_Sam∂eTime_144Cy˛es
-);
-
-65 
-	`ADC_ReguœrCh™√lC⁄fig
-(
-ADC1
-,
-ADC_Ch™√l_5
 ,4,
 ADC_Sam∂eTime_144Cy˛es
 );
 
-66 
+73 
 	`ADC_ReguœrCh™√lC⁄fig
 (
 ADC1
 ,
-ADC_Ch™√l_6
+ADC_Ch™√l_10
 ,5,
 ADC_Sam∂eTime_144Cy˛es
 );
 
-68 
+74 
+	`ADC_ReguœrCh™√lC⁄fig
+(
+ADC1
+,
+ADC_Ch™√l_11
+,6,
+ADC_Sam∂eTime_144Cy˛es
+);
+
+75 
+	`ADC_ReguœrCh™√lC⁄fig
+(
+ADC1
+,
+ADC_Ch™√l_12
+,7,
+ADC_Sam∂eTime_144Cy˛es
+);
+
+76 
+	`ADC_ReguœrCh™√lC⁄fig
+(
+ADC1
+,
+ADC_Ch™√l_13
+,8,
+ADC_Sam∂eTime_144Cy˛es
+);
+
+78 
 	`ADC_C⁄töuousModeCmd
 (
 ADC1
@@ -165053,15 +165383,15 @@ ADC1
 ENABLE
 );
 
-69 
+79 
 	}
 }
 
-71 
+81 
 	$pŸs_°¨t
 (){
 
-72 
+82 
 	`ADC_DMAReque°A·îLa°Tøns„rCmd
 (
 ADC1
@@ -165069,7 +165399,7 @@ ADC1
 ENABLE
 );
 
-74 
+84 
 	`ADC_DMACmd
 (
 ADC1
@@ -165077,7 +165407,7 @@ ADC1
 ENABLE
 );
 
-75 
+85 
 	`ADC_Cmd
 (
 ADC1
@@ -165085,37 +165415,37 @@ ADC1
 ENABLE
 );
 
-77 
+87 
 	`ADC_So·w¨eSèπC⁄v
 (
 ADC1
 );
 
-78 
+88 
 	}
 }
 
-80 
+90 
 	$pŸs_öôAndSèπ
 (){
 
-81 
+91 
 	`pŸs_adcInô
 ();
 
-82 
+92 
 	`pŸs_dmaInô
 ();
 
-83 
+93 
 	`pŸs_°¨t
 ();
 
-84 
+94 
 	}
 }
 
-86 
+96 
 	$pŸs_gëM≠≥dAvîage
 (
 uöt16_t
@@ -165123,7 +165453,7 @@ uöt16_t
 pŸ
 ){
 
-87 
+97 
 	`as£π_∑øm
 (
 pŸ
@@ -165131,23 +165461,23 @@ pŸ
 POTS_NUMBER
 );
 
-89 
+99 
 uöt16_t
  
 tŸÆ
  = 0;
 
-91 
+101 
 ßm∂e
  = 0;
 
-92 ; 
+102 ; 
 ßm∂e
  < 
 POTS_OVERSAMPLING
 ; sample++){
 
-93 
+103 
 tŸÆ
  +
 pŸs_vÆues
@@ -165159,17 +165489,17 @@ pŸ
 POTS_NUMBER
 ];
 
-96  ()
+106  ()
 tŸÆ
  / 
 POTS_TOTAL_OUTPUT_MAX
 ;
 
-97 
+107 
 	}
 }
 
-100 
+110 
 	$pŸs_ªadIfA˘ive
 (
 uöt16_t
@@ -165179,13 +165509,13 @@ pŸ
 ouçut
 ){
 
-101 if(!
+111 if(!
 pŸs_ªadSö˚Swôch
 [
 pŸ
 ]){
 
-102 
+112 
 pŸs_œ°A˘iveRód
 [
 pŸ
@@ -165193,19 +165523,19 @@ pŸ
 	`pŸs_gëM≠≥dAvîage
 (pot);
 
-103 
+113 
 pŸs_ªadSö˚Swôch
 [
 pŸ
 ] = 1;
 
-104 
+114 
 pŸs_isA˘ive
 [
 pŸ
 ] = 0;
 
-106 
+116 
 √wVÆue
  = 
 	`pŸs_gëM≠≥dAvîage
@@ -165213,13 +165543,13 @@ pŸ
 pŸ
 );
 
-107 if(
+117 if(
 pŸs_isA˘ive
 [
 pŸ
 ]
 
-108 || 
+118 || 
 √wVÆue
  + 
 POTS_ACTIVATION_THRESHOLD
@@ -165229,7 +165559,7 @@ pŸs_œ°A˘iveRód
 pŸ
 ]
 
-109 || 
+119 || 
 √wVÆue
  - 
 POTS_ACTIVATION_THRESHOLD
@@ -165239,49 +165569,49 @@ pŸs_œ°A˘iveRód
 pŸ
 ]){
 
-110 
+120 
 pŸs_isA˘ive
 [
 pŸ
 ] = 1;
 
-111 *
+121 *
 ouçut
  = 
 √wVÆue
 ;
 
-114  
+124  
 pŸs_isA˘ive
 [
 pŸ
 ];
 
-115 
+125 
 	}
 }
 
-117 
+127 
 	$pŸs_swôchFun˘i⁄
 (){
 
-118 
+128 
 i
  = 0;
 
-119 
+129 
 i
  = 0; i < 
 POTS_NUMBER
 ; i++){
 
-120 
+130 
 pŸs_ªadSö˚Swôch
 [
 i
 ] = 0;
 
-122 
+132 
 	}
 }
 
@@ -165311,7 +165641,7 @@ POTS_H_INCLUDED
 
 8 
 	#POTS_NUMBER
- 5
+ 8
 
 	)
 
@@ -168099,49 +168429,53 @@ tm¥eg
 	~"../Á°Exp/fExp.h
 "
 
-29 
+28 
+	~"../HD44780/HD44780.h
+"
+
+30 
 	#PITCH_POT
  0
 
 	)
 
-30 
+31 
 	#WAVEFORM_POT
  1
 
 	)
 
-31 
+32 
 	#DUTY_POT
  2
 
 	)
 
-32 
+33 
 	#PHASE_POT
  3
 
 	)
 
-33 
+34 
 	#AMPLITUDE_POT
  4
 
 	)
 
-35 
+36 
 	#PITCH_BOTTOM
  40
 
 	)
 
-36 
+37 
 	#PITCH_RANGE
  4000
 
 	)
 
-38 
+39 
 	$ã°FOscO√ShŸ
 (
 uöt16_t
@@ -168153,13 +168487,13 @@ uöt8_t
 dutyE«bÀd
 ) {
 
-39 
+40 
 fOsc_°ru˘
  
 oscûœt‹
 ;
 
-40 
+41 
 oscûœt‹
 .
 ßm∂eR©e
@@ -168169,7 +168503,7 @@ p
 i
  = 48000;
 
-41 
+42 
 oscûœt‹
 .
 ßm∂eR©e
@@ -168179,7 +168513,7 @@ p
 f
  = 0;
 
-42 
+43 
 oscûœt‹
 .
 pôch
@@ -168189,7 +168523,7 @@ p
 i
  = 440;
 
-43 
+44 
 oscûœt‹
 .
 pôch
@@ -168199,13 +168533,13 @@ p
 f
  = 0;
 
-44 
+45 
 oscûœt‹
 .
 am∂ôude
  = (1 << 14);
 
-45 
+46 
 oscûœt‹
 .
 waveTabÀ1
@@ -168213,7 +168547,7 @@ waveTabÀ1
 wt_åi
 ;
 
-46 
+47 
 oscûœt‹
 .
 waveTabÀ2
@@ -168221,31 +168555,31 @@ waveTabÀ2
 wt_squ¨e
 ;
 
-47 
+48 
 oscûœt‹
 .
 waveMix
  = 100;
 
-48 
+49 
 oscûœt‹
 .
 dutyE«bÀd
  = dutyEnabled;
 
-49 
+50 
 oscûœt‹
 .
 duty
  = 207;
 
-50 
+51 
 	`fOsc_öô
 (&
 oscûœt‹
 ,0);
 
-52 
+53 
 uöt16_t
  
 ßm∂es
@@ -168253,41 +168587,41 @@ uöt16_t
 numbîOfTe°s
 ];
 
-53 
-uöt32_t
- 
-°¨tTime
-;
-
 54 
 uöt32_t
  
-tŸÆTime
+°¨tTime
 ;
 
 55 
 uöt32_t
  
+tŸÆTime
+;
+
+56 
+uöt32_t
+ 
 i
  = 0;
 
-57 
+58 
 tŸÆTime
  = 0;
 
-58 
+59 
 °¨tTime
  = 
 	`timî_gëTimîTicks
 ();
 
-59 
+60 
 i
  = 0; i < 
 numbîOfTe°s
 ; i++) {
 
-60 
+61 
 ßm∂es
 [
 i
@@ -168297,7 +168631,7 @@ i
 oscûœt‹
 );
 
-62 
+63 
 tŸÆTime
  = 
 	`timî_gëTimîTicks
@@ -168305,7 +168639,7 @@ tŸÆTime
 °¨tTime
 ;
 
-63 if(
+64 if(
 dutyE«bÀd
 Ë
 	`¥ötf
@@ -168315,7 +168649,7 @@ oscûœt‹
 duty
 );
 
-64 
+65 
 	`¥ötf
 ("timêf‹ %d fOs¯ßm∂es: %d\n",
 numbîOfTe°s
@@ -168323,13 +168657,13 @@ numbîOfTe°s
 tŸÆTime
 );
 
-67 
+68 
 i
  = 0; i < 
 numbîOfTe°s
 ; i++) {
 
-68 !
+69 !
 	`SPI_I2S_GëFœgSètus
 (
 CS43L22_I2S_PORT
@@ -168337,7 +168671,7 @@ CS43L22_I2S_PORT
 SPI_I2S_FLAG_TXE
 ));
 
-69 
+70 
 	`SPI_I2S_SídD©a
 (
 CS43L22_I2S_PORT
@@ -168347,11 +168681,11 @@ CS43L22_I2S_PORT
 i
 ]);
 
-72 
+73 
 	}
 }
 
-74 
+75 
 	$ã°FOscC⁄töuous
 (
 uöt8_t
@@ -168367,7 +168701,7 @@ Bä_°ru˘
 buâ⁄
 ) {
 
-76 
+77 
 fOsc_°ru˘
  
 oscûœt‹s
@@ -168375,25 +168709,15 @@ oscûœt‹s
 numbîOfOscûœt‹s
 ];
 
-77 
+78 
 i
  = 0;
 
-78 ; 
+79 ; 
 i
  < 
 numbîOfOscûœt‹s
 ; i++) {
-
-79 
-oscûœt‹s
-[
-i
-].
-ßm∂eR©e
-.
-p
-.i = 48000;
 
 80 
 oscûœt‹s
@@ -168403,19 +168727,19 @@ i
 ßm∂eR©e
 .
 p
-.
-f
- = 0;
+.i = 48000;
 
 81 
 oscûœt‹s
 [
 i
 ].
-pôch
+ßm∂eR©e
 .
 p
-.i = 440;
+.
+f
+ = 0;
 
 82 
 oscûœt‹s
@@ -168425,11 +168749,21 @@ i
 pôch
 .
 p
+.i = 440;
+
+83 
+oscûœt‹s
+[
+i
+].
+pôch
+.
+p
 .
 f
  = 0;
 
-83 
+84 
 oscûœt‹s
 [
 i
@@ -168437,7 +168771,7 @@ i
 am∂ôude
  = (1 << 14);
 
-84 
+85 
 oscûœt‹s
 [
 i
@@ -168447,7 +168781,7 @@ waveTabÀ1
 wt_söe
 ;
 
-85 
+86 
 oscûœt‹s
 [
 i
@@ -168457,7 +168791,7 @@ waveTabÀ2
 wt_squ¨e
 ;
 
-86 
+87 
 oscûœt‹s
 [
 i
@@ -168465,7 +168799,7 @@ i
 waveMix
  = 128;
 
-87 
+88 
 oscûœt‹s
 [
 i
@@ -168473,7 +168807,7 @@ i
 dutyE«bÀd
  = dutyEnabled;
 
-88 
+89 
 oscûœt‹s
 [
 i
@@ -168481,7 +168815,7 @@ i
 duty
  = 0;
 
-89 
+90 
 oscûœt‹s
 [
 i
@@ -168489,7 +168823,7 @@ i
 pha£
  = 0;
 
-90 
+91 
 	`fOsc_öô
 (&
 oscûœt‹s
@@ -168497,41 +168831,41 @@ oscûœt‹s
 i
 ],0);
 
-93 
+94 
 öt16_t
  
 ßm∂e
  = 0;
 
-94 
+95 
 öt32_t
  
 ßm∂eSum
  = 0;
 
-95 
+96 
 uöt8_t
  
 ch™√l
  = 1;
 
-96 
-i
- = 0;
-
 97 
-uöt8_t
- 
-upd©eSãp
+i
  = 0;
 
 98 
 uöt8_t
  
+upd©eSãp
+ = 0;
+
+99 
+uöt8_t
+ 
 £À˘edOscûœt‹
  = 0;
 
-101 if(
+102 if(
 	`SPI_I2S_GëFœgSètus
 (
 CS43L22_I2S_PORT
@@ -168539,7 +168873,7 @@ CS43L22_I2S_PORT
 SPI_I2S_FLAG_TXE
 )) {
 
-102 
+103 
 	`SPI_I2S_SídD©a
 (
 CS43L22_I2S_PORT
@@ -168547,15 +168881,15 @@ CS43L22_I2S_PORT
 ßm∂e
 );
 
-103 if(
+104 if(
 ch™√l
  == 1) {
 
-104 
+105 
 ch™√l
  = 2;
 
-106 
+107 
 ßm∂e
  = 
 ßm∂eSum
@@ -168563,15 +168897,15 @@ ch™√l
 numbîOfOscûœt‹s
 ;
 
-107 
+108 
 ßm∂eSum
  = 0;
 
-108 
+109 
 ch™√l
  = 1;
 
-110 if(
+111 if(
 i
  !
 numbîOfOscûœt‹s
@@ -168579,11 +168913,11 @@ numbîOfOscûœt‹s
 	`¥ötf
 ("UNDERRUN: ONLY %d SAMPLES GENERATED\n",i);
 
-111 
+112 
 i
  = 0;
 
-115 if(
+116 if(
 i
  < 
 ch™√l
@@ -168591,7 +168925,7 @@ ch™√l
 numbîOfOscûœt‹s
  / 2) {
 
-116 
+117 
 ßm∂eSum
  +
 	`fOsc_gëNextSam∂e
@@ -168601,23 +168935,23 @@ oscûœt‹s
 i
 ]);
 
-117 
+118 
 i
 ++;
 
-118 } if(
+119 } if(
 pŸsE«bÀd
 ) {
 
-119 
+120 
 √wVÆue
  = 0.0;
 
-120 
+121 
 upd©eSãp
 ++) {
 
-122 if(
+123 if(
 	`pŸs_ªadIfA˘ive
 (
 PITCH_POT
@@ -168625,7 +168959,7 @@ PITCH_POT
 √wVÆue
 )) {
 
-123 
+124 
 oscûœt‹s
 [
 £À˘edOscûœt‹
@@ -168643,7 +168977,7 @@ PITCH_RANGE
 PITCH_BOTTOM
 ;
 
-127 if(
+128 if(
 	`pŸs_ªadIfA˘ive
 (
 DUTY_POT
@@ -168651,7 +168985,7 @@ DUTY_POT
 √wVÆue
 )) {
 
-128 
+129 
 oscûœt‹s
 [
 £À˘edOscûœt‹
@@ -168659,11 +168993,11 @@ oscûœt‹s
 duty
  = 
 √wVÆue
- * (
-FOSC_DUTY_RESOLUTION
- - 16);
+ * 
+FOSC_DUTY_MAX
+;
 
-132 
+133 
 	`fOsc_upd©eSãpSizeBa£
 (&
 oscûœt‹s
@@ -168671,7 +169005,7 @@ oscûœt‹s
 £À˘edOscûœt‹
 ]);
 
-135 
+136 
 	`fOsc_upd©eSãpSizeHigh
 (&
 oscûœt‹s
@@ -168679,7 +169013,7 @@ oscûœt‹s
 £À˘edOscûœt‹
 ]);
 
-138 
+139 
 	`fOsc_upd©eSãpSizeLow
 (&
 oscûœt‹s
@@ -168687,7 +169021,7 @@ oscûœt‹s
 £À˘edOscûœt‹
 ]);
 
-141 if(
+142 if(
 	`pŸs_ªadIfA˘ive
 (
 WAVEFORM_POT
@@ -168695,7 +169029,7 @@ WAVEFORM_POT
 √wVÆue
 )) {
 
-142 
+143 
 oscûœt‹s
 [
 £À˘edOscûœt‹
@@ -168707,7 +169041,7 @@ waveMix
 FOSC_WAVE_MIX_RESOLUTION
  - 1;
 
-146 if(
+147 if(
 	`pŸs_ªadIfA˘ive
 (
 PHASE_POT
@@ -168715,7 +169049,7 @@ PHASE_POT
 √wVÆue
 )) {
 
-147 
+148 
 oscûœt‹s
 [
 £À˘edOscûœt‹
@@ -168727,7 +169061,7 @@ pha£
 WT_EFFECTIVE_SIZE
  - 1;
 
-151 if(
+152 if(
 	`pŸs_ªadIfA˘ive
 (
 AMPLITUDE_POT
@@ -168735,7 +169069,7 @@ AMPLITUDE_POT
 √wVÆue
 )) {
 
-152 
+153 
 oscûœt‹s
 [
 £À˘edOscûœt‹
@@ -168747,7 +169081,7 @@ am∂ôude
 FOSC_AMPLITUDE_MAX
 ;
 
-156 
+157 
 	`fOsc_upd©eSwög
 (&
 oscûœt‹s
@@ -168755,35 +169089,35 @@ oscûœt‹s
 £À˘edOscûœt‹
 ]);
 
-159 if(
+160 if(
 	`bä_ªadO√ShŸ
 (
 buâ⁄
 )) {
 
-160 
+161 
 £À˘edOscûœt‹
 ++;
 
-161 if(
+162 if(
 £À˘edOscûœt‹
  >
 numbîOfOscûœt‹s
 ) selectedOscillator = 0;
 
-162 
+163 
 	`pŸs_swôchFun˘i⁄
 ();
 
-164 
+165 
 upd©eSãp
  = 0;
 
-169 
+170 
 	}
 }
 
-171 
+172 
 	$ã°FOscC⁄töuousWôhMidi
 (
 uöt8_t
@@ -168799,7 +169133,7 @@ Bä_°ru˘
 buâ⁄
 ) {
 
-173 
+174 
 fOsc_°ru˘
  
 oscûœt‹s
@@ -168807,25 +169141,15 @@ oscûœt‹s
 numbîOfOscûœt‹s
 ];
 
-174 
+175 
 i
  = 0;
 
-175 ; 
+176 ; 
 i
  < 
 numbîOfOscûœt‹s
 ; i++) {
-
-176 
-oscûœt‹s
-[
-i
-].
-ßm∂eR©e
-.
-p
-.i = 48000;
 
 177 
 oscûœt‹s
@@ -168835,19 +169159,19 @@ i
 ßm∂eR©e
 .
 p
-.
-f
- = 0;
+.i = 48000;
 
 178 
 oscûœt‹s
 [
 i
 ].
-pôch
+ßm∂eR©e
 .
 p
-.i = 440;
+.
+f
+ = 0;
 
 179 
 oscûœt‹s
@@ -168857,11 +169181,21 @@ i
 pôch
 .
 p
+.i = 440;
+
+180 
+oscûœt‹s
+[
+i
+].
+pôch
+.
+p
 .
 f
  = 0;
 
-180 
+181 
 oscûœt‹s
 [
 i
@@ -168869,7 +169203,7 @@ i
 pôchOff£t
  = 1.0;
 
-181 
+182 
 oscûœt‹s
 [
 i
@@ -168877,7 +169211,7 @@ i
 am∂ôude
  = (1 << 14);
 
-182 
+183 
 oscûœt‹s
 [
 i
@@ -168887,7 +169221,7 @@ waveTabÀ1
 wt_söe
 ;
 
-183 
+184 
 oscûœt‹s
 [
 i
@@ -168897,7 +169231,7 @@ waveTabÀ2
 wt_squ¨e
 ;
 
-184 
+185 
 oscûœt‹s
 [
 i
@@ -168905,7 +169239,7 @@ i
 waveMix
  = 128;
 
-185 
+186 
 oscûœt‹s
 [
 i
@@ -168913,7 +169247,7 @@ i
 dutyE«bÀd
  = dutyEnabled;
 
-186 
+187 
 oscûœt‹s
 [
 i
@@ -168921,7 +169255,7 @@ i
 duty
  = 0;
 
-187 
+188 
 oscûœt‹s
 [
 i
@@ -168929,7 +169263,7 @@ i
 pha£
  = 0;
 
-188 
+189 
 	`fOsc_öô
 (&
 oscûœt‹s
@@ -168937,67 +169271,67 @@ oscûœt‹s
 i
 ],0);
 
-191 
+192 
 Env_ívñ›e
  
 ív
 ;
 
-192 
+193 
 	`ív_öô
 (&
 ív
 );
 
-194 
+195 
 öt16_t
  
 ßm∂e
  = 0;
 
-195 
+196 
 öt32_t
  
 ßm∂eSum
  = 0;
 
-196 
+197 
 uöt8_t
  
 ch™√l
  = 1;
 
-197 
-i
- = 0;
-
 198 
-uöt8_t
- 
-upd©eSãp
+i
  = 0;
 
 199 
 uöt8_t
  
+upd©eSãp
+ = 0;
+
+200 
+uöt8_t
+ 
 £À˘edOscûœt‹
  = 0;
 
-201 
+202 
 ívSam∂e
  = 0.0;
 
-203 
+204 
 	`midi_öô
 ();
 
-205 
+206 
 Midi_basicMsg
  
 midiMsg
 ;
 
-207 if(
+208 if(
 	`SPI_I2S_GëFœgSètus
 (
 CS43L22_I2S_PORT
@@ -169005,7 +169339,7 @@ CS43L22_I2S_PORT
 SPI_I2S_FLAG_TXE
 )) {
 
-208 
+209 
 	`SPI_I2S_SídD©a
 (
 CS43L22_I2S_PORT
@@ -169013,19 +169347,19 @@ CS43L22_I2S_PORT
 ßm∂e
 );
 
-209 if(
+210 if(
 ch™√l
  == 1) {
 
-210 
+211 
 ch™√l
  = 2;
 
-212 
+213 
 ch™√l
  = 1;
 
-214 
+215 
 ßm∂e
  = (
 ßm∂eSum
@@ -169033,11 +169367,11 @@ ch™√l
 numbîOfOscûœt‹s
 );
 
-215 
+216 
 ßm∂eSum
  = 0;
 
-217 if(
+218 if(
 i
  !
 numbîOfOscûœt‹s
@@ -169045,11 +169379,11 @@ numbîOfOscûœt‹s
 	`¥ötf
 ("UNDERRUN: ONLY %d SAMPLES GENERATED\n",i);
 
-218 
+219 
 i
  = 0;
 
-222 if(
+223 if(
 i
  < 
 ch™√l
@@ -169057,7 +169391,7 @@ ch™√l
 numbîOfOscûœt‹s
  / 2) {
 
-223 
+224 
 ßm∂eSum
  +
 ívSam∂e
@@ -169069,19 +169403,19 @@ oscûœt‹s
 i
 ]);
 
-224 
+225 
 i
 ++;
 
-225 } if(
+226 } if(
 pŸsE«bÀd
 ) {
 
-226 
+227 
 √wVÆue
  = 0.0;
 
-227 
+228 
 fOsc_°ru˘
  * 
 oscûœt‹
@@ -169091,11 +169425,11 @@ oscûœt‹s
 £À˘edOscûœt‹
 ];
 
-228 
+229 
 upd©eSãp
 ++) {
 
-230 if(
+231 if(
 	`pŸs_ªadIfA˘ive
 (
 PITCH_POT
@@ -169103,7 +169437,7 @@ PITCH_POT
 √wVÆue
 )) {
 
-231 
+232 
 oscûœt‹
 ->
 pôchOff£t
@@ -169111,7 +169445,7 @@ pôchOff£t
 √wVÆue
  * 3 + 0.5;
 
-235 if(
+236 if(
 	`pŸs_ªadIfA˘ive
 (
 DUTY_POT
@@ -169119,35 +169453,35 @@ DUTY_POT
 √wVÆue
 )) {
 
-236 
+237 
 oscûœt‹
 ->
 duty
  = 
 √wVÆue
  * (
-FOSC_DUTY_RESOLUTION
- - 16);
+FOSC_DUTY_MAX
+);
 
-240 
+241 
 	`fOsc_upd©eSãpSizeBa£
 (
 oscûœt‹
 );
 
-243 
+244 
 	`fOsc_upd©eSãpSizeHigh
 (
 oscûœt‹
 );
 
-246 
+247 
 	`fOsc_upd©eSãpSizeLow
 (
 oscûœt‹
 );
 
-249 if(
+250 if(
 	`pŸs_ªadIfA˘ive
 (
 WAVEFORM_POT
@@ -169155,7 +169489,7 @@ WAVEFORM_POT
 √wVÆue
 )) {
 
-250 
+251 
 oscûœt‹
 ->
 waveMix
@@ -169165,7 +169499,7 @@ waveMix
 FOSC_WAVE_MIX_RESOLUTION
  - 1;
 
-254 if(
+255 if(
 	`pŸs_ªadIfA˘ive
 (
 PHASE_POT
@@ -169173,7 +169507,7 @@ PHASE_POT
 √wVÆue
 )) {
 
-255 
+256 
 oscûœt‹
 ->
 pha£
@@ -169183,7 +169517,7 @@ pha£
 WT_EFFECTIVE_SIZE
  - 1;
 
-259 if(
+260 if(
 	`pŸs_ªadIfA˘ive
 (
 AMPLITUDE_POT
@@ -169191,7 +169525,7 @@ AMPLITUDE_POT
 √wVÆue
 )) {
 
-260 
+261 
 oscûœt‹
 ->
 am∂ôude
@@ -169201,13 +169535,13 @@ am∂ôude
 FOSC_AMPLITUDE_MAX
 ;
 
-264 
+265 
 	`fOsc_upd©eSwög
 (
 oscûœt‹
 );
 
-267 
+268 
 ívSam∂e
  = 
 	`ív_gëNextSam∂e
@@ -169215,19 +169549,19 @@ oscûœt‹
 ív
 );
 
-270 if(!
+271 if(!
 	`midi_gëMsgIfAbÀ
 (&
 midiMsg
 )) {
 
-271 
+272 
 midiMsg
 .
 msgTy≥
  = 0;
 
-275 if(
+276 if(
 midiMsg
 .
 msgTy≥
@@ -169235,19 +169569,19 @@ msgTy≥
 MIDI_MSG_TYPE_NOTE_ON
 ) {
 
-276 if(
+277 if(
 midiMsg
 .
 d©aByãs
 [1] == 0) {
 
-277 
+278 
 	`ív_ªÀa£
 (&
 ív
 );
 
-279 
+280 
 oscûœt‹
 ->
 pôch
@@ -169261,13 +169595,13 @@ midiMsg
 d©aByãs
 [0]].c;
 
-280 
+281 
 	`ív_åiggî
 (&
 ív
 );
 
-282 } if(
+283 } if(
 midiMsg
 .
 msgTy≥
@@ -169275,41 +169609,41 @@ msgTy≥
 MIDI_MSG_TYPE_NOTE_OFF
 ) {
 
-283 
+284 
 	`ív_ªÀa£
 (&
 ív
 );
 
-287 if(
+288 if(
 	`bä_ªadO√ShŸ
 (
 buâ⁄
 )) {
 
-288 
+289 
 £À˘edOscûœt‹
 ++;
 
-289 if(
+290 if(
 £À˘edOscûœt‹
  >
 numbîOfOscûœt‹s
 ) selectedOscillator = 0;
 
-290 
+291 
 	`pŸs_swôchFun˘i⁄
 ();
 
-294 
+295 
 upd©eSãp
  = 0;
 
-299 
+300 
 	}
 }
 
-301 
+302 
 	$ã°FOscC⁄töuousPﬁyph⁄icMidi
 (
 Bä_°ru˘
@@ -169317,49 +169651,49 @@ Bä_°ru˘
 buâ⁄
 ) {
 
-302 
+303 
 	`∂y_öô
 ();
 
-303 
+304 
 	`midi_öô
 ();
 
-305 
+306 
 öt16_t
  
 ßm∂e
  = 0;
 
-306 
+307 
 uöt8_t
  
 ch™√l
  = 1;
 
-307 
+308 
 uöt8_t
  
 upd©eSãp
  = 0;
 
-308 
+309 
 uöt8_t
  
 £À˘edOscûœt‹
  = 0;
 
-309 
+310 
 √wVÆue
  = 0.0;
 
-311 
+312 
 Midi_basicMsg
  
 midiMsg
 ;
 
-314 if(
+315 if(
 	`SPI_I2S_GëFœgSètus
 (
 CS43L22_I2S_PORT
@@ -169367,7 +169701,7 @@ CS43L22_I2S_PORT
 SPI_I2S_FLAG_TXE
 )) {
 
-315 
+316 
 	`SPI_I2S_SídD©a
 (
 CS43L22_I2S_PORT
@@ -169375,29 +169709,29 @@ CS43L22_I2S_PORT
 ßm∂e
 );
 
-316 if(
+317 if(
 ch™√l
  == 1) {
 
-317 
+318 
 ch™√l
  = 2;
 
-319 
+320 
 ch™√l
  = 1;
 
-320 
+321 
 ßm∂e
  = 
 	`∂y_gëNextSam∂e
 ();
 
-324 
+325 
 upd©eSãp
 ++) {
 
-326 if(
+327 if(
 	`pŸs_ªadIfA˘ive
 (
 PITCH_POT
@@ -169405,7 +169739,7 @@ PITCH_POT
 √wVÆue
 )) {
 
-327 
+328 
 	`∂y_£tPôchOff£t
 (
 £À˘edOscûœt‹
@@ -169413,7 +169747,7 @@ PITCH_POT
 √wVÆue
  * 3 + 0.5);
 
-331 if(
+332 if(
 	`pŸs_ªadIfA˘ive
 (
 WAVEFORM_POT
@@ -169421,7 +169755,7 @@ WAVEFORM_POT
 √wVÆue
 )) {
 
-332 
+333 
 	`∂y_£tWaveMix
 (
 £À˘edOscûœt‹
@@ -169431,7 +169765,7 @@ WAVEFORM_POT
 FOSC_WAVE_MIX_RESOLUTION
  - 1);
 
-336 if(
+337 if(
 	`pŸs_ªadIfA˘ive
 (
 DUTY_POT
@@ -169439,17 +169773,17 @@ DUTY_POT
 √wVÆue
 )) {
 
-337 
+338 
 	`∂y_£tDuty
 (
 £À˘edOscûœt‹
 , 
 √wVÆue
- * (
-FOSC_DUTY_RESOLUTION
- - 16));
+ * 
+FOSC_DUTY_MAX
+);
 
-341 if(
+342 if(
 	`pŸs_ªadIfA˘ive
 (
 PHASE_POT
@@ -169457,7 +169791,7 @@ PHASE_POT
 √wVÆue
 )) {
 
-342 
+343 
 	`∂y_£tPha£
 (
 £À˘edOscûœt‹
@@ -169467,7 +169801,7 @@ PHASE_POT
 WT_EFFECTIVE_SIZE
  - 1);
 
-346 if(
+347 if(
 	`pŸs_ªadIfA˘ive
 (
 AMPLITUDE_POT
@@ -169475,7 +169809,7 @@ AMPLITUDE_POT
 √wVÆue
 )) {
 
-347 
+348 
 	`∂y_£tAm∂ôude
 (
 £À˘edOscûœt‹
@@ -169485,45 +169819,45 @@ AMPLITUDE_POT
 FOSC_AMPLITUDE_MAX
 );
 
-351 if(
+352 if(
 	`bä_ªadO√ShŸ
 (
 buâ⁄
 )) {
 
-352 
+353 
 £À˘edOscûœt‹
 ++;
 
-353 if(
+354 if(
 £À˘edOscûœt‹
  >
 VOC_OSCILLATORS_PER_VOICE
 ) selectedOscillator = 0;
 
-354 
+355 
 	`pŸs_swôchFun˘i⁄
 ();
 
-355 if(
+356 if(
 £À˘edOscûœt‹
  =0Ë
 	`Àd_£tAŒ
 (1,0,0,0);
 
-356 if(
+357 if(
 £À˘edOscûœt‹
  =1Ë
 	`Àd_£tAŒ
 (1,1,0,0);
 
-357 if(
+358 if(
 £À˘edOscûœt‹
  =2Ë
 	`Àd_£tAŒ
 (1,1,1,0);
 
-362 
+363 
 	`∂y_makeUpd©eSãp
 ();
 
@@ -169539,7 +169873,7 @@ midiMsg
 msgTy≥
  = 0;
 
-374 if(
+372 if(
 midiMsg
 .
 msgTy≥
@@ -169547,13 +169881,13 @@ msgTy≥
 MIDI_MSG_TYPE_NOTE_ON
 ) {
 
-375 if(
+373 if(
 midiMsg
 .
 d©aByãs
 [1] == 0) {
 
-376 
+374 
 	`∂y_nŸeOff
 (
 midiMsg
@@ -169561,7 +169895,7 @@ midiMsg
 d©aByãs
 [0]);
 
-378 
+376 
 	`∂y_nŸeOn
 (
 midiMsg
@@ -169569,7 +169903,7 @@ midiMsg
 d©aByãs
 [0]);
 
-380 } if(
+378 } if(
 midiMsg
 .
 msgTy≥
@@ -169577,7 +169911,7 @@ msgTy≥
 MIDI_MSG_TYPE_NOTE_OFF
 ) {
 
-381 
+379 
 	`∂y_nŸeOff
 (
 midiMsg
@@ -169585,15 +169919,15 @@ midiMsg
 d©aByãs
 [0]);
 
-385 
+383 
 upd©eSãp
  = 0;
 
-390 
+388 
 	}
 }
 
-392 
+390 
 	$ã°Buâ⁄sAndLeds
 (
 Bä_°ru˘
@@ -169601,45 +169935,45 @@ Bä_°ru˘
 buâ⁄
 ) {
 
-393 
+391 
 ÀdSèã
  = 1;
 
-395 if(
+393 if(
 	`bä_ªadO√ShŸ
 (
 buâ⁄
 )) {
 
-396 
+394 
 ÀdSèã
 ++) {
 
-398 
+396 
 	`Àd_£tAŒ
 (1,0,0,0);
 
-401 
+399 
 	`Àd_£tAŒ
 (0,1,0,0);
 
-404 
+402 
 	`Àd_£tAŒ
 (0,0,1,0);
 
-407 
+405 
 	`Àd_£tAŒ
 (0,0,0,1);
 
-410 
+408 
 	`Àd_£tAŒ
 (0,0,0,0);
 
-415 
+413 
 	}
 }
 
-417 
+415 
 	$ã°PŸ
 (
 uöt8_t
@@ -169647,11 +169981,11 @@ uöt8_t
 pŸ
 ) {
 
-419 
+417 
 pŸVÆue
  = 0.0;
 
-421 
+419 
 	`pŸs_ªadIfA˘ive
 (
 pŸ
@@ -169659,113 +169993,113 @@ pŸ
 pŸVÆue
 );
 
-422 if(
+420 if(
 pŸVÆue
  < 0.25) {
 
-423 
+421 
 	`Àd_£tAŒ
 (0,0,0,0);
 
-424 } if(
+422 } if(
 pŸVÆue
  < 0.5) {
 
-425 
+423 
 	`Àd_£tAŒ
 (1,0,0,0);
 
-426 } if(
+424 } if(
 pŸVÆue
  < 0.75) {
 
-427 
+425 
 	`Àd_£tAŒ
 (1,1,0,0);
 
-428 } if(
+426 } if(
 pŸVÆue
  < 1.0) {
 
-429 
+427 
 	`Àd_£tAŒ
 (1,1,1,0);
 
-431 
+429 
 	`Àd_£tAŒ
 (1,1,1,1);
 
-433 
+431 
 	`timî_dñay
 (0.1);
 
-435 
+433 
 	}
 }
 
-437 
+435 
 	$ã°Exp⁄ít
 (){
 
-438 
+436 
 numbîOfTe°s
  = 0;
 
-440 
+438 
 uöt32_t
  
 tŸÆTimeExp2f
  = 0;
 
-441 
+439 
 uöt32_t
  
 tŸÆTimeFExp
  = 0;
 
-442 
+440 
 uöt32_t
  
 °¨tTime
  = 0;
 
-444 
+442 
 öput
  = 0;
 
-445 
+443 
 ouçutExp2f
  = 0;
 
-446 
+444 
 ouçutFExp
  = 0;
 
-448 
+446 
 devüti⁄TŸÆ
  = 0.0;
 
-450 
+448 
 £mô⁄eSãp
  = -630;
 
-451 ; 
+449 ; 
 £mô⁄eSãp
  < 640; semitoneStep += 1){
 
-452 
+450 
 öput
  = (()
 £mô⁄eSãp
  / 10.0) / 12.0;
 
-454 
+452 
 °¨tTime
  = 
 	`timî_gëTimîTicks
 ();
 
-456 
+454 
 ouçutExp2f
  = 
 	`exp2f
@@ -169773,7 +170107,7 @@ ouçutExp2f
 öput
 );
 
-458 
+456 
 tŸÆTimeExp2f
  +
 	`timî_gëTimîTicks
@@ -169781,13 +170115,13 @@ tŸÆTimeExp2f
 °¨tTime
 ;
 
-461 
+459 
 °¨tTime
  = 
 	`timî_gëTimîTicks
 ();
 
-463 
+461 
 ouçutFExp
  = 
 	`fExp
@@ -169795,7 +170129,7 @@ ouçutFExp
 £mô⁄eSãp
  / 10.0);
 
-465 
+463 
 tŸÆTimeFExp
  +
 	`timî_gëTimîTicks
@@ -169803,37 +170137,37 @@ tŸÆTimeFExp
 °¨tTime
 ;
 
-468 if(
+466 if(
 ouçutExp2f
  > 
 ouçutFExp
 ){
 
+467 
+devüti⁄TŸÆ
+ +(
+ouçutExp2f
+ - 
+ouçutFExp
+);
+
 469 
 devüti⁄TŸÆ
  +(
-ouçutExp2f
- - 
-ouçutFExp
-);
-
-471 
-devüti⁄TŸÆ
- +(
 ouçutFExp
  - 
 ouçutExp2f
 );
 
-475 
+473 
 numbîOfTe°s
 ++;
 
-478 
+476 
 	`¥ötf
 ("\n");
 
-479 
+477 
 	`¥ötf
 ("exp2f: %d, %d\n",
 tŸÆTimeExp2f
@@ -169841,7 +170175,7 @@ tŸÆTimeExp2f
 numbîOfTe°s
 );
 
-480 
+478 
 	`¥ötf
 ("fExp: %d, %d\n", 
 tŸÆTimeFExp
@@ -169849,7 +170183,7 @@ tŸÆTimeFExp
 numbîOfTe°s
 );
 
-481 
+479 
 	`¥ötf
 ("devüti⁄: %d, %d\n", (
 uöt32_t
@@ -169859,81 +170193,343 @@ devüti⁄TŸÆ
 numbîOfTe°s
 ) * 1000000));
 
-482 
+480 
 	}
 }
 
-484 
-	$maö
-() {
+482 
+__IO
+ 
+uöt8_t
+ 
+	göt_ch™√l
+ = 0;
 
-485 
-	`¥ötf
-("\f\n");
+483 
+__IO
+ 
+öt16_t
+ 
+	göt_ßm∂e
+ = 0;
+
+484 
+	$SPI3_IRQH™dÀr
+(){
+
+485 if(
+	`SPI_I2S_GëFœgSètus
+(
+CS43L22_I2S_PORT
+, 
+SPI_I2S_FLAG_TXE
+)) {
 
 486 
-	`pŸs_öôAndSèπ
+	`cs43l22_ouçutSam∂e
+(
+öt_ßm∂e
+);
+
+487 if(
+öt_ch™√l
+ == 0) {
+
+488 
+öt_ch™√l
+++;
+
+490 
+öt_ch™√l
+ = 0;
+
+491 
+öt_ßm∂e
+ = 
+	`∂y_gëNextSam∂e
 ();
 
-487 
+494 
+	}
+}
+
+496 
+	$ã°I¡îru±Clock
+(
+Bä_°ru˘
+ * 
+buâ⁄
+){
+
+497 
+	`∂y_öô
+();
+
+498 
+	`midi_öô
+();
+
+499 
+	`cs43l22_öôI¡îru±
+();
+
+500 
+	`cs43l22_íabÀI¡îru±
+();
+
+502 
+√wVÆue
+ = 0;
+
+503 
+uöt8_t
+ 
+£À˘edOscûœt‹
+ = 0;
+
+504 
+Midi_basicMsg
+ 
+midiMsg
+;
+
+507 if(
+	`pŸs_ªadIfA˘ive
+(
+PITCH_POT
+,&
+√wVÆue
+)) {
+
+508 
+	`∂y_£tPôchOff£t
+(
+£À˘edOscûœt‹
+, 
+√wVÆue
+ * 3 + 0.5);
+
+510 if(
+	`pŸs_ªadIfA˘ive
+(
+WAVEFORM_POT
+,&
+√wVÆue
+)) {
+
+511 
+	`∂y_£tWaveMix
+(
+£À˘edOscûœt‹
+, 
+√wVÆue
+ * 
+FOSC_WAVE_MIX_RESOLUTION
+ - 1);
+
+513 if(
+	`pŸs_ªadIfA˘ive
+(
+DUTY_POT
+,&
+√wVÆue
+)) {
+
+514 
+	`∂y_£tDuty
+(
+£À˘edOscûœt‹
+, 
+√wVÆue
+ * 
+FOSC_DUTY_MAX
+);
+
+516 if(
+	`pŸs_ªadIfA˘ive
+(
+PHASE_POT
+,&
+√wVÆue
+)) {
+
+517 
+	`∂y_£tPha£
+(
+£À˘edOscûœt‹
+, 
+√wVÆue
+ * 
+WT_EFFECTIVE_SIZE
+ - 1);
+
+519 if(
+	`pŸs_ªadIfA˘ive
+(
+AMPLITUDE_POT
+,&
+√wVÆue
+)) {
+
+520 
+	`∂y_£tAm∂ôude
+(
+£À˘edOscûœt‹
+, 
+√wVÆue
+ * 
+FOSC_AMPLITUDE_MAX
+);
+
+522 if(
+	`bä_ªadO√ShŸ
+(
+buâ⁄
+)) {
+
+523 
+£À˘edOscûœt‹
+++;
+
+524 if(
+£À˘edOscûœt‹
+ >
+VOC_OSCILLATORS_PER_VOICE
+) selectedOscillator = 0;
+
+525 
+	`pŸs_swôchFun˘i⁄
+();
+
+526 if(
+£À˘edOscûœt‹
+ =0Ë
+	`Àd_£tAŒ
+(1,0,0,0);
+
+527 if(
+£À˘edOscûœt‹
+ =1Ë
+	`Àd_£tAŒ
+(1,1,0,0);
+
+528 if(
+£À˘edOscûœt‹
+ =2Ë
+	`Àd_£tAŒ
+(1,1,1,0);
+
+531 
+	`∂y_upd©eAŒ
+();
+
+533 if(
+	`midi_gëMsgIfAbÀ
+(&
+midiMsg
+)) {
+
+534 if(
+midiMsg
+.
+msgTy≥
+ =
+MIDI_MSG_TYPE_NOTE_ON
+) {
+
+535 if(
+midiMsg
+.
+d©aByãs
+[1] == 0) {
+
+536 
+	`∂y_nŸeOff
+(
+midiMsg
+.
+d©aByãs
+[0]);
+
+538 
+	`∂y_nŸeOn
+(
+midiMsg
+.
+d©aByãs
+[0]);
+
+540 } if(
+midiMsg
+.
+msgTy≥
+ =
+MIDI_MSG_TYPE_NOTE_OFF
+) {
+
+541 
+	`∂y_nŸeOff
+(
+midiMsg
+.
+d©aByãs
+[0]);
+
+545 
+	}
+}
+
+547 
+	$ã°LCD
+(){
+
+548 
 	`timî_öô
 ();
 
-488 
-	`Àd_öô
+549 
+	`HD44780_öô
 ();
 
-489 
-	`fExp_öô
+551 
+c
+ = 'A';
+
+553 
+	`HD44780_fûlS¸ìn
+(
+c
+++);
+
+554 if(
+c
+ > 'z') c = 'A';
+
+555 
+	`timî_dñay
+(0.5);
+
+557 
+	}
+}
+
+559 
+	$maö
+() {
+
+560 #ifde‡
+DEBUG
+
+
+561 
+	`¥ötf
+("\fStarting Debug Mode\n");
+
+564 
+	`ã°LCD
 ();
 
-490 
-	`cs43l22_öô
-();
-
-491 
-	`wt_öô
-();
-
-493 
-Bä_°ru˘
- 
-buâ⁄1
-;
-
-494 
-buâ⁄1
-.
-deboun˚Time
- = 
-TIMER_CLOCK_SPEED
- / 100;
-
-495 
-buâ⁄1
-.
-p‹tLëãr
- = 'E';
-
-496 
-buâ⁄1
-.
-pö
- = 7;
-
-497 
-	`bä_öô
-(&
-buâ⁄1
-);
-
-510 
-	`ã°FOscC⁄töuousPﬁyph⁄icMidi
-(&
-buâ⁄1
-);
-
-513 
+597 
 	}
 }
 
@@ -170315,13 +170911,41 @@ am∂ôudeMod
 modAmou¡
  = 1.0;
 
-25 
+23 
+voi˚
+->
+oscûœt‹s
+[
+i
+].
+dutyMod
+.
+modSour˚
+ = &voi˚->
+lfos
+[0].
+ouçut
+;
+
+24 
+voi˚
+->
+oscûœt‹s
+[
+i
+].
+dutyMod
+.
+modAmou¡
+ = 0.5;
+
+27 
 i
  = 0; i < 
 VOC_ENVELOPES_PER_VOICE
 ; i++){
 
-26 
+28 
 	`ív_öô
 (&
 voi˚
@@ -170331,7 +170955,31 @@ voi˚
 i
 ]);
 
-29 
+31 
+i
+ = 0; i < 
+VOC_LFOS_PER_VOICE
+; i++){
+
+32 
+	`lfo_öô
+(&
+voi˚
+->
+lfos
+[
+i
+]);
+
+35 
+voi˚
+->
+lfos
+[0].
+pôch
+ = 4;
+
+37 
 voi˚
 ->
 ívñ›es
@@ -170341,7 +170989,7 @@ voi˚
 TIMER_CLOCK_SPEED
 ;
 
-30 
+38 
 voi˚
 ->
 ívñ›es
@@ -170351,77 +170999,29 @@ voi˚
 TIMER_CLOCK_SPEED
 ;
 
-32 
-voi˚
-->
-oscûœt‹s
-[0].
-pôchMod
-.
-modSour˚
- = &voi˚->
-ívñ›es
-[1].
-ouçut
-;
-
-33 
-voi˚
-->
-oscûœt‹s
-[0].
-pôchMod
-.
-modAmou¡
- = 12.0;
-
-34 
-voi˚
-->
-oscûœt‹s
-[0].
-pha£Mod
-.
-modSour˚
- = &voi˚->
-ívñ›es
-[2].
-ouçut
-;
-
-35 
-voi˚
-->
-oscûœt‹s
-[0].
-pha£Mod
-.
-modAmou¡
- = 1.0;
-
-37 
+45 
 voi˚
 ->
 upd©eSãp
  = 0;
 
-38 
+46 
 voi˚
 ->
 oscûœt‹Upd©eIndex
  = 0;
 
-39 
+47 
 voi˚
 ->
 ívñ›eUpd©eIndex
  = 0;
 
-40 
+48 
 	}
 }
 
-42 
+50 
 	$voc_åiggî
 (
 voc_voi˚Såu˘
@@ -170433,7 +171033,7 @@ uöt8_t
 midiNŸe
 ) {
 
-43 
+51 
 	`voc_£tPôch
 (
 voi˚
@@ -170441,17 +171041,17 @@ voi˚
 midiNŸe
 );
 
-44 
+52 
 i
  = 0;
 
-45 ; 
+53 ; 
 i
  < 
 VOC_ENVELOPES_PER_VOICE
 ; i++){
 
-46 
+54 
 	`ív_åiggî
 (&
 voi˚
@@ -170461,11 +171061,11 @@ voi˚
 i
 ]);
 
-48 
+56 
 	}
 }
 
-50 
+58 
 	$voc_ªÀa£
 (
 voc_voi˚Såu˘
@@ -170473,17 +171073,17 @@ voc_voi˚Såu˘
 voi˚
 ) {
 
-51 
+59 
 i
  = 0;
 
-52 ; 
+60 ; 
 i
  < 
 VOC_ENVELOPES_PER_VOICE
 ; i++){
 
-53 
+61 
 	`ív_ªÀa£
 (&
 voi˚
@@ -170493,11 +171093,11 @@ voi˚
 i
 ]);
 
-55 
+63 
 	}
 }
 
-57 
+65 
 	$voc_isA˘ive
 (
 voc_voi˚Såu˘
@@ -170505,17 +171105,17 @@ voc_voi˚Såu˘
 voi˚
 ) {
 
-58 
+66 
 i
  = 0;
 
-59 ; 
+67 ; 
 i
  < 
 VOC_ENVELOPES_PER_VOICE
 ; i++){
 
-60 if(
+68 if(
 voi˚
 ->
 ívñ›es
@@ -170527,11 +171127,11 @@ i
 ENV_STATE_DEAD
 )  1;
 
-63 
+71 
 	}
 }
 
-65 
+73 
 öt16_t
  
 	$voc_gëNextSam∂e
@@ -170541,23 +171141,23 @@ voc_voi˚Såu˘
 voi˚
 ) {
 
-66 
+74 
 öt32_t
  
 tŸÆ
  = 0;
 
-68 
+76 
 i
  = 0;
 
-69 ; 
+77 ; 
 i
  < 
 VOC_OSCILLATORS_PER_VOICE
 ; i++) {
 
-70 
+78 
 tŸÆ
  +
 	`fOsc_gëNextSam∂e
@@ -170569,23 +171169,23 @@ oscûœt‹s
 i
 ]);
 
-73 
+81 
 tŸÆ
  /
 VOC_OSCILLATORS_PER_VOICE
 ;
 
-74  (
+82  (
 öt16_t
 )
 tŸÆ
 ;
 
-75 
+83 
 	}
 }
 
-77 
+85 
 	$voc_makeUpd©eSãp
 (
 voc_voi˚Såu˘
@@ -170593,7 +171193,7 @@ voc_voi˚Såu˘
 voi˚
 ) {
 
-78 
+86 
 fOsc_°ru˘
  * 
 oscûœt‹
@@ -170605,13 +171205,13 @@ oscûœt‹s
 oscûœt‹Upd©eIndex
 ];
 
-80 
+88 
 voi˚
 ->
 upd©eSãp
 ++) {
 
-82 
+90 
 	`fOsc_upd©eModResu…
 (&
 oscûœt‹
@@ -170619,7 +171219,7 @@ oscûœt‹
 pôchMod
 );
 
-85 
+93 
 	`fOsc_upd©eModResu…
 (&
 oscûœt‹
@@ -170627,7 +171227,7 @@ oscûœt‹
 waveMixMod
 );
 
-88 
+96 
 	`fOsc_upd©eModResu…
 (&
 oscûœt‹
@@ -170635,7 +171235,7 @@ oscûœt‹
 dutyMod
 );
 
-91 
+99 
 	`fOsc_upd©eModResu…
 (&
 oscûœt‹
@@ -170643,7 +171243,7 @@ oscûœt‹
 pha£Mod
 );
 
-94 
+102 
 	`fOsc_upd©eModResu…
 (&
 oscûœt‹
@@ -170651,61 +171251,61 @@ oscûœt‹
 am∂ôudeMod
 );
 
-97 
+105 
 	`fOsc_moduœãPôch
 (
 oscûœt‹
 );
 
-100 
+108 
 	`fOsc_moduœãWaveMix
 (
 oscûœt‹
 );
 
-103 
+111 
 	`fOsc_moduœãDuty
 (
 oscûœt‹
 );
 
-106 
+114 
 	`fOsc_moduœãPha£
 (
 oscûœt‹
 );
 
-109 
+117 
 	`fOsc_moduœãAm∂ôude
 (
 oscûœt‹
 );
 
-112 
+120 
 	`fOsc_upd©eSãpSizeBa£
 (
 oscûœt‹
 );
 
-115 
+123 
 	`fOsc_upd©eSãpSizeHigh
 (
 oscûœt‹
 );
 
-118 
+126 
 	`fOsc_upd©eSãpSizeLow
 (
 oscûœt‹
 );
 
-121 
+129 
 	`fOsc_upd©eSwög
 (
 oscûœt‹
 );
 
-124 
+132 
 	`ív_gëNextSam∂e
 (&
 voi˚
@@ -170715,7 +171315,7 @@ voi˚
 ívñ›eUpd©eIndex
 ++]);
 
-125 if(
+133 if(
 voi˚
 ->
 ívñ›eUpd©eIndex
@@ -170723,19 +171323,37 @@ voi˚
 VOC_ENVELOPES_PER_VOICE
 ) voice->envelopeUpdateIndex = 0;
 
-128 
+136 
+	`lfo_gëNextSam∂e
+(&
+voi˚
+->
+lfos
+[voi˚->
+lfoUpd©eIndex
+++]);
+
+137 if(
+voi˚
+->
+lfoUpd©eIndex
+ >
+VOC_LFOS_PER_VOICE
+) voice->lfoUpdateIndex = 0;
+
+140 
 voi˚
 ->
 upd©eSãp
  = 0;
 
-129 
+141 
 voi˚
 ->
 oscûœt‹Upd©eIndex
 ++;
 
-130 if(
+142 if(
 voi˚
 ->
 oscûœt‹Upd©eIndex
@@ -170743,7 +171361,71 @@ oscûœt‹Upd©eIndex
 VOC_OSCILLATORS_PER_VOICE
 ) voice->oscillatorUpdateIndex = 0;
 
-132 
+144 
+	}
+}
+
+146 
+	$voc_upd©eAŒ
+(
+voc_voi˚Såu˘
+* 
+voi˚
+){
+
+147 
+i
+ = 0;
+
+148 
+i
+ = 0; i < 
+VOC_ENVELOPES_PER_VOICE
+; i++){
+
+149 
+	`ív_gëNextSam∂e
+(&
+voi˚
+->
+ívñ›es
+[
+i
+]);
+
+151 
+i
+ = 0; i < 
+VOC_LFOS_PER_VOICE
+; i++){
+
+152 
+	`lfo_gëNextSam∂e
+(&
+voi˚
+->
+lfos
+[
+i
+]);
+
+154 
+i
+ = 0; i < 
+VOC_OSCILLATORS_PER_VOICE
+; i++){
+
+155 
+	`fOsc_upd©eDîiv©ives
+(&
+voi˚
+->
+oscûœt‹s
+[
+i
+]);
+
+157 
 	}
 }
 
@@ -170776,40 +171458,50 @@ VOICE_H_INCLUDED
 "
 
 9 
+	~"../lfo/lfo.h
+"
+
+10 
 	~"../midi/midi.h
 "
 
-11 
+12 
 	#VOC_OSCILLATORS_PER_VOICE
  3
 
 	)
 
-12 
+13 
 	#VOC_ENVELOPES_PER_VOICE
  3
 
 	)
 
-13 
+14 
 	#VOC_GLOBAL_AMPLITUDE_ENVELOPE
  0
 
 	)
 
-16 
+15 
+	#VOC_LFOS_PER_VOICE
+ 1
+
+	)
+
+18 
 uöt8_t
  
 	mcuºítNŸe
 ;
 
-17 
+19 
 FixedPoöt
  
 	mpôch
 ;
 
-18 
+20 
 fOsc_°ru˘
  
 	moscûœt‹s
@@ -170817,7 +171509,7 @@ fOsc_°ru˘
 VOC_OSCILLATORS_PER_VOICE
 ];
 
-19 
+21 
 Env_ívñ›e
  
 	mívñ›es
@@ -170825,29 +171517,43 @@ Env_ívñ›e
 VOC_ENVELOPES_PER_VOICE
 ];
 
-21 
+22 
+lfo_Lfo
+ 
+	mlfos
+[
+VOC_LFOS_PER_VOICE
+];
+
+24 
 uöt8_t
  
 	moscûœt‹Upd©eIndex
 ;
 
-22 
+25 
 uöt8_t
  
 	mívñ›eUpd©eIndex
 ;
 
-23 
+26 
+uöt8_t
+ 
+	mlfoUpd©eIndex
+;
+
+27 
 uöt8_t
  
 	mupd©eSãp
 ;
 
-24 } 
+28 } 
 	tvoc_voi˚Såu˘
 ;
 
-26 
+30 
 voc_£tPôch
 (
 voc_voi˚Såu˘
@@ -170859,7 +171565,7 @@ uöt8_t
 midiNŸe
 );
 
-27 
+31 
 voc_öô
 (
 voc_voi˚Såu˘
@@ -170867,7 +171573,7 @@ voc_voi˚Såu˘
 voi˚
 );
 
-29 
+33 
 voc_åiggî
 (
 voc_voi˚Såu˘
@@ -170879,7 +171585,7 @@ uöt8_t
 midiNŸe
 );
 
-30 
+34 
 voc_ªÀa£
 (
 voc_voi˚Såu˘
@@ -170887,7 +171593,7 @@ voc_voi˚Såu˘
 voi˚
 );
 
-31 
+35 
 voc_isA˘ive
 (
 voc_voi˚Såu˘
@@ -170895,7 +171601,7 @@ voc_voi˚Såu˘
 voi˚
 );
 
-33 
+37 
 öt16_t
  
 voc_gëNextSam∂e
@@ -170905,8 +171611,16 @@ voc_voi˚Såu˘
 voi˚
 );
 
-34 
+38 
 voc_makeUpd©eSãp
+(
+voc_voi˚Såu˘
+ * 
+voi˚
+);
+
+39 
+voc_upd©eAŒ
 (
 voc_voi˚Såu˘
  * 
@@ -170918,8 +171632,10 @@ voi˚
 .
 0
 106
-8073
+8089
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\HARDFA~1\HARDFA~1.C
+C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\HD44780\HD44780.c
+C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\HD44780\HD44780.h
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\SPL\inc\ST06C6~1.H
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\SPL\inc\ST1B2B~1.H
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\SPL\inc\ST21D2~1.H
@@ -171011,8 +171727,6 @@ C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\lfo\lfo.c
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\lfo\lfo.h
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\midi\midi.c
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\midi\midi.h
-C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\osc\osc.c
-C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\osc\osc.h
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\poly\poly.c
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\poly\poly.h
 C:\Users\Arjen\Dropbox\misc\STM32F~1\git\SACROS~1\SACROS~1\pots\pots.c

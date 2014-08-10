@@ -1,6 +1,6 @@
 #include "cs43l22_i2s.h"
 
-void cs43l22_i2s_initClocksAndPins(){
+void cs43l22_i2s_initClocksAndPins() {
     assert_param(CS43L22_I2S_PORT == SPI3); // if this isn't the case none of this will make sense.
 
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA
@@ -8,6 +8,7 @@ void cs43l22_i2s_initClocksAndPins(){
                            , ENABLE);
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI3, ENABLE);
+    RCC_PLLI2SConfig(CS43L22_I2S_PLL_N,CS43L22_I2S_PLL_R);
     RCC_PLLI2SCmd(ENABLE);
 
     GPIO_InitTypeDef pinInitStruct;
@@ -33,7 +34,7 @@ void cs43l22_i2s_initClocksAndPins(){
     GPIO_PinAFConfig(GPIOC,GPIO_PinSource12,GPIO_AF_SPI3);
 }
 
-void cs43l22_i2s_config(){
+void cs43l22_i2s_config() {
     // configuring I2S
     I2S_InitTypeDef i2sInitStruct;
     i2sInitStruct.I2S_AudioFreq = I2S_AudioFreq_48k;
@@ -47,14 +48,14 @@ void cs43l22_i2s_config(){
 }
 
 // tries to output a sample and doesn't stop trying until it succeeds, use with care.
-void cs43l22_i2s_outputSample(int16_t sample){
+void cs43l22_i2s_outputSampleWhenReady(int16_t sample) {
     while(!SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE)); // wait for the bus to be ready
     SPI_I2S_SendData(CS43L22_I2S_PORT,sample); // send the sample
 }
 
 // tries to output a sample once, returning 1 if successful and 0 if failed
-int cs43l22_i2s_attemptOutputSample(int16_t sample){
-    if(SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE)){
+int cs43l22_i2s_attemptOutputSample(int16_t sample) {
+    if(SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE)) {
         SPI_I2S_SendData(CS43L22_I2S_PORT,sample); // send the sample
         return 1;
     } else {

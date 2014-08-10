@@ -21,6 +21,7 @@ void ply_noteOff(uint8_t midiNote);
 void ply_releaseAll();
 
 void ply_makeUpdateStep();
+void ply_updateAll();
 int16_t ply_getNextSample();
 
 void ply_setPitchOffset(uint8_t oscillator, float offset);

@@ -25,6 +25,7 @@
 #include "../poly/poly.h"
 #include <math.h>
 #include "../fastExp/fExp.h"
+#include "../HD44780/HD44780.h"
 
 #define PITCH_POT 0
 #define WAVEFORM_POT 1
@@ -363,11 +364,8 @@ void testFOscContinuousPolyphonicMidi(Btn_struct * button) {
             break;
         //=========
         case 29:
-            //led_setAll(0,0,0,0);
             if(!midi_getMsgIfAble(&midiMsg)) {
                 midiMsg.msgType = 0;
-            } else {
-                //led_setAll(1,1,1,1);
             }
             break;
         case 30:
@@ -481,14 +479,225 @@ void testExponent(){
     printf("deviation: %d, %d\n", (uint32_t)(deviationTotal * 1000), (uint32_t)((deviationTotal / numberOfTests) * 1000000));
 }
 
-int main(void) {
-    printf("\f\n");
+__IO uint8_t int_channel = 0;
+__IO int16_t int_sample = 0;
+void SPI3_IRQHandler(void){
+    if(SPI_I2S_GetFlagStatus(CS43L22_I2S_PORT, SPI_I2S_FLAG_TXE)) {
+        cs43l22_outputSample(int_sample);
+        if(int_channel == 0) {
+            int_channel++;
+        } else {
+            int_channel = 0;
+            int_sample = ply_getNextSample();
+        }
+    }
+}
+
+void testInterruptClock(Btn_struct * button){
+    ply_init();
+    midi_init();
+    cs43l22_initInterrupt();
+    cs43l22_enableInterrupt();
+
+    float newValue = 0;
+    uint8_t selectedOscillator = 0;
+    Midi_basicMsg midiMsg;
+
+    while(1){
+        if(pots_readIfActive(PITCH_POT,&newValue)) {
+            ply_setPitchOffset(selectedOscillator, newValue * 3 + 0.5);
+        }
+        if(pots_readIfActive(WAVEFORM_POT,&newValue)) {
+            ply_setWaveMix(selectedOscillator, newValue * FOSC_WAVE_MIX_RESOLUTION - 1);
+        }
+        if(pots_readIfActive(DUTY_POT,&newValue)) {
+            ply_setDuty(selectedOscillator, newValue * FOSC_DUTY_MAX);
+        }
+        if(pots_readIfActive(PHASE_POT,&newValue)) {
+            ply_setPhase(selectedOscillator, newValue * WT_EFFECTIVE_SIZE - 1);
+        }
+        if(pots_readIfActive(AMPLITUDE_POT,&newValue)) {
+            ply_setAmplitude(selectedOscillator, newValue * FOSC_AMPLITUDE_MAX);
+        }
+        if(btn_readOneShot(button)) {
+            selectedOscillator++;
+            if(selectedOscillator >= VOC_OSCILLATORS_PER_VOICE) selectedOscillator = 0;
+            pots_switchFunction();
+            if(selectedOscillator == 0) led_setAll(1,0,0,0);
+            else if(selectedOscillator == 1) led_setAll(1,1,0,0);
+            else if(selectedOscillator == 2) led_setAll(1,1,1,0);
+        }
+
+        ply_updateAll();
+
+        if(midi_getMsgIfAble(&midiMsg)) {
+            if(midiMsg.msgType == MIDI_MSG_TYPE_NOTE_ON) {
+                if(midiMsg.dataBytes[1] == 0) {
+                    ply_noteOff(midiMsg.dataBytes[0]);
+                } else {
+                    ply_noteOn(midiMsg.dataBytes[0]);
+                }
+            } else if(midiMsg.msgType == MIDI_MSG_TYPE_NOTE_OFF) {
+                ply_noteOff(midiMsg.dataBytes[0]);
+            }
+        }
+    }
+}
+
+void testLCD(){
+    timer_init();
+    HD44780_init();
+
+    char c = 'A';
+    while(1){
+        HD44780_fillScreen(c++);
+        if(c > 'z') c = 'A';
+        timer_delay(0.5);
+    }
+}
+
+void testPotsAndLCD(){
+    timer_init();
+    HD44780_init();
     pots_initAndStart();
+
+    uint8_t pot;
+    float value = 0.0;
+    HD44780_writeCommand(0x01);
+    while(1){
+        for(pot = 0; pot < POTS_NUMBER; pot++){
+            if(pot == 0){
+                HD44780_switchToLine(1);
+            } else if(pot == 4){
+                HD44780_switchToLine(2);
+            }
+
+            if(pots_readIfActive(pot,&value)){
+                HD44780_writeData('0' + value * 9.9 );
+                HD44780_writeData('0' + (int)(value * 99.9) % 10);
+                HD44780_writeData('0' + (int)(value * 999.9) % 10);
+                HD44780_writeData(' ');
+            }
+        }
+        //timer_delay(0.05);
+    }
+}
+
+void testPotsAndButtonsAndLCD(){
+    timer_init();
+    HD44780_init();
+    pots_initAndStart();
+
+    Btn_struct btn0;
+    btn0.debounceTime = TIMER_CLOCK_SPEED / 100;
+    btn0.portLetter = 'E';
+    btn0.pin = 7;
+    btn_init(&btn0);
+
+    Btn_struct btn1;
+    btn1.debounceTime = btn0.debounceTime;
+    btn1.portLetter = 'E';
+    btn1.pin = 9;
+    btn_init(&btn1);
+
+    Btn_struct btn2;
+    btn2.debounceTime = btn0.debounceTime;
+    btn2.portLetter = 'E';
+    btn2.pin = 11;
+    btn_init(&btn2);
+
+    Btn_struct btn3;
+    btn3.debounceTime = btn0.debounceTime;
+    btn3.portLetter = 'E';
+    btn3.pin = 13;
+    btn_init(&btn3);
+
+    Btn_struct btn4;
+    btn4.debounceTime = btn0.debounceTime;
+    btn4.portLetter = 'E';
+    btn4.pin = 15;
+    btn_init(&btn4);
+
+    Btn_struct btn5;
+    btn5.debounceTime = btn0.debounceTime;
+    btn5.portLetter = 'B';
+    btn5.pin = 11;
+    btn_init(&btn5);
+
+    Btn_struct btn6;
+    btn6.debounceTime = btn0.debounceTime;
+    btn6.portLetter = 'B';
+    btn6.pin = 13;
+    btn_init(&btn6);
+
+    Btn_struct btn7;
+    btn7.debounceTime = btn0.debounceTime;
+    btn7.portLetter = 'B';
+    btn7.pin = 15;
+    btn_init(&btn7);
+
+
+    uint8_t btnPushed[8];
+    int i = 0;
+    for(; i < 8; i++){
+        btnPushed[i] = 0;
+    }
+
+    uint8_t pot;
+    float value = 0.0;
+    HD44780_writeCommand(0x01);
+    while(1){
+        if(btn_readOneShot(&btn0)) btnPushed[0] = 1;
+        if(btn_readOneShot(&btn1)) btnPushed[1] = 1;
+        if(btn_readOneShot(&btn2)) btnPushed[2] = 1;
+        if(btn_readOneShot(&btn3)) btnPushed[3] = 1;
+        if(btn_readOneShot(&btn4)) btnPushed[4] = 1;
+        if(btn_readOneShot(&btn5)) btnPushed[5] = 1;
+        if(btn_readOneShot(&btn6)) btnPushed[6] = 1;
+        if(btn_readOneShot(&btn7)) btnPushed[7] = 1;
+
+        for(pot = 0; pot < POTS_NUMBER; pot++){
+            if(pot == 0){
+                HD44780_switchToLine(1);
+            } else if(pot == 4){
+                HD44780_switchToLine(2);
+            }
+
+            if(pots_readIfActive(pot,&value)){
+                HD44780_writeData('0' + (int)(value * 9.9) % 10);
+                HD44780_writeData('0' + (int)(value * 99.9) % 10);
+                HD44780_writeData('0' + (int)(value * 999.9) % 10);
+
+                if(btnPushed[pot]){
+                    HD44780_writeData('X');
+                } else {
+                    HD44780_writeData(' ');
+                }
+            }
+        }
+
+        for(i = 0; i < 8; i++){
+            btnPushed[i] = 0;
+        }
+
+        timer_delay(0.05);
+    }
+}
+
+int main(void) {
+    #ifdef DEBUG
+        printf("\fStarting Debug Mode\n");
+    #endif
+
+    testPotsAndButtonsAndLCD();
+
+    /*pots_initAndStart();
     timer_init();
     led_init();
     fExp_init();
     cs43l22_init();
     wt_init();
+
 
     Btn_struct button1;
     button1.debounceTime = TIMER_CLOCK_SPEED / 100;
@@ -507,7 +716,10 @@ int main(void) {
 
     //testExponent();
 
-    testFOscContinuousPolyphonicMidi(&button1);
+    //testFOscContinuousPolyphonicMidi(&button1);
+
+    testInterruptClock(&button1);
+    */
 
     while(1);
 }

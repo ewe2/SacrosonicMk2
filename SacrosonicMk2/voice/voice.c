@@ -32,13 +32,15 @@ void voc_init(voc_voiceStruct * voice) {
         lfo_init(&voice->lfos[i]);
     }
 
+    voice->lfos[0].pitch = 4;
+
     voice->envelopes[1].attack = 1.0 * TIMER_CLOCK_SPEED;
     voice->envelopes[2].attack = 0.5 * TIMER_CLOCK_SPEED;
 
-    voice->oscillators[0].pitchMod.modSource = &voice->envelopes[1].output;
-    voice->oscillators[0].pitchMod.modAmount = 12.0;
-    voice->oscillators[0].phaseMod.modSource = &voice->envelopes[2].output;
-    voice->oscillators[0].phaseMod.modAmount = 1.0;
+    //voice->oscillators[0].pitchMod.modSource = &voice->envelopes[1].output;
+    //voice->oscillators[0].pitchMod.modAmount = 12.0;
+    //voice->oscillators[0].phaseMod.modSource = &voice->envelopes[2].output;
+    //voice->oscillators[0].phaseMod.modAmount = 1.0;
 
     voice->updateStep = 0;
     voice->oscillatorUpdateIndex = 0;
@@ -140,4 +142,18 @@ void voc_makeUpdateStep(voc_voiceStruct* voice) {
         if(voice->oscillatorUpdateIndex >= VOC_OSCILLATORS_PER_VOICE) voice->oscillatorUpdateIndex = 0;
     }
 }
+
+void voc_updateAll(voc_voiceStruct* voice){
+    int i = 0;
+    for(i = 0; i < VOC_ENVELOPES_PER_VOICE; i++){
+        env_getNextSample(&voice->envelopes[i]);
+    }
+    for(i = 0; i < VOC_LFOS_PER_VOICE; i++){
+        lfo_getNextSample(&voice->lfos[i]);
+    }
+    for(i = 0; i < VOC_OSCILLATORS_PER_VOICE; i++){
+        fOsc_updateDerivatives(&voice->oscillators[i]);
+    }
+}
+
 

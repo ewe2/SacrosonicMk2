@@ -50,6 +50,14 @@ void ply_makeUpdateStep() {
     if(ply_voiceUpdateIndex >= PLY_NUMBER_OF_VOICES) ply_voiceUpdateIndex = 0;
 }
 
+void ply_updateAll(){
+    int i = 0;
+    for(i = 0; i < PLY_NUMBER_OF_VOICES; i++){
+        voc_updateAll(&ply_voices[i]);
+    }
+}
+
+
 int16_t ply_getNextSample() {
     int32_t total = 0;
     int i = 0;

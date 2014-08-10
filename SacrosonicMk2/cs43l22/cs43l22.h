@@ -3,6 +3,7 @@
 
 #include "cs43l22_i2c.h"
 #include "cs43l22_i2s.h"
+#include "misc.h"
 
 // cs43l22 registers
 #define CS43L22_REG_ID 0x1
@@ -46,6 +47,10 @@
 
 void cs43l22_initResetPin();
 void cs43l22_init();
+void cs43l22_initInterrupt();
+void cs43l22_enableInterrupt();
+void cs43l22_disableInterrupt();
+
 void cs43l22_outputSample(int16_t sample);
 int cs43l22_attemptOutputSample(int16_t sample);
 

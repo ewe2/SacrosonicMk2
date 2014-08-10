@@ -217,7 +217,7 @@
 1398274392 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\spl\inc\stm32f4xx_wwdg.h
 	"stm32f4xx.h"
 
-1400675723 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
+1403549988 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\main.c
 	"stm32f4xx_conf.h"
 	<stdio.h>
 	"../cs43l22/cs43l22.h"
@@ -229,16 +229,18 @@
 	"../poly/poly.h"
 	<math.h>
 	"../fastExp/fExp.h"
+	"../HD44780/HD44780.h"
 
-1398005874 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22.h
+1400938844 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22.h
 	"cs43l22_i2c.h"
 	"cs43l22_i2s.h"
+	"misc.h"
 
 1397156138 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22_i2c.h
 	"stm32f4xx_conf.h"
 	"stm32f4xx_i2c.h"
 
-1397860047 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22_i2s.h
+1400939068 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22_i2s.h
 	"stm32f4xx_conf.h"
 	"stm32f4xx_spi.h"
 
@@ -247,19 +249,19 @@
 1398275136 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\src\system_stm32f4xx.c
 	"stm32f4xx.h"
 
-1398281150 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22.c
+1400939108 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22.c
 	"cs43l22.h"
 
 1398281070 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22_i2c.c
 	"cs43l22_i2c.h"
 
-1398281131 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22_i2s.c
+1400939063 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\cs43l22\cs43l22_i2s.c
 	"cs43l22_i2s.h"
 
-1400242805 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\pots\pots.c
+1403548623 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\pots\pots.c
 	"pots.h"
 
-1400521213 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\pots\pots.h
+1403548769 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\pots\pots.h
 	"stm32f4xx_conf.h"
 	"stm32f4xx_adc.h"
 	"stm32f4xx_dma.h"
@@ -277,7 +279,7 @@
 	<stdint.h>
 	"math.h"
 
-1398333766 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\timer\timer.c
+1402836373 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\timer\timer.c
 	"timer.h"
 
 1398332437 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\timer\timer.h
@@ -339,16 +341,16 @@
 1400158041 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\inc\fixedpoint.h
 	<stdint.h>
 
-1400599948 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\poly\poly.c
+1400940309 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\poly\poly.c
 	"poly.h"
 
-1400599898 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\poly\poly.h
+1400940308 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\poly\poly.h
 	"fixedPoint.h"
 	<stdint.h>
 	"../midi/midi.h"
 	"../voice/voice.h"
 
-1400677038 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\voice\voice.h
+1400939873 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\voice\voice.h
 	"fixedPoint.h"
 	<stdint.h>
 	"../fastOsc/fastOsc.h"
@@ -356,7 +358,7 @@
 	"../lfo/lfo.h"
 	"../midi/midi.h"
 
-1400676755 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\voice\voice.c
+1400943123 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\voice\voice.c
 	"voice.h"
 
 1400509694 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\fastexp\fexp.c
@@ -364,4 +366,13 @@
 
 1400506782 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\fastexp\fexp.h
 	<math.h>
+
+1402845568 source:c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\hd44780\hd44780.c
+	"HD44780.h"
+
+1402845492 c:\users\arjen\dropbox\misc\stm32f4 discovery\git\sacrosonicmk2\sacrosonicmk2\hd44780\hd44780.h
+	"stm32f4xx_conf.h"
+	"stm32f4xx_gpio.h"
+	<stdint.h>
+	"../timer/timer.h"
 
